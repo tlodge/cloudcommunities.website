@@ -1,0 +1,45 @@
+---
+layout: default
+title: inspirational apps
+apps:
+-   image: /assets/img/app_communicate.png
+    name: roomcast
+    url: /inspiration/roomcast/
+-   image: /assets/img/app_classified.png
+    name: propertyfair
+    url: /inspiration/propertyfair/
+-   image: /assets/img/app_pot.png
+    name: homecast
+    url: /inspiration/homecast/
+-   image: /assets/img/app_grumble.png
+    name: grumbler
+    url: /inspiration/grumbler/
+-   image: /assets/img/app_grant.png 
+    name: grant finder
+    url: /inspiration/grantfinder/
+-   image: /assets/img/app_semantic.png
+    name: applesandapples
+    url: /inspiration/apples/
+---
+
+<div class="top-line"></div>
+<section id="apps">     
+     <div class="container">      
+        <div class="row">
+            <div class="span12">
+                <div class="thumbnails">
+                {% for item in page.apps %}
+                    {% assign url = page.url|remove:'index.html' %}
+                    <div class="span2 app_image">
+                        <a href="{{item.url}}">
+                            <img {% if url == item.url %}class="active"{% endif %}
+                               alt="{{item.name}}" src="{{item.image}}"/></a>
+                    </div>
+                {% endfor %}
+                </div>
+               
+            </div>
+        </div>
+</section> 
+<div class="bottom-line"></div>
+{{content}}
