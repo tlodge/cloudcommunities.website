@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <title>Block 49 - great residential sites</title>
-        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+        <title>Communities in the Clouds</title>
+        <!--<link href="/assets/css/bootstrap.min.css" rel="stylesheet">-->
         <!--<link href="/assets/css/bootstrap-responsive.min.css" rel="stylesheet">  
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>-->
         <style>
             body{
                 margin-top: 20px;
+                font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, 
+   Arial, sans-serif;
             }
             .project-header {
                 width: 982px;
@@ -24,8 +26,43 @@
              .newsback {
                 height: 381px;
 	            background: #fff url(assets/img/newsback.png) center center no-repeat;
-	
              }
+             .partners {
+                clear:both;
+                height: 99px;
+	            background: #2ca089 url(assets/img/partnerbar.png) center center no-repeat;
+             }
+             
+           
+            #cloud .link{
+                background:url(assets/img/cloudlink.png) center center no-repeat;
+                width: 152px;
+                height: 76px;
+                display: block;
+                text-align:center;
+                line-height: 76px;
+                position: absolute;
+                top: 25px;
+            }
+            
+            #cloud .home{
+                left: 195px;
+            }
+            #cloud .partners{
+                left: 385px;
+            }
+             #cloud .blog{
+                left: 570px;
+            }
+             #cloud .contact{
+                left: 759px;
+            }
+            #cloud a{
+                text-decoration: none;
+                color: #000;
+                text-transform:uppercase;
+                size: 18px;
+            }
         </style>
 </head>
 <body>
@@ -33,8 +70,20 @@
   
     
       
-             
-        <div class="project-header"></div>     
+        <div class="project-header">
+            
+              <div id="cloud"> 
+                <div class="link home"><a href="#">home</a></div>
+                <div class="link partners"><a href="#">partners</a></div>
+                 <div class="link blog"><a href="#">blog</a></div>
+                  <div class="link contact"><a href="#">contact</a></div>
+                 <!--<li><a href="#">partners</a></li>
+                 <li><a href="#">blog</a></li>
+                 <li><a href="#">contact</a></li>
+                 <li><a href="#">documents</a></li>
+                </ul>-->
+              </div>
+        </div>     
             
            
   
@@ -56,6 +105,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="partners">
+          
             </div>
         </div>   
             
