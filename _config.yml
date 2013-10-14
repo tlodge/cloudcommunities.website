@@ -1,6 +1,6 @@
 name: Inspiration 
 pygments: true
-paginate:2 
+paginate: 2 
 assets:
   compress:
     css:  sass
