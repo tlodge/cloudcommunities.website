@@ -19,25 +19,21 @@ title: Communities in the Clouds
                     </div>
                 </div>
             </div>
+            
             <div style="float:left; background: #2ca089; width: 262px; height:391px; padding: 10px 20px 10px 20px;">
                <div style="background: #fff;">
                     <div style="padding:3px;">
                         <div class="newsback">
                             <div class="newsarea">
+                                {% for post in paginator.posts %}
                                 <div class="newstitle">
-                                    Microsoft Internship!
-                                    <div class="subtitle">Posted: 21/03/14</div>
+                                    <a href="{{post.url}}">{{post.title | | truncate: 20}}</a>
+                                    <div class="subtitle">Posted: {{post.date | date_to_string }}</div>
                                 </div>
                                 <div class="newstext">
-                                    We're very excited to announce that there is a position open for a 3-month internship.
+                                  {{post.content | truncatewords: 10}}
                                 </div>
-                                <div class="newstitle">
-                                    Here we go!
-                                    <div class="subtitle">Posted: 21/03/14</div>
-                                </div>
-                                <div class="newstext">
-                                    The project starts on 1st March.  We'll be kicking off with some workshops and stuff.
-                                </div>
+                                 {% endfor %}
                             </div>
                             <div class="newslabel">news</div>
                         </div>

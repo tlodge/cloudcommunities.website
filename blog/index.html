@@ -1,0 +1,29 @@
+---
+layout: default
+title: Communities in the Clouds 
+---
+<section id="blog">
+    <div class="blog-header"></div>   
+    
+    <div style="width:977px;  display: block; margin:0 auto; background: #2ca089;">
+        <div class="fullcontainer">
+        {% for post in site.posts %}
+             <div class="blogcontainer">
+            
+            <div class="datebar">
+                <div class="cloud"></div>
+                {{post.date | date_to_string }}
+             </div>
+             <div class="blogtext">
+                    <h2> <a href="{{post.url}}">{{post.title}}</a></h2>
+                    {{post.content | truncatewords: 50}}
+             </div>
+        </div>
+        {% if post != site.posts.last %}
+        <div class="divider"></div>
+        <div class="divline"></div>
+        {% endif %}
+        {% endfor %}
+        </div>
+    </div> 
+</section>
