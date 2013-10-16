@@ -4,6 +4,10 @@ body{
 Arial, sans-serif;
 }
 
+a, a:visited{
+ text-decoration: none;
+ color: #fff;
+}
 .project-links {
     width: 983px;
     height: 79px;
@@ -294,14 +298,6 @@ position: relative;
     float: left;
 }
 
-#blog .blogtext a{
-    text-decoration: none;
-}
-
-#blog .blogtext a, a:visited{
-    text-decoration: none;
-    color: #fff;
-}
 
 #blog .fullcontainer{
     height: auto;
