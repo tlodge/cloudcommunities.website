@@ -4,10 +4,15 @@ body{
 Arial, sans-serif;
 }
 
-a, a:visited{
+a{
  text-decoration: none;
  color: #fff;
 }
+a:visited{
+ text-decoration: none;
+ color: #fff;
+}
+
 .project-links {
     width: 983px;
     height: 79px;
@@ -83,7 +88,7 @@ a, a:visited{
     padding-left: 10px;
  }
  
- .newsback .newsarea a, a:visited{
+ .newsback .newsarea a,  .newsback .newsarea a:visited{
     color: #000;
     text-decoration: none;
  }
@@ -230,6 +235,7 @@ position: relative;
  #cloud .documents{
     left: 788px;
 }
+
 #cloud a{
     text-decoration: none;
     color: #000;
