@@ -22,11 +22,19 @@ a:visited{
  
  .home-header {
     width: 977px;
-    height: 324px;
+    height: 327px;
     background: #fff url(../../assets/img/logo2.png) center center no-repeat;
     margin: 0 auto;
  }
  
+ #contact{
+    margin: 0 auto; 
+    width: 977px;
+    height: 59px;
+    background: #b7c8be url(../../assets/img/contact.png) center center no-repeat;
+    display:none;
+
+ }
  .blog-header {
     width: 977px;
     height: 239px;

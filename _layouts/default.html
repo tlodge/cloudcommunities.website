@@ -5,18 +5,29 @@
         <link href="/assets/css/style.css" rel="stylesheet">
         <!--<link href="/assets/css/bootstrap-responsive.min.css" rel="stylesheet">  
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>-->
+    <script type="text/javascript">
+
+        function toggle_visibility(id) {
+           var e = document.getElementById(id);
+           if(e.style.display == 'block')
+              e.style.display = 'none';
+           else
+              e.style.display = 'block';
+        }
+
+    </script>
 </head>
 <body>
         <div class="project-links">
-            
               <div id="cloud"> 
                 <div class="link home"><a href="/">home</a></div>
                 <div class="link partners"><a href="">partners</a></div>
                 <div class="link blog"><a href="{{ site.hostname }}/blog">blog</a></div>
-                <div class="link contact"><a href="#">contact</a></div>
+                <div class="link contact"><a href="#" onclick="toggle_visibility('contact');">contact</a></div>
                 <div class="linklarge documents"><a href="#">documents</a></div>
               </div>
-        </div>        
+        </div>
+        <div id="contact"></div>        
         {{ content }}
         <div id="footer">
             <ul>
@@ -31,6 +42,6 @@
   
     <!-- end navigation -->
     
-    <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+   <!-- <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>-->
 </body>
 </html>
