@@ -42,6 +42,13 @@ a:visited{
     margin: 0 auto;
  }
  
+ .partner-header {
+    width: 977px;
+    height: 239px;
+    background: #fff url(../../assets/img/partnerheader.png) center center no-repeat;
+    margin: 0 auto;
+ }
+ 
  .infoback {
     width: 655px;
     height: 391px;
@@ -341,6 +348,161 @@ position: relative;
    display: block;
    padding: 0px 12px 20px 20px;
    float: right;
+}
+
+/* ------------------------------ partner stuff ----------------------------------*/
+
+#partner .fullcontainer{
+    height: auto;
+    background:#2ca089;
+    float: left;
+    width:977px;
+}
+
+.partner-container{
+    position: relative;
+    float: left;
+    margin: 25px 30px 30px 30px;
+}
+
+.logo-box{
+    position: absolute;
+    width: 150px;
+    height: 50px;
+    background: #fff;
+    border: 2px solid #000;
+    top: 180px; 
+}
+
+.lfastner{
+    background: url(../../assets/img/lfastner.png) center center no-repeat;
+    position: absolute;
+    width: 82px;;
+    height: 86px;
+    top: -25px;
+    left: -25px;
+}
+
+.rfastner{
+    background: url(../../assets/img/rfastner.png) center center no-repeat;
+    position: absolute;
+    width: 82px;;
+    height: 86px;
+    top: -15px;
+}
+
+#nottingham .rfastner{
+    left: 450px;
+} 
+
+#nottingham .logo-box{
+    height: 60px;
+    top: 170px;
+}
+
+.partner-box{
+    border: 2px dashed #000;
+    background: #808080; 
+    
+}
+
+.partner-box .lcontent p{
+    line-height: 25px;
+    padding: 5px 10px 0px 30px;
+    font-size: 18px;
+}
+
+.partner-box .rcontent p{
+    line-height: 25px;
+    padding: 5px 10px 0px 10px;
+    font-size: 18px;
+}
+
+
+#itaau .partner-box{
+    height: 230px;
+    width: 340px;
+}
+
+#itaau .logo-box{
+    left: 190px; 
+    background: #fff url(../../assets/img/partners/itaau.png) center center no-repeat;
+}
+
+#nottingham .partner-box{
+    height: 230px;
+    width: 500px;
+    background: #fff;
+}
+
+#nottingham .logo-box{
+    left: 350px; 
+    background: #fff url(../../assets/img/partners/nottingham.png) center center no-repeat;
+}
+
+
+#horizon .lfastner{
+    top:40px;
+}
+
+#horizon .partner-container{
+    padding-top: 60px;
+} 
+
+#horizon .logo-box{
+    width: 130px;
+    height: 46px;
+    top:  245px;
+    left: 320px; 
+    background: #fff url(../../assets/img/partners/horizon.png) center center no-repeat;
+}
+
+#horizon .partner-box{
+    height: 230px;
+    width: 450px;
+    background: #fff;
+}
+
+#microsoft .partner-box{
+    height: 330px;
+    width: 360px;
+}
+
+#microsoft .logo-box{
+    top:  280px;
+    left: 210px; 
+    background: #fff url(../../assets/img/partners/msr.png) center center no-repeat;
+}
+
+
+#microsoft .rfastner{
+   left: 300px;
+}
+
+#om .partner-box{
+    height: 200px;
+    width: 420px;
+}
+
+#om .logo-box{
+    top:  140px;
+    height: 60px;
+    left: 270px; 
+    background: #fff url(../../assets/img/partners/peverel.png) center center no-repeat;
+}
+
+#crabtree .partner-box{
+    height: 200px;
+    width: 420px;
+    background: #fff;
+}
+#crabtree .rfastner{
+   left: 360px;
+}
+#crabtree .logo-box{
+    top:  150px;
+    left: 270px; 
+    background: #fff url(../../assets/img/partners/crabtree.png) center center no-repeat;
 }
 
 
