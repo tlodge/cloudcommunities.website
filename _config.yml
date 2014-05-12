@@ -1,2 +1,3 @@
 paginate: 2
 hostname: http://upintheclouds.org
+markdown: kramdown
