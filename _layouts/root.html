@@ -8,20 +8,20 @@
   	</head>
   	
   	<body>
-  		<nav class="top-bar" data-topbar> 
-  			<ul class="title-area"> 
-  				<li class="name"> <h1><a href="#">Barbican</a></h1> </li> 
-  			</ul> 
-  			
-  			<section class="top-bar-section"> 
-  				<!-- Right Nav Section -->
-  				<ul class="right"> 
-  					<li class="active"><a href="/viz">Home</a></li> 
-  					<li class=""><a href="#">Categories</a></li> 
-  					<li class=""><a href="#">Sentiment</a></li> 
-  				</ul> 
-  			</section> 
-  		</nav>
+		<div id="navigation">
+			<nav class="top-bar" data-topbar> 
+				<ul class="title-area"> 
+					<li class="name"> <h1><a href="#">Barbican</a></h1> </li> 
+				</ul> 
+			
+				<section class="top-bar-section"> 
+					<!-- Right Nav Section -->
+					<ul class="right" data-bind="foreach:menuitems"> 
+						<li data-bind="css:{active:$parent.amactive(section)}"><a data-bind="text:name, click:function(){$parent.section(section)}"></a></li> 
+					</ul> 
+				</section> 
+			</nav>
+  		</div>  		
 		{{ content }}
   	</body>
 </html>

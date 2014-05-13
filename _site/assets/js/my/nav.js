@@ -1,13 +1,22 @@
 define(['knockout', 'knockoutpb'], function(ko){
 	var 
-		rootvisible = true,
 	
-		togglerootvisible = function(){
-			rootvisible = !rootvisible;
-			ko.postbox.publish("rootvisible", rootvisible);	
-		}	
+		menuitems = ko.observableArray([	
+										{name:'home', section:'root'},
+										{name:'categories', section:'catdetail'},
+										{name:'sentiment',section:'sentiment'}
+										]),
+		
+		amactive = function(sec){
+			return section() == sec;
+		},
+											
+		section = ko.observable().syncWith("section")
+		
 		
 	return{
-		togglerootvisible:togglerootvisible
+		menuitems:menuitems,
+		section:section,
+		amactive:amactive,
 	}
-}
+});

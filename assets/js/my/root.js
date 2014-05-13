@@ -7,7 +7,7 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb', 'custom_bindings'], functi
 		lines ={},
 		
 		margin = {top: 20, right: 200, bottom: 0, left: 20},
-		width = 650, height = 650,
+		width = 800, height = 650,
 	
 		parseDate = d3.time.format("%Y-%m-%d").parse,
 		
@@ -144,10 +144,9 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb', 'custom_bindings'], functi
 		init = function(){
 			
 				section("root");
+				
 				ajaxservice.ajaxGetJson('categories', {} , function(result){	
 					data = result.categories;
-					console.log("data is ")
-					console.log(data);
 					renderroot();
 				});
 		
@@ -164,10 +163,10 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb', 'custom_bindings'], functi
 		
 		
 		categoryclicked = function(p){
-			ko.postbox.publish('selectedCategory',p);
+			ko.postbox.publish('selectedCategory', p);
 			section('catdetail');
 		},
-		
+			
 		//overlay sentiment by colouring circles different colour!!!
 		
 		circleclicked = function(p){

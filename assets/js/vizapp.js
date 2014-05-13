@@ -15,7 +15,7 @@ require.config({
     	}
 })
 
-require(['jquery','knockout', 'd3', 'developments', 'ajaxservice', 'root', 'catdetail', 'sentiment'], function($,ko,d3,developments,ajaxservice, root, catdetail, sentiment) {
+require(['jquery','knockout', 'd3', 'developments', 'ajaxservice', 'nav', 'root', 'catdetail', 'sentiment'], function($,ko,d3,developments,ajaxservice, nav, root, catdetail, sentiment) {
 
 	//d3.json('../../assets/data/barbicanposts/posts.json', function(result){
 	
@@ -39,7 +39,9 @@ require(['jquery','knockout', 'd3', 'developments', 'ajaxservice', 'root', 'catd
 		
 		root.init(data);
 		catdetail.init();
+		sentiment.init();
 		
+		ko.applyBindings(nav, 		document.getElementById("navigation"));
 		ko.applyBindings(root, 		document.getElementById("rootchart"));
 		ko.applyBindings(catdetail, document.getElementById("categorydetail"));
 		ko.applyBindings(sentiment, document.getElementById("sentiment"));

@@ -6,6 +6,21 @@ title: Communities in the Clouds - Viz
 
 <style>
 
+   .sliderbar{
+		fill:#FAFAFA;
+		stroke: #DDDDDD;
+	}
+	
+	.sliderhandle{
+		fill: #ABD9D0;
+		stroke: #2CA089;
+	}
+	
+	.large{
+		font-size: 1.66em;
+		font-weight: 300;
+		color: #008080;
+	}
    
      #rootchart h3{
      	font-size: 1.3rem;
@@ -45,6 +60,23 @@ title: Communities in the Clouds - Viz
 	<div class="row" >
 		
 		<div id='rootchart' data-bind='viewMoreBinding:rootvisible'>
+			<div class="row">
+				<hr>
+				<div class="small-6 columns">
+						<p class="large">
+							We've broken down posts into a number of categories, to attempt to provide an overview of how barbican residents use their forum.
+						</p>
+				</div>
+				<div class="small-6 columns">
+						<p>
+							Each bar in the bargraphs shows how many posts have been submitted under a particular 
+							category.  It is possible (even likely) that a post will have been tagged with more than 
+							one category and/or subcategory.  You may click on a bar drill down to an additional level of detail. 
+						</p>
+				</div>
+				
+				<hr>
+			</div>
 			<div class="small-12 columns">
 				<h4> Some interesting facts <small> about the barbican community </small> </h4>
 				<div class="row">
@@ -120,32 +152,79 @@ title: Communities in the Clouds - Viz
 							<a class="small secondary button" href="#" data-bind="click:function(){section('local area')}">What makes you smile?</a>
 						</p>
 					</div>
-					<hr>
+					
 				</div>
 			</div>
 			<div class="row">
-				<div class="small-10 columns">
-					<h4>How have you been using the website? <small> well...from 2003-2008</small></h4>
-					<svg class="rootchart"></svg>
+				<div class="row">
+					<div class="small-12 columns">
+						<h2>How have you been using the website?</h2>
+						<h2> <small> ...from 2003-2008...</small></h2>
+					</div>
 				</div>
-				<div class="small-2 columns">
-					<h4> What is this showing </h4>
+				<div class="row">
+					<hr>
+					<div class="small-6 columns">
+						<p class="large">
+							This is where I will say something about the chart below that will get people interested
+						</p>
+					</div>
+					<div class="small-6 columns">
+						<p>
+							
+						</p>
+					</div>
+					<hr>
+				</div>
+				<div class="row">
+					<div class="small-12 columns">
+						
+						<svg class="rootchart"></svg>
+					</div>
 				</div>
 			</div>
 		</div> <!-- end of root chart -->
 		
 		<div id='categorydetail' data-bind='viewMoreBinding:categoryvisible'>
 			<div class="row">
+					<hr>
+					<div class="small-6 columns">
+						<p class="large">
+							We've broken down posts into a few categories to provide an overview of how barbican residents use their forum.
+						</p>
+					</div>
+					<div class="small-6 columns">
+						<p>
+							Each bar in the bargraphs shows how many posts have been submitted under a particular 
+							category.  It is possible (even likely) that a post will have been tagged with more than 
+							one category and/or subcategory.  <strong> You may click on a bar drill down to an additional level of detail. </strong>
+						</p>
+					</div>
+			</div>
+			<div class="row">
 				<div class="small-12 columns">
 					<hr>
 					<dl class="sub-nav" data-bind="foreach:categories">
-						 <dd data-bind="click:function(){$parent.categoryClicked($data)}, css:{active:$parent.amSelected($data)}"><a href="#" data-bind="text:$data"></a></dd> 
+						 <dd data-bind="click:function(){$parent.categoryClicked($data)}, css:{active:$parent.amSelected(name)}">
+						 	<a href="#" data-bind="text:name"></a>
+						 </dd> 
 					</dl>
 					<hr>
-					<h4> More detail <small data-bind="text:selectedCategory"></small></h4>
 				</div>
 			</div>
 			<div class="row">
+				<div class="small-12 columns">
+					<h4 data-bind="text:selectedCategory"></h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<blockquote data-bind="text:categoryDescription"></blockquote> 
+					<p> click on any bar to drill down further</p>
+				</div>
+			</div>
+			
+			<div class="row">					
 				<div class="small-12 columns">
 					<div class="row">
 						<div class="small-12 columns" style="height:310px;">
@@ -158,43 +237,52 @@ title: Communities in the Clouds - Viz
 			</div><!-- end of row -->
 			<hr>
 			<div class="row" data-bind="visible:subcategoryvisible">
-				<div class="small-6 columns">
-						<h4> Some more detail <small data-bind="text:selectedSubcategory"></small></h4>
-						<h4> Most popular posts <h4>
-						<table> 
-							<thead> 
-								<tr> 
-									<th width="200">Date</th> 
-									<th>Subject</th> 
-									<th width="50">Responses</th> 
-								</tr>
-							</thead> 
-							<tbody data-bind="foreach:posts"> 
-								<tr> 
-									<td data-bind="text:date"></td> 
-									<td> <a data-bind="text:subject, click:function(){$parent.selectedBody(body); $parent.selectedSubject(subject)}"></td> 
-									<td> <a data-bind="attr:{href:url}, text:responses"></a></td> 
-								</tr>  
-							</tbody> 
-						</table>
-				</div>
-				<div class="small-6 columns" data-bind="visible:messagevisible">
-					<h4 data-bind="text:selectedSubject"></h4>
-					<blockquote data-bind="text:selectedBody"></blockquote>
+				<div id="subcategorydetail">
+					<div class="small-6 columns">
+							<h4 data-bind="text:selectedSubcategory"></h4>
+							<h4> Most popular posts <h4>
+							<table> 
+								<thead> 
+									<tr> 
+										<th width="200">Date</th> 
+										<th>Subject</th> 
+										<th width="50">Responses</th> 
+									</tr>
+								</thead> 
+								<tbody data-bind="foreach:posts"> 
+									<tr> 
+										<td data-bind="text:date"></td> 
+										<td> <a data-bind="text:subject, click:function(){$parent.selectedBody(body); $parent.selectedSubject(subject)}"></td> 
+										<td> <a data-bind="attr:{href:url}, text:responses"></a></td> 
+									</tr>  
+								</tbody> 
+							</table>
+					</div>
+				
+					<div class="small-6 columns" data-bind="visible:messagevisible">
+						<h4 data-bind="text:selectedSubject"></h4>
+						<blockquote data-bind="text:selectedBody"></blockquote>
+					</div>
 				</div>
 			</div>				
 		</div> <!-- end of category detail -->
 		
-	
-		<div id='sentiment' data-bind='viewMoreBinding:sentimentvisible'>
 		
-			<h4> sentiment <small> what makes you happy or sad </small></h4>
-			<a href="#" class="button small" data-bind="click:function(){section('root');}">back</a>
-					
-		</div> <!-- end of sentiment -->
+		<div id='sentiment' data-bind='visible:sentimentvisible'>
+			<!--<h4> sentiment <small> what makes you happy or sad </small></h4>-->
+			<hr>
+			<h4> Happy posts </h4>
+			<svg class="happinesschart"></svg>
+			
+			<hr>
+			<h4> Unhappy posts </h4>
+			<svg class="sadnesschart"></svg>
+			
+			
+		</div> <!-- end of sentiment --> 
 		
 	</div>
-</div>    
+</div>
 
 <script data-main="/assets/js/vizapp.js" src="/assets/js/require/require.js"></script>
 

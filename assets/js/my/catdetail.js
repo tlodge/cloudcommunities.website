@@ -1,10 +1,12 @@
-define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv,ajaxservice){
+define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservice){
 
 	var 
 	
 		selectedbar,
 		
 		categories		 = ko.observableArray([]),
+		
+		lookup			 = {},
 		
 		posts     		 = ko.observableArray([]),
 		
@@ -16,8 +18,11 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
 		
 		selectedBody	= ko.observable(""),
 		
+		categoryDescription = ko.observable(""),
+		
 		categoryClicked = function(category){
-			selectedCategory(category);
+			selectedCategory(category.name);
+			categoryDescription(category.description);
 			ajaxservice.ajaxGetJson('subcategories', {category:selectedCategory()}, renderbar);
 		},
 		
@@ -26,9 +31,14 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
 		},
 		
 		categorySelected = ko.observable().subscribeTo("selectedCategory", function(name){	
+			console.log("SEEN A CATEGORY  SELECTED EVENT!!");
 			selectedCategory(name);
 			ajaxservice.ajaxGetJson('subcategories', {category:selectedCategory()}, function(data){renderbar(data); addaxes();});
 		}),
+		
+		description = function(category){
+			return lookup[category].description;
+		},
 		
 		margin = {top: 20, right: 20, bottom: 150, left: 40},
     	
@@ -67,7 +77,7 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
         		.call(xAxis)
         		.selectAll("text")  
             	.style("text-anchor", "end")
-            	.attr("dx", "-1.5em")
+            	.attr("dx", "-1em")
             	.attr("dy", "-0.5em")
             	.attr("transform", function(d) {
                 	return "rotate(-90)" 
@@ -128,7 +138,7 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
 			//update axes
 			
 			var yaxis = svg.select(".y.axis")
-			
+			 
 			yaxis.transition()
 				.duration(1000)
 				.call(yAxis);
@@ -156,9 +166,12 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
 			selectedbar.style("fill", "#ff0000");	
 			selectedbar.style("stroke", "#dd0000");
 			selectedSubcategory(data.name);
-			
+			console.log("getting more details...hold on");
 			ajaxservice.ajaxGetJson('subcategory', {category:selectedCategory(), subcategory:selectedSubcategory()}, function(result){
 				posts(result.summary);
+				$('html, body').animate({
+					scrollTop: $("#subcategorydetail").offset().top
+				},1000);
 			});
 		},
 		
@@ -193,6 +206,9 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
 		
 		section = ko.observable().syncWith("section"),
 		
+		
+		
+		
 		categoryvisible = ko.computed(function(){
 			return section() == "catdetail";
 		}),
@@ -206,15 +222,20 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
 		}),
 		
 		init = function(){
-			//ajaxservice.ajaxGetJson('categorylist', {} , function(result){
-			d3.json('../../assets/data/categories.json', function(result){
-				categories(result.categories.map(function(item){return item.name}));
+			console.log("initing cat detail!!");
+			ajaxservice.ajaxGetJson('categorylist', {} , function(result){
+				clist = result.categories; 
+				for (i = 0; i < clist.length; i++){
+					categories.push({name:clist[i].name, description:clist[i].description});
+				}
+				ko.postbox.publish('selectedCategory', 'advice sought');
 			});
 		}
 		
 		
 	return {
 		selectedCategory: selectedCategory,
+		categoryDescription:categoryDescription,
 		selectedSubcategory: selectedSubcategory,
 		selectedSubject: selectedSubject,
 		selectedBody:selectedBody,
