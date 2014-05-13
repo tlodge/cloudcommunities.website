@@ -67,7 +67,7 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
         		.call(xAxis)
         		.selectAll("text")  
             	.style("text-anchor", "end")
-            	.attr("dx", "-1em")
+            	.attr("dx", "-1.5em")
             	.attr("dy", "-0.5em")
             	.attr("transform", function(d) {
                 	return "rotate(-90)" 
