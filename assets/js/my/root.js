@@ -144,17 +144,11 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb', 'custom_bindings'], functi
 		init = function(){
 			
 				section("root");
-				
 				ajaxservice.ajaxGetJson('categories', {} , function(result){	
 					data = result.categories;
-		
-					d3.xml('static/face.svg', 'image/svg+xml', function (error, data) {
-						console.log("nice am here");
-						face = data.documentElement;
-						renderroot();
-					});
-		
-		
+					console.log("data is ")
+					console.log(data);
+					renderroot();
 				});
 		
 		},

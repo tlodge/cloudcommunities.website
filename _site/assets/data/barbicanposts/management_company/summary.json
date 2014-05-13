@@ -1,0 +1,24 @@
+{
+  "subcategories": [
+    {
+      "name": "performance", 
+      "value": 2
+    }, 
+    {
+      "name": "service charge", 
+      "value": 2
+    }, 
+    {
+      "name": "trust", 
+      "value": 3
+    }, 
+    {
+      "name": "specific responsibility", 
+      "value": 3
+    }, 
+    {
+      "name": "disinterest", 
+      "value": 1
+    }
+  ]
+}

@@ -1,0 +1,304 @@
+{
+  "subcategories": [
+    {
+      "name": "taxi", 
+      "value": 5
+    }, 
+    {
+      "name": "cleaner", 
+      "value": 15
+    }, 
+    {
+      "name": "appliance engineer", 
+      "value": 9
+    }, 
+    {
+      "name": "solicitors", 
+      "value": 2
+    }, 
+    {
+      "name": "electrician", 
+      "value": 12
+    }, 
+    {
+      "name": "carpet cleaner", 
+      "value": 2
+    }, 
+    {
+      "name": "christmas trees", 
+      "value": 1
+    }, 
+    {
+      "name": "pet shop", 
+      "value": 1
+    }, 
+    {
+      "name": "knife sharpening", 
+      "value": 1
+    }, 
+    {
+      "name": "man with van", 
+      "value": 4
+    }, 
+    {
+      "name": "gardeners", 
+      "value": 6
+    }, 
+    {
+      "name": "physiotherapist", 
+      "value": 1
+    }, 
+    {
+      "name": "babysitters", 
+      "value": 1
+    }, 
+    {
+      "name": "childcare", 
+      "value": 2
+    }, 
+    {
+      "name": "lawyer", 
+      "value": 3
+    }, 
+    {
+      "name": "framer", 
+      "value": 1
+    }, 
+    {
+      "name": "piano tuner", 
+      "value": 1
+    }, 
+    {
+      "name": "ironing", 
+      "value": 2
+    }, 
+    {
+      "name": "removal company", 
+      "value": 4
+    }, 
+    {
+      "name": "live-in help", 
+      "value": 2
+    }, 
+    {
+      "name": "electrical repairs", 
+      "value": 1
+    }, 
+    {
+      "name": "bathroom installer", 
+      "value": 4
+    }, 
+    {
+      "name": "flooring", 
+      "value": 2
+    }, 
+    {
+      "name": "doctor", 
+      "value": 4
+    }, 
+    {
+      "name": "glazier", 
+      "value": 3
+    }, 
+    {
+      "name": "it support", 
+      "value": 5
+    }, 
+    {
+      "name": "interior design", 
+      "value": 4
+    }, 
+    {
+      "name": "kitchen installer", 
+      "value": 1
+    }, 
+    {
+      "name": "tv repair", 
+      "value": 1
+    }, 
+    {
+      "name": "accountant", 
+      "value": 4
+    }, 
+    {
+      "name": "dry cleaner", 
+      "value": 1
+    }, 
+    {
+      "name": "chiropodist", 
+      "value": 1
+    }, 
+    {
+      "name": "carpet fitter", 
+      "value": 2
+    }, 
+    {
+      "name": "tradesman", 
+      "value": 2
+    }, 
+    {
+      "name": "acupuncture therapist", 
+      "value": 1
+    }, 
+    {
+      "name": "web designer", 
+      "value": 1
+    }, 
+    {
+      "name": "tiler", 
+      "value": 5
+    }, 
+    {
+      "name": "laundry", 
+      "value": 1
+    }, 
+    {
+      "name": "bath resurfacing", 
+      "value": 1
+    }, 
+    {
+      "name": "hairdresser", 
+      "value": 3
+    }, 
+    {
+      "name": "printers", 
+      "value": 1
+    }, 
+    {
+      "name": "handyman", 
+      "value": 11
+    }, 
+    {
+      "name": "carpenter", 
+      "value": 5
+    }, 
+    {
+      "name": "curtain/blind fitters", 
+      "value": 3
+    }, 
+    {
+      "name": "catering", 
+      "value": 1
+    }, 
+    {
+      "name": "dentist", 
+      "value": 6
+    }, 
+    {
+      "name": "tailor", 
+      "value": 2
+    }, 
+    {
+      "name": "window cleaner", 
+      "value": 1
+    }, 
+    {
+      "name": "supermarket", 
+      "value": 1
+    }, 
+    {
+      "name": "personal trainer", 
+      "value": 1
+    }, 
+    {
+      "name": "technician", 
+      "value": 2
+    }, 
+    {
+      "name": "watch repair", 
+      "value": 1
+    }, 
+    {
+      "name": "jeweller", 
+      "value": 1
+    }, 
+    {
+      "name": "pest control", 
+      "value": 1
+    }, 
+    {
+      "name": "hypnotherapist", 
+      "value": 1
+    }, 
+    {
+      "name": "charity", 
+      "value": 6
+    }, 
+    {
+      "name": "plumber", 
+      "value": 16
+    }, 
+    {
+      "name": "furniture store", 
+      "value": 1
+    }, 
+    {
+      "name": "optician", 
+      "value": 1
+    }, 
+    {
+      "name": "shop", 
+      "value": 1
+    }, 
+    {
+      "name": "restaurant", 
+      "value": 5
+    }, 
+    {
+      "name": "builder", 
+      "value": 6
+    }, 
+    {
+      "name": "estate agent", 
+      "value": 5
+    }, 
+    {
+      "name": "car rental", 
+      "value": 2
+    }, 
+    {
+      "name": "nutritionist", 
+      "value": 1
+    }, 
+    {
+      "name": "plasterer", 
+      "value": 2
+    }, 
+    {
+      "name": "garage", 
+      "value": 5
+    }, 
+    {
+      "name": "uphosterer", 
+      "value": 4
+    }, 
+    {
+      "name": "locksmith", 
+      "value": 3
+    }, 
+    {
+      "name": "vegetable boxes", 
+      "value": 1
+    }, 
+    {
+      "name": "takeaway", 
+      "value": 4
+    }, 
+    {
+      "name": "architect", 
+      "value": 1
+    }, 
+    {
+      "name": "joiner", 
+      "value": 2
+    }, 
+    {
+      "name": "painter decorator", 
+      "value": 3
+    }, 
+    {
+      "name": "secretary", 
+      "value": 2
+    }
+  ]
+}

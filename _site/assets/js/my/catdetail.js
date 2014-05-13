@@ -156,7 +156,7 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
 			selectedbar.style("fill", "#ff0000");	
 			selectedbar.style("stroke", "#dd0000");
 			selectedSubcategory(data.name);
-			console.log("getting more details...hold on");
+			
 			ajaxservice.ajaxGetJson('subcategory', {category:selectedCategory(), subcategory:selectedSubcategory()}, function(result){
 				posts(result.summary);
 			});
@@ -206,7 +206,8 @@ define(['knockout','d3', 'nvd3', 'ajaxservice', 'knockoutpb'], function(ko,d3,nv
 		}),
 		
 		init = function(){
-			ajaxservice.ajaxGetJson('categorylist', {} , function(result){
+			//ajaxservice.ajaxGetJson('categorylist', {} , function(result){
+			d3.json('../../assets/data/categories.json', function(result){
 				categories(result.categories.map(function(item){return item.name}));
 			});
 		}

@@ -1,0 +1,40 @@
+{
+  "subcategories": [
+    {
+      "name": "request for witnesses", 
+      "value": 2
+    }, 
+    {
+      "name": "request for input", 
+      "value": 2
+    }, 
+    {
+      "name": "contacts", 
+      "value": 1
+    }, 
+    {
+      "name": "complaint", 
+      "value": 2
+    }, 
+    {
+      "name": "advice offered", 
+      "value": 9
+    }, 
+    {
+      "name": "newsletter", 
+      "value": 8
+    }, 
+    {
+      "name": "meeting", 
+      "value": 3
+    }, 
+    {
+      "name": "compliment", 
+      "value": 2
+    }, 
+    {
+      "name": "advice sought", 
+      "value": 6
+    }
+  ]
+}

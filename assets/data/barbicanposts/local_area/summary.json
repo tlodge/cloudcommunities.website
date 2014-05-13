@@ -1,0 +1,156 @@
+{
+  "subcategories": [
+    {
+      "name": "shop", 
+      "value": 23
+    }, 
+    {
+      "name": "bridge", 
+      "value": 3
+    }, 
+    {
+      "name": "cinema", 
+      "value": 1
+    }, 
+    {
+      "name": "park", 
+      "value": 1
+    }, 
+    {
+      "name": "polling station", 
+      "value": 1
+    }, 
+    {
+      "name": "clothes recycling", 
+      "value": 1
+    }, 
+    {
+      "name": "nursery", 
+      "value": 2
+    }, 
+    {
+      "name": "gossip", 
+      "value": 56
+    }, 
+    {
+      "name": "roads", 
+      "value": 5
+    }, 
+    {
+      "name": "sports facilities", 
+      "value": 16
+    }, 
+    {
+      "name": "parking", 
+      "value": 5
+    }, 
+    {
+      "name": "event", 
+      "value": 20
+    }, 
+    {
+      "name": "market", 
+      "value": 5
+    }, 
+    {
+      "name": "post office", 
+      "value": 1
+    }, 
+    {
+      "name": "tube", 
+      "value": 7
+    }, 
+    {
+      "name": "ymca", 
+      "value": 4
+    }, 
+    {
+      "name": "museum/gallery/exhibition", 
+      "value": 2
+    }, 
+    {
+      "name": "local authority", 
+      "value": 3
+    }, 
+    {
+      "name": "licences", 
+      "value": 9
+    }, 
+    {
+      "name": "bus", 
+      "value": 2
+    }, 
+    {
+      "name": "hotel", 
+      "value": 1
+    }, 
+    {
+      "name": "wine bar", 
+      "value": 5
+    }, 
+    {
+      "name": "supermarket", 
+      "value": 34
+    }, 
+    {
+      "name": "construction", 
+      "value": 30
+    }, 
+    {
+      "name": "pub", 
+      "value": 35
+    }, 
+    {
+      "name": "bank", 
+      "value": 1
+    }, 
+    {
+      "name": "church", 
+      "value": 8
+    }, 
+    {
+      "name": "school", 
+      "value": 24
+    }, 
+    {
+      "name": "superstore", 
+      "value": 1
+    }, 
+    {
+      "name": "restaurant", 
+      "value": 34
+    }, 
+    {
+      "name": "garden center", 
+      "value": 1
+    }, 
+    {
+      "name": "venue", 
+      "value": 9
+    }, 
+    {
+      "name": "nightclub", 
+      "value": 2
+    }, 
+    {
+      "name": "courses", 
+      "value": 6
+    }, 
+    {
+      "name": "planning", 
+      "value": 60
+    }, 
+    {
+      "name": "hospital", 
+      "value": 1
+    }, 
+    {
+      "name": "wedding location", 
+      "value": 2
+    }, 
+    {
+      "name": "request for info", 
+      "value": 51
+    }
+  ]
+}

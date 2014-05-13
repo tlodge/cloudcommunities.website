@@ -1,0 +1,64 @@
+{
+  "subcategories": [
+    {
+      "name": "complaint", 
+      "value": 3
+    }, 
+    {
+      "name": "functionality question", 
+      "value": 4
+    }, 
+    {
+      "name": "spam", 
+      "value": 2
+    }, 
+    {
+      "name": "request for help", 
+      "value": 3
+    }, 
+    {
+      "name": "moderation", 
+      "value": 10
+    }, 
+    {
+      "name": "content request", 
+      "value": 7
+    }, 
+    {
+      "name": "audience", 
+      "value": 8
+    }, 
+    {
+      "name": "about", 
+      "value": 4
+    }, 
+    {
+      "name": "input", 
+      "value": 1
+    }, 
+    {
+      "name": "anonymity", 
+      "value": 1
+    }, 
+    {
+      "name": "security", 
+      "value": 1
+    }, 
+    {
+      "name": "acceptable use", 
+      "value": 5
+    }, 
+    {
+      "name": "issue", 
+      "value": 7
+    }, 
+    {
+      "name": "empty post", 
+      "value": 1
+    }, 
+    {
+      "name": "observation", 
+      "value": 8
+    }
+  ]
+}

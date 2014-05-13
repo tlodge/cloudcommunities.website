@@ -15,13 +15,11 @@ require.config({
     	}
 })
 
-require(['jquery','knockout', 'developments', 'ajaxservice', 'root', 'catdetail', 'sentiment'], function($,ko,developments,ajaxservice, root, catdetail, sentiment) {
-	
+require(['jquery','knockout', 'd3', 'developments', 'ajaxservice', 'root', 'catdetail', 'sentiment'], function($,ko,d3,developments,ajaxservice, root, catdetail, sentiment) {
 
-	//developments.init();
-	//ko.applyBindings(developments, document.getElementById("navigation"));
- 	
- 	ajaxservice.ajaxGetJson('posts', {} , function(result){
+	//d3.json('../../assets/data/barbicanposts/posts.json', function(result){
+	
+	ajaxservice.ajaxGetJson('posts', {} , function(result){
 		postings = result.posts;
 		
 		data = {};

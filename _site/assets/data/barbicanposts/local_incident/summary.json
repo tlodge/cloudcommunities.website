@@ -1,0 +1,88 @@
+{
+  "subcategories": [
+    {
+      "name": "request for witnesses", 
+      "value": 3
+    }, 
+    {
+      "name": "murder", 
+      "value": 2
+    }, 
+    {
+      "name": "explosion", 
+      "value": 1
+    }, 
+    {
+      "name": "robbery", 
+      "value": 3
+    }, 
+    {
+      "name": "police raid", 
+      "value": 1
+    }, 
+    {
+      "name": "fire", 
+      "value": 4
+    }, 
+    {
+      "name": "alarm", 
+      "value": 1
+    }, 
+    {
+      "name": "police", 
+      "value": 1
+    }, 
+    {
+      "name": "earthquake", 
+      "value": 1
+    }, 
+    {
+      "name": "police on site", 
+      "value": 8
+    }, 
+    {
+      "name": "arrest", 
+      "value": 1
+    }, 
+    {
+      "name": "accident", 
+      "value": 2
+    }, 
+    {
+      "name": "gun fire", 
+      "value": 1
+    }, 
+    {
+      "name": "theft", 
+      "value": 3
+    }, 
+    {
+      "name": "pick-pocket", 
+      "value": 1
+    }, 
+    {
+      "name": "episode", 
+      "value": 8
+    }, 
+    {
+      "name": "terrorism", 
+      "value": 1
+    }, 
+    {
+      "name": "shooting", 
+      "value": 1
+    }, 
+    {
+      "name": "demonstration", 
+      "value": 2
+    }, 
+    {
+      "name": "event", 
+      "value": 5
+    }, 
+    {
+      "name": "request for info", 
+      "value": 31
+    }
+  ]
+}

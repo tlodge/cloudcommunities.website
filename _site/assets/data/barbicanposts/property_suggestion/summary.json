@@ -1,0 +1,40 @@
+{
+  "subcategories": [
+    {
+      "name": "bike racks", 
+      "value": 1
+    }, 
+    {
+      "name": "composting bins", 
+      "value": 2
+    }, 
+    {
+      "name": "planting", 
+      "value": 1
+    }, 
+    {
+      "name": "storage", 
+      "value": 2
+    }, 
+    {
+      "name": "heating system", 
+      "value": 2
+    }, 
+    {
+      "name": "parcel store", 
+      "value": 1
+    }, 
+    {
+      "name": "lighting", 
+      "value": 2
+    }, 
+    {
+      "name": "water meter", 
+      "value": 1
+    }, 
+    {
+      "name": "feature removal", 
+      "value": 2
+    }
+  ]
+}

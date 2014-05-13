@@ -1,0 +1,40 @@
+{
+  "subcategories": [
+    {
+      "name": "flat share", 
+      "value": 1
+    }, 
+    {
+      "name": "property sale", 
+      "value": 8
+    }, 
+    {
+      "name": "prospective buyer", 
+      "value": 11
+    }, 
+    {
+      "name": "service sought", 
+      "value": 4
+    }, 
+    {
+      "name": "property rental", 
+      "value": 6
+    }, 
+    {
+      "name": "promotion", 
+      "value": 2
+    }, 
+    {
+      "name": "wanted", 
+      "value": 3
+    }, 
+    {
+      "name": "for sale", 
+      "value": 1
+    }, 
+    {
+      "name": "service offered", 
+      "value": 2
+    }
+  ]
+}

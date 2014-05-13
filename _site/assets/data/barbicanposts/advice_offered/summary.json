@@ -1,0 +1,104 @@
+{
+  "subcategories": [
+    {
+      "name": "orientation", 
+      "value": 1
+    }, 
+    {
+      "name": "energy", 
+      "value": 1
+    }, 
+    {
+      "name": "recycling", 
+      "value": 1
+    }, 
+    {
+      "name": "radio", 
+      "value": 1
+    }, 
+    {
+      "name": "appliances", 
+      "value": 2
+    }, 
+    {
+      "name": "transport", 
+      "value": 1
+    }, 
+    {
+      "name": "concessions/discounts", 
+      "value": 9
+    }, 
+    {
+      "name": "original fixtures", 
+      "value": 4
+    }, 
+    {
+      "name": "disposal", 
+      "value": 1
+    }, 
+    {
+      "name": "consultation", 
+      "value": 1
+    }, 
+    {
+      "name": "tv", 
+      "value": 9
+    }, 
+    {
+      "name": "contact details", 
+      "value": 4
+    }, 
+    {
+      "name": "opening times", 
+      "value": 2
+    }, 
+    {
+      "name": "service charge", 
+      "value": 1
+    }, 
+    {
+      "name": "management", 
+      "value": 1
+    }, 
+    {
+      "name": "link", 
+      "value": 5
+    }, 
+    {
+      "name": "investigation", 
+      "value": 1
+    }, 
+    {
+      "name": "property plans", 
+      "value": 24
+    }, 
+    {
+      "name": "congestion charge", 
+      "value": 1
+    }, 
+    {
+      "name": "plants", 
+      "value": 1
+    }, 
+    {
+      "name": "broadband", 
+      "value": 8
+    }, 
+    {
+      "name": "pests/infestations", 
+      "value": 2
+    }, 
+    {
+      "name": "window boxes", 
+      "value": 3
+    }, 
+    {
+      "name": "procedure", 
+      "value": 4
+    }, 
+    {
+      "name": "carpets", 
+      "value": 2
+    }
+  ]
+}

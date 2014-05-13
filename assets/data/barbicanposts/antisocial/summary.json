@@ -1,0 +1,72 @@
+{
+  "subcategories": [
+    {
+      "name": "swearing", 
+      "value": 1
+    }, 
+    {
+      "name": "noise", 
+      "value": 15
+    }, 
+    {
+      "name": "vandalism", 
+      "value": 8
+    }, 
+    {
+      "name": "fellow residents", 
+      "value": 9
+    }, 
+    {
+      "name": "cars", 
+      "value": 2
+    }, 
+    {
+      "name": "youths", 
+      "value": 8
+    }, 
+    {
+      "name": "drink", 
+      "value": 3
+    }, 
+    {
+      "name": "litter", 
+      "value": 3
+    }, 
+    {
+      "name": "shopping trolleys", 
+      "value": 1
+    }, 
+    {
+      "name": "graffiti", 
+      "value": 4
+    }, 
+    {
+      "name": "theft", 
+      "value": 4
+    }, 
+    {
+      "name": "trespassing", 
+      "value": 1
+    }, 
+    {
+      "name": "break in", 
+      "value": 3
+    }, 
+    {
+      "name": "homophobia", 
+      "value": 2
+    }, 
+    {
+      "name": "dogs", 
+      "value": 4
+    }, 
+    {
+      "name": "homeless", 
+      "value": 1
+    }, 
+    {
+      "name": "squatters", 
+      "value": 1
+    }
+  ]
+}

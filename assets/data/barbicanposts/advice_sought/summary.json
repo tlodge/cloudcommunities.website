@@ -1,0 +1,244 @@
+{
+  "subcategories": [
+    {
+      "name": "buzzer", 
+      "value": 1
+    }, 
+    {
+      "name": "cleaner", 
+      "value": 8
+    }, 
+    {
+      "name": "orientation", 
+      "value": 5
+    }, 
+    {
+      "name": "facility", 
+      "value": 8
+    }, 
+    {
+      "name": "communication", 
+      "value": 3
+    }, 
+    {
+      "name": "energy", 
+      "value": 13
+    }, 
+    {
+      "name": "water pump", 
+      "value": 1
+    }, 
+    {
+      "name": "jury service", 
+      "value": 1
+    }, 
+    {
+      "name": "deliveries", 
+      "value": 1
+    }, 
+    {
+      "name": "switches", 
+      "value": 3
+    }, 
+    {
+      "name": "locks", 
+      "value": 1
+    }, 
+    {
+      "name": "radio", 
+      "value": 2
+    }, 
+    {
+      "name": "DIY", 
+      "value": 34
+    }, 
+    {
+      "name": "appliances", 
+      "value": 24
+    }, 
+    {
+      "name": "parking", 
+      "value": 5
+    }, 
+    {
+      "name": "insulation", 
+      "value": 2
+    }, 
+    {
+      "name": "transport", 
+      "value": 1
+    }, 
+    {
+      "name": "thermostat", 
+      "value": 2
+    }, 
+    {
+      "name": "toilet", 
+      "value": 1
+    }, 
+    {
+      "name": "concessions/discounts", 
+      "value": 2
+    }, 
+    {
+      "name": "dimensions", 
+      "value": 4
+    }, 
+    {
+      "name": "flooring", 
+      "value": 13
+    }, 
+    {
+      "name": "tv", 
+      "value": 50
+    }, 
+    {
+      "name": "disposal", 
+      "value": 23
+    }, 
+    {
+      "name": "cleaning", 
+      "value": 8
+    }, 
+    {
+      "name": "energy prices", 
+      "value": 12
+    }, 
+    {
+      "name": "storage", 
+      "value": 8
+    }, 
+    {
+      "name": "renovation", 
+      "value": 24
+    }, 
+    {
+      "name": "source product", 
+      "value": 43
+    }, 
+    {
+      "name": "limescale", 
+      "value": 2
+    }, 
+    {
+      "name": "water softener", 
+      "value": 1
+    }, 
+    {
+      "name": "interior", 
+      "value": 10
+    }, 
+    {
+      "name": "mail", 
+      "value": 2
+    }, 
+    {
+      "name": "pigeons", 
+      "value": 1
+    }, 
+    {
+      "name": "splash boards", 
+      "value": 1
+    }, 
+    {
+      "name": "lease", 
+      "value": 2
+    }, 
+    {
+      "name": "product", 
+      "value": 5
+    }, 
+    {
+      "name": "noise", 
+      "value": 12
+    }, 
+    {
+      "name": "business", 
+      "value": 37
+    }, 
+    {
+      "name": "service charge", 
+      "value": 12
+    }, 
+    {
+      "name": "area/living", 
+      "value": 2
+    }, 
+    {
+      "name": "IT", 
+      "value": 4
+    }, 
+    {
+      "name": "phone", 
+      "value": 9
+    }, 
+    {
+      "name": "upholstery", 
+      "value": 1
+    }, 
+    {
+      "name": "boiler", 
+      "value": 9
+    }, 
+    {
+      "name": "property plans", 
+      "value": 19
+    }, 
+    {
+      "name": "directions", 
+      "value": 1
+    }, 
+    {
+      "name": "neighbour etiquette", 
+      "value": 2
+    }, 
+    {
+      "name": "electrics", 
+      "value": 11
+    }, 
+    {
+      "name": "decoration", 
+      "value": 1
+    }, 
+    {
+      "name": "condensation", 
+      "value": 1
+    }, 
+    {
+      "name": "aircon", 
+      "value": 1
+    }, 
+    {
+      "name": "mobile", 
+      "value": 3
+    }, 
+    {
+      "name": "heating", 
+      "value": 15
+    }, 
+    {
+      "name": "broadband", 
+      "value": 29
+    }, 
+    {
+      "name": "fire safety", 
+      "value": 2
+    }, 
+    {
+      "name": "window boxes", 
+      "value": 23
+    }, 
+    {
+      "name": "security", 
+      "value": 1
+    }, 
+    {
+      "name": "procedure", 
+      "value": 6
+    }, 
+    {
+      "name": "carpets", 
+      "value": 7
+    }
+  ]
+}

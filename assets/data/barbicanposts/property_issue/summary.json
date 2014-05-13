@@ -1,0 +1,100 @@
+{
+  "subcategories": [
+    {
+      "name": "gates", 
+      "value": 2
+    }, 
+    {
+      "name": "decoration", 
+      "value": 7
+    }, 
+    {
+      "name": "meters", 
+      "value": 1
+    }, 
+    {
+      "name": "parking", 
+      "value": 2
+    }, 
+    {
+      "name": "snagging list", 
+      "value": 1
+    }, 
+    {
+      "name": "concrete cancer", 
+      "value": 1
+    }, 
+    {
+      "name": "damp", 
+      "value": 3
+    }, 
+    {
+      "name": "access", 
+      "value": 6
+    }, 
+    {
+      "name": "doors", 
+      "value": 5
+    }, 
+    {
+      "name": "bin", 
+      "value": 3
+    }, 
+    {
+      "name": "drains", 
+      "value": 3
+    }, 
+    {
+      "name": "asbestos", 
+      "value": 2
+    }, 
+    {
+      "name": "intercom", 
+      "value": 1
+    }, 
+    {
+      "name": "cctv", 
+      "value": 1
+    }, 
+    {
+      "name": "water", 
+      "value": 13
+    }, 
+    {
+      "name": "health/safety", 
+      "value": 4
+    }, 
+    {
+      "name": "lift", 
+      "value": 7
+    }, 
+    {
+      "name": "lighting", 
+      "value": 3
+    }, 
+    {
+      "name": "windows", 
+      "value": 3
+    }, 
+    {
+      "name": "heating", 
+      "value": 10
+    }, 
+    {
+      "name": "roof", 
+      "value": 2
+    }, 
+    {
+      "name": "pests/infestations", 
+      "value": 5
+    }, 
+    {
+      "name": "works", 
+      "value": 2
+    }, 
+    {
+      "name": "grounds", 
+      "value": 15
+    }
+  ]
+}

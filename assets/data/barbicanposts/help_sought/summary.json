@@ -1,0 +1,64 @@
+{
+  "subcategories": [
+    {
+      "name": "web address", 
+      "value": 3
+    }, 
+    {
+      "name": "contact details", 
+      "value": 13
+    }, 
+    {
+      "name": "influence", 
+      "value": 4
+    }, 
+    {
+      "name": "property use", 
+      "value": 5
+    }, 
+    {
+      "name": "storage", 
+      "value": 3
+    }, 
+    {
+      "name": "wifi borrowing", 
+      "value": 2
+    }, 
+    {
+      "name": "borrow", 
+      "value": 11
+    }, 
+    {
+      "name": "donations", 
+      "value": 1
+    }, 
+    {
+      "name": "original fixtures/fittings", 
+      "value": 3
+    }, 
+    {
+      "name": "computer", 
+      "value": 9
+    }, 
+    {
+      "name": "moving", 
+      "value": 3
+    }, 
+    {
+      "name": "input", 
+      "value": 15
+    }, 
+    {
+      "name": "expertise", 
+      "value": 4
+    }, 
+    {
+      "name": "volunteers", 
+      "value": 10
+    }, 
+    {
+      "name": "watering plants", 
+      "value": 1
+    }
+  ]
+}
