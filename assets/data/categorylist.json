@@ -67,7 +67,7 @@
         "window boxes", 
         "fire safety"
       ], 
-      "description": "something here", 
+      "description": "All posts relating to any (typically apartment) advice requested.  The business subcategory relates to advice required on a specific (named) business rather than a general recommendation (which is categorised under local business)", 
       "id": 1, 
       "name": "advice sought"
     }, 
@@ -90,7 +90,7 @@
         "computer", 
         "wifi borrowing"
       ], 
-      "description": "", 
+      "description": "All posts seeking active help from a resident (rather than general advice). The 'input' category is for posts that require residents' feedback", 
       "id": 2, 
       "name": "help sought"
     }, 
@@ -133,7 +133,7 @@
         "future projects", 
         "appliances"
       ], 
-      "description": "", 
+      "description": "any advice offered (unbidden) to residents", 
       "id": 3, 
       "name": "advice offered"
     }, 
@@ -223,7 +223,7 @@
         "car sharing", 
         "uphosterer"
       ], 
-      "description": "", 
+      "description": "a poorly named category - this is any recommendations sought/offered on a service/shop/individual.  The vast majority of these are recommendations sought.", 
       "id": 4, 
       "name": "local business"
     }, 
@@ -244,7 +244,7 @@
         "station closure", 
         "weather"
       ], 
-      "description": "", 
+      "description": "warnings to fellow residents", 
       "id": 5, 
       "name": "warning"
     }, 
@@ -275,7 +275,7 @@
         "break in", 
         "squatters"
       ], 
-      "description": "", 
+      "description": "any antisocial activity within the  development or local area", 
       "id": 6, 
       "name": "antisocial"
     }, 
@@ -302,7 +302,7 @@
         "fellow residents", 
         "lost and found"
       ], 
-      "description": "", 
+      "description": "this is anything related to day to day living, there are some overlaps here with other categories,for example we make the distinction between antisocial noise and noise from other sources (construction, deliveries etc).", 
       "id": 7, 
       "name": "living"
     }, 
@@ -349,7 +349,7 @@
         "tube", 
         "local authority"
       ], 
-      "description": "", 
+      "description": "anything related to shops and services in the local area", 
       "id": 8, 
       "name": "local area"
     }, 
@@ -378,7 +378,7 @@
         "terrorism", 
         "shooting"
       ], 
-      "description": "", 
+      "description": "specific incidents in the immediate area", 
       "id": 9, 
       "name": "local incident"
     }, 
@@ -407,7 +407,7 @@
         "procedural advice", 
         "animals"
       ], 
-      "description": "", 
+      "description": "anything related to the rules on living, whether requests for clarification on procedures and enforcement or discussions on specific rules", 
       "id": 10, 
       "name": "rules"
     }, 
@@ -427,7 +427,7 @@
         "invoke rights", 
         "threat"
       ], 
-      "description": "", 
+      "description": "anything that falls within the legal domain, whether disputes or lease extensons", 
       "id": 11, 
       "name": "legal"
     }, 
@@ -435,7 +435,7 @@
       "children": [
         "related"
       ], 
-      "description": "", 
+      "description": "a category of one - references in the media to the development or something that may affect residents", 
       "id": 12, 
       "name": "media"
     }, 
@@ -467,7 +467,7 @@
         "petition", 
         "logging"
       ], 
-      "description": "", 
+      "description": "posts that encourage residents to work together in some way, whether to exert pressure on an entity or individual, or sign a petition", 
       "id": 13, 
       "name": "action"
     }, 
@@ -505,7 +505,7 @@
         "would like to meet", 
         "charity"
       ], 
-      "description": "", 
+      "description": "posts that have a social component to them, whether gossip and banter, a particular social event or shared interest", 
       "id": 14, 
       "name": "social"
     }, 
@@ -528,7 +528,7 @@
         "request for comment", 
         "request for disclosure"
       ], 
-      "description": "", 
+      "description": "anything related to the management of the development (or borough/council", 
       "id": 15, 
       "name": "management"
     }, 
@@ -545,7 +545,7 @@
         "porters", 
         "tipping"
       ], 
-      "description": "", 
+      "description": "any posts that mention staff involved in the running of the development", 
       "id": 16, 
       "name": "staff"
     }, 
@@ -561,7 +561,7 @@
         "specific responsibility", 
         "contracts"
       ], 
-      "description": "", 
+      "description": "posts that are specifically related to the entity in charge of managing the development", 
       "id": 17, 
       "name": "management company"
     }, 
@@ -609,7 +609,7 @@
         "bin", 
         "asbestos"
       ], 
-      "description": "", 
+      "description": "any issue related to the development that requires attention", 
       "id": 18, 
       "name": "property issue"
     }, 
@@ -627,7 +627,7 @@
         "for sale", 
         "promotion"
       ], 
-      "description": "", 
+      "description": "posts related to buying and selling.  This includes discussions on sales/lets", 
       "id": 19, 
       "name": "commerce"
     }, 
@@ -652,7 +652,7 @@
         "mortgage", 
         "lease extension"
       ], 
-      "description": "", 
+      "description": "posts that are related to money in some way - whether utility prices, estate agent commissions or council tax", 
       "id": 20, 
       "name": "finance"
     }, 
@@ -678,7 +678,7 @@
         "acceptable use", 
         "external perception"
       ], 
-      "description": "", 
+      "description": "all posts related to the forum", 
       "id": 21, 
       "name": "website"
     }, 
@@ -695,7 +695,7 @@
         "request for input", 
         "contacts"
       ], 
-      "description": "", 
+      "description": "anything related to the local police", 
       "id": 22, 
       "name": "policing"
     }, 
@@ -708,7 +708,7 @@
         "flyer", 
         "blueprints"
       ], 
-      "description": "", 
+      "description": "documentation sought/offered", 
       "id": 23, 
       "name": "documentation"
     }, 
@@ -726,7 +726,7 @@
         "floor numbers", 
         "gates"
       ], 
-      "description": "", 
+      "description": "posts related to suggested improvements to the development", 
       "id": 24, 
       "name": "property suggestion"
     }

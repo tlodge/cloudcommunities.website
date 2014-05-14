@@ -24,7 +24,25 @@
   		</div>  		
 		<style>
 
-   .sliderbar{
+	.sentimentbox{
+		display:inline-block; 
+		vertical-align:middle;
+		padding: 25px 20px 20px 20px;
+		line-height: 20px;
+		color:  #636363;
+	}
+	
+	p.sentimentexample{
+		color:  #636363;
+		font-size: 12px;
+		text-align: center;	
+	}
+	
+	h6.sentimenttext{
+		text-align: center;
+	}
+	
+	.sliderbar{
 		fill:#FAFAFA;
 		stroke: #DDDDDD;
 	}
@@ -44,7 +62,8 @@
      	font-size: 1.3rem;
      }
 	
-	.detailbarchart rect{
+	.detailbarchart rect,
+	.sentimentchart rect{
 		fill: #ABD9D0;
 		stroke: #2CA089;
 		stroke-width: 1px;
@@ -74,6 +93,8 @@
 	
 </style>
 
+<script data-main="" src=""></script>
+
 <div id="viz" style="display:none">
 	<div class="row" >
 		
@@ -99,21 +120,21 @@
 				<h4> Some interesting facts <small> about the barbican community </small> </h4>
 				<div class="row">
 					<div class="medium-4 columns">
-						<h3><a href="#">Most sought after <strong>recommendation</strong></a></h3>
+						<h3><a href="#" data-bind="click:function(){categoryclicked('local business')}">Most sought after <strong>recommendation</strong></a></h3>
 							<p>Of over <strong>70</strong> businesses mentioned.  The top is...you guessed it...<strong> plumbers </strong>. But which other recommendations come hot on its heals?</p>
 						<p>
 							<a class="small secondary button" href="#" data-bind="click:function(){categoryclicked('local business')}">take a look!</a>
 						</p>
 					</div>
 					<div class="medium-4 columns">
-						<h3><a href="#">Most frequently requested <strong>advice</strong></a></h3>
+						<h3><a href="#" data-bind="click:function(){categoryclicked('advice sought')}">Most frequently requested <strong>advice</strong></a></h3>
 						<p> Is to to with <strong>TV</strong>. But what else has been flummoxing residents?</p>
 						<p>
 						<a class="small secondary button" href="#" data-bind="click:function(){categoryclicked('advice sought')}">find out!</a>
 						</p>
 					</div>
 					<div class="medium-4 columns">
-						<h3><a href="applications.html">What gets your<strong> goat?</strong></a></h3>
+						<h3><a href="#" data-bind="click:function(){section('sentiment')}">What gets your<strong> goat?</strong></a></h3>
 						<p> Which posts have left you most hot under the collar?</p>
 						<p>
 							<a class="small secondary button" href="#" data-bind="click:function(){section('sentiment')}">What makes you angry?</a>
@@ -124,21 +145,21 @@
 				
 				<div class="row">
 					<div class="medium-4 columns">
-						<h3><a href="#">Most <strong>sought after </strong>product</a></h3>
+						<h3><a href="#" data-bind="click:function(){categoryclicked('advice sought')}">Most <strong>sought after </strong>product</a></h3>
 							<p>Is...</p>
 						<p>
 							<a class="small secondary button" href="#" data-bind="click:function(){categoryclicked('advice sought')}">find out more</a>
 						</p>
 					</div>
 					<div class="medium-4 columns">
-						<h3><a href="#">Most reported <strong>property issue</strong></a></h3>
+						<h3><a href="#" data-bind="click:function(){categoryclicked('property issue')}">Most reported <strong>property issue</strong></a></h3>
 						<p> Is to do with the <strong>grounds..</strong></p>
 						<p>
 						<a class="small secondary button" href="#" data-bind="click:function(){categoryclicked('property issue')}">find out!</a>
 						</p>
 					</div>
 					<div class="medium-4 columns">
-						<h3><a href="applications.html">What makes you <strong> smile?</strong></a></h3>
+						<h3><a href="#" data-bind="click:function(){section('sentiment')}">What makes you <strong> smile?</strong></a></h3>
 						<p> What is most likely to make you write happy things?</p>
 						<p>
 							<a class="small secondary button" href="#" data-bind="click:function(){section('sentiment')}">What makes you smile?</a>
@@ -150,24 +171,24 @@
 				
 				<div class="row">
 					<div class="medium-4 columns">
-						<h3><a href="#">Most commonly reported <strong>antisocial</strong> behaviour</a></h3>
+						<h3><a href="#" data-bind="click:function(){categoryclicked('antisocial')}">Most commonly reported <strong>antisocial</strong> behaviour</a></h3>
 							<p>Is...<strong>NOISE</strong></p>
 						<p>
 							<a class="small secondary button" href="#" data-bind="click:function(){categoryclicked('antisocial')}">more</a>
 						</p>
 					</div>
 					<div class="medium-4 columns">
-						<h3><a href="#">When it comes to <strong>rules</strong> what do you talk about?</a></h3>
+						<h3><a href="#" data-bind="click:function(){categoryclicked('rules')}">When it comes to <strong>rules</strong> what do you talk about?</a></h3>
 						<p> It's most often about <strong>procedure</strong></p>
 						<p>
 						<a class="small secondary button" href="#" data-bind="click:function(){categoryclicked('rules')}">find out!</a>
 						</p>
 					</div>
 					<div class="medium-4 columns">
-						<h3><a href="applications.html">What about the <strong> local area?</strong></a></h3>
+						<h3><a href="#" data-bind="click:function(){categoryclicked('local area')}">What about the <strong> local area?</strong></a></h3>
 						<p> Quite a bit of <strong> gossip </strong> and discussions on planning</p>
 						<p>
-							<a class="small secondary button" href="#" data-bind="click:function(){section('local area')}">What makes you smile?</a>
+							<a class="small secondary button" href="#" data-bind="click:function(){categoryclicked('local area')}">see more!</a>
 						</p>
 					</div>
 					
@@ -175,21 +196,15 @@
 			</div>
 			<div class="row">
 				<div class="row">
-					<div class="small-12 columns">
-						<h2>How have you been using the website?</h2>
-						<h2> <small> ...from 2003-2008...</small></h2>
-					</div>
-				</div>
-				<div class="row">
 					<hr>
 					<div class="small-6 columns">
 						<p class="large">
-							This is where I will say something about the chart below that will get people interested
+							How have you been using your website?  The chart below provides a breakdown of the site usage by category over time.
 						</p>
 					</div>
 					<div class="small-6 columns">
 						<p>
-							
+							The most common use of the site is to seek advice, socialise and to discuss the local area.  <strong> click on any category to explore it further </strong>
 						</p>
 					</div>
 					<hr>
@@ -223,8 +238,8 @@
 				<div class="small-12 columns">
 					<hr>
 					<dl class="sub-nav" data-bind="foreach:categories">
-						 <dd data-bind="click:function(){$parent.categoryClicked($data)}, css:{active:$parent.amSelected(name)}">
-						 	<a href="#" data-bind="text:name"></a>
+						 <dd data-bind="click:function(){$parent.categoryClicked($data)}, css:{active:$parent.amSelected($data)}">
+						 	<a href="#" data-bind="text:$data"></a>
 						 </dd> 
 					</dl>
 					<hr>
@@ -236,8 +251,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="small-12 columns">
+				<div class="small-8 columns">
 					<blockquote data-bind="text:categoryDescription"></blockquote> 
+					
+					
+				</div>
+				<div class="small-4 columns">
+					<h1 data-bind="html:percentage"></h1>
 					<p> click on any bar to drill down further</p>
 				</div>
 			</div>
@@ -287,20 +307,46 @@
 		
 		
 		<div id='sentiment' data-bind='visible:sentimentvisible'>
-			<!--<h4> sentiment <small> what makes you happy or sad </small></h4>-->
-			<hr>
-			<h4> Happy posts </h4>
-			<svg class="happinesschart"></svg>
-			
-			<hr>
-			<h4> Unhappy posts </h4>
-			<svg class="sadnesschart"></svg>
-			
-			
+			<div class="row">
+				<hr>
+				<div class="small-6 columns">
+					<p class="large">
+						This page shows the sentiment (i.e. overall 'emotion' of a post) breakdown of your posts (again, only up to 2008...) 
+					</p>
+				</div>
+				<div class="small-6 columns">
+					<p>  Because posts can be simultaneously positive and negative, each post is judged on a positive and negative scale.  So every post will have a <i>positive</i> sentiment ranking from 1-5 and a <i>negative</i> sentiment ranking from 1 to 5.  More info on this approach can be found <a href="http://sentistrength.wlv.ac.uk">here</a> </p>
+				</div>
+				<hr>
+			</div>
+			<div class="row">
+				<div class="small-6 columns">
+					<svg class="sentimentslider"></svg>
+				</div>
+				<div class="small-6 columns">
+					<div class="sentimentbox">
+						Move the slider to filter the posts by how happy or unhappy they have been judged to be
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<h6 class="sentimenttext" data-bind="text:sentimentlabel"></h6>
+					<p class="sentimentexample" data-bind="html:sentimentexampletext"></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<div id="sentimentchart">
+						<svg class="sentimentchart"></svg>
+					</div>
+				</div>
+			</div>
 		</div> <!-- end of sentiment --> 
 		
 	</div>
 </div>
+
 
 <script data-main="/assets/js/vizapp.js" src="/assets/js/require/require.js"></script>
 

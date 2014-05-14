@@ -1,72 +1,75 @@
 {
-  "subcategories": [
-    {
-      "name": "letting", 
-      "value": 1
-    }, 
-    {
-      "name": "council tax", 
-      "value": 1
-    }, 
-    {
-      "name": "water meter", 
-      "value": 4
-    }, 
-    {
-      "name": "lease extension", 
-      "value": 1
-    }, 
-    {
-      "name": "mortgage", 
-      "value": 4
-    }, 
-    {
-      "name": "energy prices", 
-      "value": 4
-    }, 
-    {
-      "name": "renting", 
-      "value": 2
-    }, 
-    {
-      "name": "service charges", 
-      "value": 1
-    }, 
-    {
-      "name": "water prices", 
-      "value": 3
-    }, 
-    {
-      "name": "estate agent commission", 
-      "value": 2
-    }, 
-    {
-      "name": "property prices", 
-      "value": 16
-    }, 
-    {
-      "name": "HIP", 
-      "value": 1
-    }, 
-    {
-      "name": "building survey", 
-      "value": 1
-    }, 
-    {
-      "name": "fees", 
-      "value": 1
-    }, 
-    {
-      "name": "prices", 
-      "value": 21
-    }, 
-    {
-      "name": "insurance", 
-      "value": 2
-    }, 
-    {
-      "name": "rental prices", 
-      "value": 4
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "letting", 
+        "value": 1
+      }, 
+      {
+        "name": "council tax", 
+        "value": 1
+      }, 
+      {
+        "name": "water meter", 
+        "value": 4
+      }, 
+      {
+        "name": "lease extension", 
+        "value": 1
+      }, 
+      {
+        "name": "mortgage", 
+        "value": 4
+      }, 
+      {
+        "name": "energy prices", 
+        "value": 4
+      }, 
+      {
+        "name": "renting", 
+        "value": 2
+      }, 
+      {
+        "name": "service charges", 
+        "value": 1
+      }, 
+      {
+        "name": "water prices", 
+        "value": 3
+      }, 
+      {
+        "name": "estate agent commission", 
+        "value": 2
+      }, 
+      {
+        "name": "property prices", 
+        "value": 16
+      }, 
+      {
+        "name": "HIP", 
+        "value": 1
+      }, 
+      {
+        "name": "building survey", 
+        "value": 1
+      }, 
+      {
+        "name": "fees", 
+        "value": 1
+      }, 
+      {
+        "name": "prices", 
+        "value": 21
+      }, 
+      {
+        "name": "insurance", 
+        "value": 2
+      }, 
+      {
+        "name": "rental prices", 
+        "value": 4
+      }
+    ], 
+    "total": 69
+  }
 }

@@ -1,44 +1,47 @@
 {
-  "subcategories": [
-    {
-      "name": "illegality", 
-      "value": 4
-    }, 
-    {
-      "name": "review", 
-      "value": 1
-    }, 
-    {
-      "name": "status advice", 
-      "value": 3
-    }, 
-    {
-      "name": "invoke rights", 
-      "value": 2
-    }, 
-    {
-      "name": "freehold", 
-      "value": 2
-    }, 
-    {
-      "name": "compensation", 
-      "value": 1
-    }, 
-    {
-      "name": "threat", 
-      "value": 2
-    }, 
-    {
-      "name": "clause breach", 
-      "value": 4
-    }, 
-    {
-      "name": "lease", 
-      "value": 5
-    }, 
-    {
-      "name": "dispute", 
-      "value": 4
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "illegality", 
+        "value": 4
+      }, 
+      {
+        "name": "review", 
+        "value": 1
+      }, 
+      {
+        "name": "status advice", 
+        "value": 3
+      }, 
+      {
+        "name": "invoke rights", 
+        "value": 2
+      }, 
+      {
+        "name": "freehold", 
+        "value": 2
+      }, 
+      {
+        "name": "compensation", 
+        "value": 1
+      }, 
+      {
+        "name": "threat", 
+        "value": 2
+      }, 
+      {
+        "name": "clause breach", 
+        "value": 4
+      }, 
+      {
+        "name": "lease", 
+        "value": 5
+      }, 
+      {
+        "name": "dispute", 
+        "value": 4
+      }
+    ], 
+    "total": 28
+  }
 }

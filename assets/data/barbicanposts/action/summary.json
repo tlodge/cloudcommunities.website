@@ -1,76 +1,79 @@
 {
-  "subcategories": [
-    {
-      "name": "formal complaint", 
-      "value": 2
-    }, 
-    {
-      "name": "policing", 
-      "value": 1
-    }, 
-    {
-      "name": "logging", 
-      "value": 4
-    }, 
-    {
-      "name": "campaign", 
-      "value": 8
-    }, 
-    {
-      "name": "broadband", 
-      "value": 1
-    }, 
-    {
-      "name": "demonstration", 
-      "value": 1
-    }, 
-    {
-      "name": "reporting", 
-      "value": 4
-    }, 
-    {
-      "name": "test support", 
-      "value": 2
-    }, 
-    {
-      "name": "pool resources", 
-      "value": 4
-    }, 
-    {
-      "name": "pressure", 
-      "value": 31
-    }, 
-    {
-      "name": "planning", 
-      "value": 16
-    }, 
-    {
-      "name": "mp", 
-      "value": 1
-    }, 
-    {
-      "name": "service charges", 
-      "value": 1
-    }, 
-    {
-      "name": "questionnaire", 
-      "value": 2
-    }, 
-    {
-      "name": "poll", 
-      "value": 1
-    }, 
-    {
-      "name": "media awareness", 
-      "value": 1
-    }, 
-    {
-      "name": "neighbourhood watch", 
-      "value": 1
-    }, 
-    {
-      "name": "petition", 
-      "value": 19
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "formal complaint", 
+        "value": 2
+      }, 
+      {
+        "name": "policing", 
+        "value": 1
+      }, 
+      {
+        "name": "logging", 
+        "value": 4
+      }, 
+      {
+        "name": "campaign", 
+        "value": 8
+      }, 
+      {
+        "name": "broadband", 
+        "value": 1
+      }, 
+      {
+        "name": "demonstration", 
+        "value": 1
+      }, 
+      {
+        "name": "reporting", 
+        "value": 4
+      }, 
+      {
+        "name": "test support", 
+        "value": 2
+      }, 
+      {
+        "name": "pool resources", 
+        "value": 4
+      }, 
+      {
+        "name": "pressure", 
+        "value": 31
+      }, 
+      {
+        "name": "planning", 
+        "value": 16
+      }, 
+      {
+        "name": "mp", 
+        "value": 1
+      }, 
+      {
+        "name": "service charges", 
+        "value": 1
+      }, 
+      {
+        "name": "questionnaire", 
+        "value": 2
+      }, 
+      {
+        "name": "poll", 
+        "value": 1
+      }, 
+      {
+        "name": "media awareness", 
+        "value": 1
+      }, 
+      {
+        "name": "neighbourhood watch", 
+        "value": 1
+      }, 
+      {
+        "name": "petition", 
+        "value": 19
+      }
+    ], 
+    "total": 100
+  }
 }

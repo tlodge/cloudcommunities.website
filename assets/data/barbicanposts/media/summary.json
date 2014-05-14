@@ -1,8 +1,11 @@
 {
-  "subcategories": [
-    {
-      "name": "related", 
-      "value": 46
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "related", 
+        "value": 46
+      }
+    ], 
+    "total": 46
+  }
 }

@@ -1,88 +1,91 @@
 {
-  "subcategories": [
-    {
-      "name": "clarification advice", 
-      "value": 9
-    }, 
-    {
-      "name": "procedural advice", 
-      "value": 20
-    }, 
-    {
-      "name": "animals", 
-      "value": 5
-    }, 
-    {
-      "name": "flooring", 
-      "value": 2
-    }, 
-    {
-      "name": "rights", 
-      "value": 1
-    }, 
-    {
-      "name": "enforcement advice", 
-      "value": 12
-    }, 
-    {
-      "name": "recycling", 
-      "value": 3
-    }, 
-    {
-      "name": "enforcement request", 
-      "value": 7
-    }, 
-    {
-      "name": "access", 
-      "value": 2
-    }, 
-    {
-      "name": "broken", 
-      "value": 1
-    }, 
-    {
-      "name": "communal areas", 
-      "value": 4
-    }, 
-    {
-      "name": "improvements", 
-      "value": 11
-    }, 
-    {
-      "name": "validity", 
-      "value": 2
-    }, 
-    {
-      "name": "parking", 
-      "value": 4
-    }, 
-    {
-      "name": "procedural issue", 
-      "value": 4
-    }, 
-    {
-      "name": "smoking", 
-      "value": 3
-    }, 
-    {
-      "name": "enforcement notices", 
-      "value": 1
-    }, 
-    {
-      "name": "modification request", 
-      "value": 3
-    }, 
-    {
-      "name": "rental", 
-      "value": 1
-    }, 
-    {
-      "name": "bbq", 
-      "value": 1
-    }, 
-    {
-      "name": "balcony", 
-      "value": 2
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "clarification advice", 
+        "value": 9
+      }, 
+      {
+        "name": "procedural advice", 
+        "value": 20
+      }, 
+      {
+        "name": "animals", 
+        "value": 5
+      }, 
+      {
+        "name": "flooring", 
+        "value": 2
+      }, 
+      {
+        "name": "rights", 
+        "value": 1
+      }, 
+      {
+        "name": "enforcement advice", 
+        "value": 12
+      }, 
+      {
+        "name": "recycling", 
+        "value": 3
+      }, 
+      {
+        "name": "enforcement request", 
+        "value": 7
+      }, 
+      {
+        "name": "access", 
+        "value": 2
+      }, 
+      {
+        "name": "broken", 
+        "value": 1
+      }, 
+      {
+        "name": "communal areas", 
+        "value": 4
+      }, 
+      {
+        "name": "improvements", 
+        "value": 11
+      }, 
+      {
+        "name": "validity", 
+        "value": 2
+      }, 
+      {
+        "name": "parking", 
+        "value": 4
+      }, 
+      {
+        "name": "procedural issue", 
+        "value": 4
+      }, 
+      {
+        "name": "smoking", 
+        "value": 3
+      }, 
+      {
+        "name": "enforcement notices", 
+        "value": 1
+      }, 
+      {
+        "name": "modification request", 
+        "value": 3
+      }, 
+      {
+        "name": "rental", 
+        "value": 1
+      }, 
+      {
+        "name": "bbq", 
+        "value": 1
+      }, 
+      {
+        "name": "balcony", 
+        "value": 2
+      }
+    ], 
+    "total": 98
+  }
 }

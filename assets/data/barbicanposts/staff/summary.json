@@ -1,32 +1,35 @@
 {
-  "subcategories": [
-    {
-      "name": "cleaner", 
-      "value": 3
-    }, 
-    {
-      "name": "tipping", 
-      "value": 2
-    }, 
-    {
-      "name": "concierge", 
-      "value": 1
-    }, 
-    {
-      "name": "parking attendant", 
-      "value": 6
-    }, 
-    {
-      "name": "maintenance", 
-      "value": 3
-    }, 
-    {
-      "name": "security", 
-      "value": 2
-    }, 
-    {
-      "name": "porters", 
-      "value": 1
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "cleaner", 
+        "value": 3
+      }, 
+      {
+        "name": "tipping", 
+        "value": 2
+      }, 
+      {
+        "name": "concierge", 
+        "value": 1
+      }, 
+      {
+        "name": "parking attendant", 
+        "value": 6
+      }, 
+      {
+        "name": "maintenance", 
+        "value": 3
+      }, 
+      {
+        "name": "security", 
+        "value": 2
+      }, 
+      {
+        "name": "porters", 
+        "value": 1
+      }
+    ], 
+    "total": 18
+  }
 }

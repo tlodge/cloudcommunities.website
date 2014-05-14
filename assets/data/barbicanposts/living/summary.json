@@ -1,72 +1,75 @@
 {
-  "subcategories": [
-    {
-      "name": "wildlife", 
-      "value": 56
-    }, 
-    {
-      "name": "noise", 
-      "value": 59
-    }, 
-    {
-      "name": "pests", 
-      "value": 21
-    }, 
-    {
-      "name": "fellow residents", 
-      "value": 8
-    }, 
-    {
-      "name": "privacy", 
-      "value": 1
-    }, 
-    {
-      "name": "brand", 
-      "value": 1
-    }, 
-    {
-      "name": "junk mail", 
-      "value": 6
-    }, 
-    {
-      "name": "lost and found", 
-      "value": 5
-    }, 
-    {
-      "name": "lights", 
-      "value": 3
-    }, 
-    {
-      "name": "daylight", 
-      "value": 3
-    }, 
-    {
-      "name": "health", 
-      "value": 3
-    }, 
-    {
-      "name": "quality of life/environment", 
-      "value": 18
-    }, 
-    {
-      "name": "safety", 
-      "value": 2
-    }, 
-    {
-      "name": "post", 
-      "value": 10
-    }, 
-    {
-      "name": "smell", 
-      "value": 6
-    }, 
-    {
-      "name": "security", 
-      "value": 1
-    }, 
-    {
-      "name": "temperature", 
-      "value": 15
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "wildlife", 
+        "value": 56
+      }, 
+      {
+        "name": "noise", 
+        "value": 59
+      }, 
+      {
+        "name": "pests", 
+        "value": 21
+      }, 
+      {
+        "name": "fellow residents", 
+        "value": 8
+      }, 
+      {
+        "name": "privacy", 
+        "value": 1
+      }, 
+      {
+        "name": "brand", 
+        "value": 1
+      }, 
+      {
+        "name": "junk mail", 
+        "value": 6
+      }, 
+      {
+        "name": "lost and found", 
+        "value": 5
+      }, 
+      {
+        "name": "lights", 
+        "value": 3
+      }, 
+      {
+        "name": "daylight", 
+        "value": 3
+      }, 
+      {
+        "name": "health", 
+        "value": 3
+      }, 
+      {
+        "name": "quality of life/environment", 
+        "value": 18
+      }, 
+      {
+        "name": "safety", 
+        "value": 2
+      }, 
+      {
+        "name": "post", 
+        "value": 10
+      }, 
+      {
+        "name": "smell", 
+        "value": 6
+      }, 
+      {
+        "name": "security", 
+        "value": 1
+      }, 
+      {
+        "name": "temperature", 
+        "value": 15
+      }
+    ], 
+    "total": 218
+  }
 }

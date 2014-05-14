@@ -1,44 +1,47 @@
 {
-  "subcategories": [
-    {
-      "name": "noise", 
-      "value": 1
-    }, 
-    {
-      "name": "station closure", 
-      "value": 1
-    }, 
-    {
-      "name": "road closure", 
-      "value": 5
-    }, 
-    {
-      "name": "vibrations", 
-      "value": 1
-    }, 
-    {
-      "name": "suspicious individual(s)", 
-      "value": 2
-    }, 
-    {
-      "name": "business", 
-      "value": 4
-    }, 
-    {
-      "name": "health/safety", 
-      "value": 1
-    }, 
-    {
-      "name": "weather", 
-      "value": 3
-    }, 
-    {
-      "name": "scam", 
-      "value": 7
-    }, 
-    {
-      "name": "works", 
-      "value": 5
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "noise", 
+        "value": 1
+      }, 
+      {
+        "name": "station closure", 
+        "value": 1
+      }, 
+      {
+        "name": "road closure", 
+        "value": 5
+      }, 
+      {
+        "name": "vibrations", 
+        "value": 1
+      }, 
+      {
+        "name": "suspicious individual(s)", 
+        "value": 2
+      }, 
+      {
+        "name": "business", 
+        "value": 4
+      }, 
+      {
+        "name": "health/safety", 
+        "value": 1
+      }, 
+      {
+        "name": "weather", 
+        "value": 3
+      }, 
+      {
+        "name": "scam", 
+        "value": 7
+      }, 
+      {
+        "name": "works", 
+        "value": 5
+      }
+    ], 
+    "total": 30
+  }
 }

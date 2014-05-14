@@ -146,7 +146,8 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb', 'custom_bindings'], functi
 				section("root");
 				
 				ajaxservice.ajaxGetJson('categories', {} , function(result){	
-					data = result.categories;
+					data 		= result.summary.categories;
+					ko.postbox.publish('totalposts', result.summary.total);
 					renderroot();
 				});
 		

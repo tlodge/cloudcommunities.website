@@ -1,124 +1,127 @@
 {
-  "subcategories": [
-    {
-      "name": "event", 
-      "value": 72
-    }, 
-    {
-      "name": "car share", 
-      "value": 4
-    }, 
-    {
-      "name": "walking", 
-      "value": 3
-    }, 
-    {
-      "name": "competition", 
-      "value": 1
-    }, 
-    {
-      "name": "freebies", 
-      "value": 16
-    }, 
-    {
-      "name": "gossip", 
-      "value": 115
-    }, 
-    {
-      "name": "politics", 
-      "value": 12
-    }, 
-    {
-      "name": "quiz", 
-      "value": 2
-    }, 
-    {
-      "name": "children", 
-      "value": 8
-    }, 
-    {
-      "name": "introduction", 
-      "value": 3
-    }, 
-    {
-      "name": "pictures", 
-      "value": 6
-    }, 
-    {
-      "name": "person(s) status", 
-      "value": 3
-    }, 
-    {
-      "name": "sports", 
-      "value": 11
-    }, 
-    {
-      "name": "philanthropy", 
-      "value": 2
-    }, 
-    {
-      "name": "party", 
-      "value": 2
-    }, 
-    {
-      "name": "tips", 
-      "value": 12
-    }, 
-    {
-      "name": "banter", 
-      "value": 202
-    }, 
-    {
-      "name": "club", 
-      "value": 17
-    }, 
-    {
-      "name": "neighbourliness", 
-      "value": 6
-    }, 
-    {
-      "name": "drink", 
-      "value": 11
-    }, 
-    {
-      "name": "open house", 
-      "value": 2
-    }, 
-    {
-      "name": "death announcement", 
-      "value": 2
-    }, 
-    {
-      "name": "game", 
-      "value": 5
-    }, 
-    {
-      "name": "link", 
-      "value": 6
-    }, 
-    {
-      "name": "shared interest", 
-      "value": 27
-    }, 
-    {
-      "name": "charity", 
-      "value": 9
-    }, 
-    {
-      "name": "borrow", 
-      "value": 5
-    }, 
-    {
-      "name": "would like to meet", 
-      "value": 1
-    }, 
-    {
-      "name": "magazine", 
-      "value": 23
-    }, 
-    {
-      "name": "history", 
-      "value": 16
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "event", 
+        "value": 72
+      }, 
+      {
+        "name": "car share", 
+        "value": 4
+      }, 
+      {
+        "name": "walking", 
+        "value": 3
+      }, 
+      {
+        "name": "competition", 
+        "value": 1
+      }, 
+      {
+        "name": "freebies", 
+        "value": 16
+      }, 
+      {
+        "name": "gossip", 
+        "value": 115
+      }, 
+      {
+        "name": "politics", 
+        "value": 12
+      }, 
+      {
+        "name": "quiz", 
+        "value": 2
+      }, 
+      {
+        "name": "children", 
+        "value": 8
+      }, 
+      {
+        "name": "introduction", 
+        "value": 3
+      }, 
+      {
+        "name": "pictures", 
+        "value": 6
+      }, 
+      {
+        "name": "person(s) status", 
+        "value": 3
+      }, 
+      {
+        "name": "sports", 
+        "value": 11
+      }, 
+      {
+        "name": "philanthropy", 
+        "value": 2
+      }, 
+      {
+        "name": "party", 
+        "value": 2
+      }, 
+      {
+        "name": "tips", 
+        "value": 12
+      }, 
+      {
+        "name": "banter", 
+        "value": 202
+      }, 
+      {
+        "name": "club", 
+        "value": 17
+      }, 
+      {
+        "name": "neighbourliness", 
+        "value": 6
+      }, 
+      {
+        "name": "drink", 
+        "value": 11
+      }, 
+      {
+        "name": "open house", 
+        "value": 2
+      }, 
+      {
+        "name": "death announcement", 
+        "value": 2
+      }, 
+      {
+        "name": "game", 
+        "value": 5
+      }, 
+      {
+        "name": "link", 
+        "value": 6
+      }, 
+      {
+        "name": "shared interest", 
+        "value": 27
+      }, 
+      {
+        "name": "charity", 
+        "value": 9
+      }, 
+      {
+        "name": "borrow", 
+        "value": 5
+      }, 
+      {
+        "name": "would like to meet", 
+        "value": 1
+      }, 
+      {
+        "name": "magazine", 
+        "value": 23
+      }, 
+      {
+        "name": "history", 
+        "value": 16
+      }
+    ], 
+    "total": 604
+  }
 }

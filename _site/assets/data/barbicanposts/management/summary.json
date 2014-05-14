@@ -1,56 +1,59 @@
 {
-  "subcategories": [
-    {
-      "name": "council tax", 
-      "value": 1
-    }, 
-    {
-      "name": "request for disclosure", 
-      "value": 1
-    }, 
-    {
-      "name": "request for comment", 
-      "value": 1
-    }, 
-    {
-      "name": "service charge", 
-      "value": 8
-    }, 
-    {
-      "name": "complaint resolution", 
-      "value": 1
-    }, 
-    {
-      "name": "residents association", 
-      "value": 8
-    }, 
-    {
-      "name": "culpablility", 
-      "value": 3
-    }, 
-    {
-      "name": "council", 
-      "value": 3
-    }, 
-    {
-      "name": "communication", 
-      "value": 10
-    }, 
-    {
-      "name": "contact details", 
-      "value": 2
-    }, 
-    {
-      "name": "proposal", 
-      "value": 3
-    }, 
-    {
-      "name": "meeting", 
-      "value": 7
-    }, 
-    {
-      "name": "lease", 
-      "value": 1
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "council tax", 
+        "value": 1
+      }, 
+      {
+        "name": "request for disclosure", 
+        "value": 1
+      }, 
+      {
+        "name": "request for comment", 
+        "value": 1
+      }, 
+      {
+        "name": "service charge", 
+        "value": 8
+      }, 
+      {
+        "name": "complaint resolution", 
+        "value": 1
+      }, 
+      {
+        "name": "residents association", 
+        "value": 8
+      }, 
+      {
+        "name": "culpablility", 
+        "value": 3
+      }, 
+      {
+        "name": "council", 
+        "value": 3
+      }, 
+      {
+        "name": "communication", 
+        "value": 10
+      }, 
+      {
+        "name": "contact details", 
+        "value": 2
+      }, 
+      {
+        "name": "proposal", 
+        "value": 3
+      }, 
+      {
+        "name": "meeting", 
+        "value": 7
+      }, 
+      {
+        "name": "lease", 
+        "value": 1
+      }
+    ], 
+    "total": 49
+  }
 }

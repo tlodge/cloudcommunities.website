@@ -1,28 +1,31 @@
 {
-  "subcategories": [
-    {
-      "name": "map", 
-      "value": 3
-    }, 
-    {
-      "name": "blueprints", 
-      "value": 1
-    }, 
-    {
-      "name": "floorplan", 
-      "value": 2
-    }, 
-    {
-      "name": "flyer", 
-      "value": 1
-    }, 
-    {
-      "name": "archives", 
-      "value": 1
-    }, 
-    {
-      "name": "guide", 
-      "value": 1
-    }
-  ]
+  "summary": {
+    "subcategories": [
+      {
+        "name": "map", 
+        "value": 3
+      }, 
+      {
+        "name": "blueprints", 
+        "value": 1
+      }, 
+      {
+        "name": "floorplan", 
+        "value": 2
+      }, 
+      {
+        "name": "flyer", 
+        "value": 1
+      }, 
+      {
+        "name": "archives", 
+        "value": 1
+      }, 
+      {
+        "name": "guide", 
+        "value": 1
+      }
+    ], 
+    "total": 9
+  }
 }

@@ -5,16 +5,17 @@ define(['jquery'], function($){
     		switch (route){
     			case 'posts':
     				return '../../assets/data/barbicanposts/posts.json';
-    				break;
+    			
     			case 'categorylist':
     				return '../../assets/data/categorylist.json';
-    				break;
+    		
     			case 'categories':
     				return '../../assets/data/barbicanposts/categories.json';
-    				break;
+    			
     			case 'subcategories':
     				var cat = parameters.category.replace(" ", "_")
     				return '../../assets/data/barbicanposts/' + cat + '/summary.json';
+    			
     			case 'subcategory':
     				var toreplace = ("()\/ ")
     				var cat = parameters.category.replace(" ", "_")
@@ -24,7 +25,9 @@ define(['jquery'], function($){
     					subcat = subcat.replace(toreplace[i], "_")
     				
     				return '../../assets/data/barbicanposts/' + cat + '/' + subcat + '/summary.json';
-    				
+    			
+    			case 'sentiment':
+    				return '../../assets/data/barbicanposts/sentiment.json';	
     				
     				
     			default:
