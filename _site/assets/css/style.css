@@ -441,27 +441,32 @@ position: relative;
 }
 
 
-#horizon .lfastner{
+
+
+#crabtree .lfastner{
     top:40px;
 }
 
-#horizon .partner-container{
+#crabtree .partner-container{
     padding-top: 60px;
 } 
 
-#horizon .logo-box{
+#crabtree .logo-box{
     width: 130px;
     height: 46px;
-    top:  245px;
+    top:  195px;
     left: 320px; 
-    background: #fff url(../../assets/img/partners/horizon.png) center center no-repeat;
+     background: #fff url(../../assets/img/partners/crabtree.png) center center no-repeat;
 }
 
-#horizon .partner-box{
-    height: 230px;
+#crabtree .partner-box{
+    height: 180px;
     width: 450px;
     background: #fff;
 }
+
+
+
 
 #microsoft .partner-box{
     height: 330px;
@@ -491,18 +496,20 @@ position: relative;
     background: #fff url(../../assets/img/partners/peverel.png) center center no-repeat;
 }
 
-#crabtree .partner-box{
-    height: 200px;
+#horizon .partner-box{
+    height: 250px;
     width: 420px;
     background: #fff;
 }
-#crabtree .rfastner{
-   left: 360px;
+#horizon .rfastner{
+   left: 370px;
+    top: -20px;
 }
-#crabtree .logo-box{
-    top:  150px;
+#horizon .logo-box{
+    top:  200px;
     left: 270px; 
-    background: #fff url(../../assets/img/partners/crabtree.png) center center no-repeat;
+    background: #fff url(../../assets/img/partners/horizon.png) center center no-repeat;
+   
 }
 
 
