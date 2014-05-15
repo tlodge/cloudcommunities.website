@@ -71,9 +71,9 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
     			
 		addaxes = function(){
 			
-			d3.select(".x.axis").remove();
+			svg.selectAll(".x.axis").remove();
 		 	
-		 	d3.select(".y.axis").remove();
+		 	svg.selectAll(".y.axis").remove();
 			
 			svg.append("g")
 				.attr("class", "x axis")
@@ -175,7 +175,7 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 			selectedbar.style("fill", "#ff0000");	
 			selectedbar.style("stroke", "#dd0000");
 			selectedSubcategory(data.name);
-			console.log("getting more details...hold on");
+			
 			ajaxservice.ajaxGetJson('subcategory', {category:selectedCategory(), subcategory:selectedSubcategory()}, function(result){
 				posts(result.summary);
 				$('html, body').animate({

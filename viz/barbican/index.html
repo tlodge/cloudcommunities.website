@@ -5,7 +5,11 @@ title: Communities in the Clouds - Viz
 
 
 <style>
-
+	
+	.sentimentpie text{
+		font: 12px sans-serif;
+	}
+	
 	.sentimentbox{
 		display:inline-block; 
 		vertical-align:middle;
@@ -74,8 +78,6 @@ title: Communities in the Clouds - Viz
 	}
 	
 </style>
-
-<script data-main="{{url_for('static', filename='js/vizapp.js')}}" src="{{url_for('static', filename='js/require/require.js')}}"></script>
 
 <div id="viz" style="display:none">
 	<div class="row" >
@@ -322,7 +324,30 @@ title: Communities in the Clouds - Viz
 					</div>
 				</div>
 			</div>
-		</div> <!-- end of sentiment --> 
+			<div id="sentimentdetail">
+				<div class="row">
+					<div class="small-12 columns">
+						<h4 data-bind="text: 'Sentiment breakdown for ' + currentcategory()"<h4>
+					</div>
+					<hr>
+				</div>
+				<div class="row">
+					<div class="small-7 columns">
+						<p data-bind="text: 'The following is a breakdown of sentiment for  ' + currentcategory()"></p>
+						<p><strong> click on a segment or the key to get examples for each sentiment type </strong></p>
+						<div id="sentimentpie">
+							<svg class="sentimentpie"></svg>
+						</div>
+					</div>
+					<div class="small-5 columns">
+						<div data-bind="foreach:examplemessages">
+							<h4> <a data-bind="attr:{href:url}, text:subject"></a></h4>
+							<blockquote data-bind="text:body"></blockquote>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- end sentiment --> 
 		
 	</div>
 </div>

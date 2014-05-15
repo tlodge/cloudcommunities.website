@@ -4,9 +4,13 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 		
 		data = {},
 		
+		_current,
+		
 		lastsentiment = 1,
 		
-		margin = {top: 20, right: 20, bottom: 150, left: 40},
+		margin = {top: 20, right: 10, bottom: 150, left: 40},
+    	
+    	piemargin =  {top: 10, right: 320, bottom: 10, left: 40},
     	
     	width = 1000 - margin.left - margin.right,
     	
@@ -31,6 +35,26 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
   				.append("g")
     			.attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
 		
+		
+		//stuff for pie chart..
+		piewidth = 600 - piemargin.left - piemargin.right,
+   		
+   		pieheight = 600 - piemargin.top - piemargin.bottom,
+    	
+    	pieradius = Math.min(piewidth, pieheight) / 1.5,
+    	
+		color = d3.scale.category20c(),
+ 		
+ 		arc = d3.svg.arc().outerRadius(pieradius - 10).innerRadius(0),
+
+		pie = d3.layout.pie().sort(null).value(function(d) {return d}),
+
+		piesvg = d3.select(".sentimentpie")
+    			   .attr("width", piewidth + piemargin.left + piemargin.right)
+    			   .attr("height", pieheight + piemargin.top + piemargin.bottom )
+  				   .append("g")
+    			   .attr("transform", "translate(" + (piewidth + piemargin.left + piemargin.right) / 4 + "," + (pieheight + piemargin.top + piemargin.bottom ) / 4 + ")"),
+	
 	
 		section = ko.observable().syncWith("section"),
 		
@@ -46,8 +70,28 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
        				 '-4': "overwhelmingly negative or several negative elements or some emphasis of negative elements",
        				 '-5': "definitely negative"
        				 }
+	
+		pielabels = [
+						 "definitely negative(5)",
+						 "overwhelmingly negative(4)",
+						 "clear negative elements(3)",
+						 "some negative elements(2)",
+						 "absence of anything negative(1)",
+						 "absence of anything positive (1)",
+						 "weak positive elements(2)", 
+						 "clear positive elements(3)", 
+						 "overwhelmingly positive(4)",
+						 "enthusiastically positive(5)",
+					],
+		
+		piekey = ko.observableArray([]),
+		
+		examplemessages = ko.observableArray([]),
 		
 		currentsentiment = ko.observable("-1"),
+		
+		currentcategory = ko.observable(""),
+		
 		
 		sentimentlabel = ko.computed(function(){
 			return sentimentlookup[currentsentiment()];
@@ -149,9 +193,95 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 				.attr("width", x.rangeBand())
 				.attr("y", function(d) { return y((d.sentiment[sentiment] / d.total) * 100); })
 				.attr("height", function(d) { return height - y((d.sentiment[sentiment] / d.total) * 100); })
-				.on("click", function(d){});
+				.on("click", barclicked);
 				
 			
+		},
+		
+		barclicked = function(d){
+		
+			currentcategory(d.name);
+		
+			renderpie(d);
+		
+			$('html, body').animate({
+					scrollTop: $("#sentimentdetail").offset().top
+			},1000);
+		},
+		
+		segmentclicked = function(d,i){
+			
+			pole 	= "";
+			value 	= "";
+			
+			//translate values to sentiment scale (1-5, postive/negative)
+			if (i <= 4){
+				pole  = "negative"
+				value = 5 - i; 
+			}else{
+				pole  = "positive"
+				value = i - 4;
+			}
+			ajaxservice.ajaxGetJson('sentimentforcategory', {'category': currentcategory(), 'pole':pole, 'value':value}, function(result){
+				examplemessages(result.summary);
+			})
+		},
+		
+		renderpie = function(piedata){
+					
+  			var path = piesvg.datum(piedata.sentiment).selectAll("path")
+      			.data(pie)
+    			
+    		path.enter()
+				.append("path")
+      			.attr("d", arc)
+      			.style("fill", function(d,i) { return color(i) })
+      			.on("click", segmentclicked)
+				.each(function(d){_current = d}) //store initial angles.
+				
+			piesvg.selectAll("text").remove(); 	
+		 	piesvg.selectAll("circle").remove(); 	
+		 	
+			var circle = piesvg.selectAll(".label")
+      					.data(piedata.sentiment)
+      		
+								
+      			circle
+      					.enter()
+      					.append("circle")
+      					.attr("cx", function(d, i) { return piewidth - 15})
+						.attr("cy", function(d, i){return -(pieradius-20) + (i * 30)})
+						.attr("r", function(d) { return 10; })
+						.style("fill", function(d,i) { return color(i); })	
+      					.on("click", segmentclicked)
+      			
+      			circle
+      					.enter()
+      					.append("text")
+      					.attr('x', function(d){return piewidth})
+						.attr('y', function(d,i){return -(pieradius-25) + (i * 30)})
+						.text(function(d,i){return piekey()[i].name})	
+						.on("click", segmentclicked)
+      			
+      			
+      			
+			path	
+				.transition()
+				.duration(1000)
+      			.attrTween("d", arcTween) //redraw arcs!
+      		
+      		path
+      			.exit()
+      			.remove();	
+  		
+		},
+		
+		arcTween = function(a){
+			var i = d3.interpolate(_current, a);
+			_current = i(0);
+			return function(t){
+				return arc(i(t));
+			} 	
 		},
 		
 		renderslider = function(){
@@ -207,6 +337,10 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 		
 		
 		init = function(){
+			
+			for (i = 0; i < pielabels.length; i++){
+				piekey.push({"name":pielabels[i], "color":color(i)});
+			}
 			renderslider();
 		}
 		
@@ -215,7 +349,9 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 		sentimentvisible:sentimentvisible,
 		sentimentlabel:sentimentlabel,
 		sentimentexampletext:sentimentexampletext,
-		init:init
+		init:init,
+		currentcategory: currentcategory,
+		examplemessages: examplemessages
 	}
 
 });

@@ -1,0 +1,44 @@
+{
+  "summary": [
+    {
+      "body": "Are there any Mac users out there in Barbicanland who could make a suggestion for solving the following problem? Last night, I left my computer sending a rather large 3mb email. When I returned to it the Mail icon was bouncing away in the Dock, the mail hadn't been sent and the activity bar was showing the spinning wheel and the activity 'Copying message.....'. It carried on spinning away for ages so I tried to quit, Mail wouldn't respond to my attempts to quit, so I Force Quit. Restarted, opened mail, and now the activity bar permanently shows 'Reading mailbox file..' and the spinning wheel is whizzing away. I can't quit Mail now and have to Force Quit every time. I've tried opening the Activity Viewer and stopping the action (it says STOPPING, but doesn't stop) and I've run First Aid in Disk Utility, no help) What's going on? Any ideas? I'm so distressed, my Mac is so well behaved usually!  ", 
+      "date": "2005-08-05 12:37:00", 
+      "id": 2958, 
+      "sentiment": 3, 
+      "subject": "Mac Mail problem - any ideas?", 
+      "url": "http://www.barbicantalk.com/forum/viewtopic.php?f=2&t=1788"
+    }, 
+    {
+      "body": "It's 6 weeks since I moved house and Plusnet still hasn't managed to give me a working broadband connection. Is there anyone living near Brandon Mews who wouldn't mind me squatting on their wireless network for a while until they sort it out? Networks I can see from my flat are NETGEAR, JamesMHughes, CROMWELL and several others which appear and disappear throughout the day.", 
+      "date": "2005-08-26 10:11:00", 
+      "id": 2981, 
+      "sentiment": 3, 
+      "subject": "Broadband blues", 
+      "url": "http://www.barbicantalk.com/forum/viewtopic.php?f=2&t=1819"
+    }, 
+    {
+      "body": "My mother-in-law, her sister and young son are visiting us from Australia as of Sat 15th Sept and we've come a cropper with accommodation plans - the builders working on our new flat have been delayed and it's now looking very likely they will be homeless!  Unfortunately we can't put them up as we're currently living in a small style studio  Would anyone be away on holiday around this time (they are here for 3 weeks) and like a paying home-sitter?!  We've actually done this before with them (though not last minute!) and they stayed in a lovely flat in Willoughby.  They're Barbican savvy & very well behaved! Fingers crossed someone can help!", 
+      "date": "2007-09-05 14:50:00", 
+      "id": 3416, 
+      "sentiment": 3, 
+      "subject": "Help w/ accommodation crisis!", 
+      "url": "http://www.barbicantalk.com/forum/viewtopic.php?f=2&t=3633"
+    }, 
+    {
+      "body": "No one else has probably noticed, but the Arts Centre have installed a couple of new chillers on the roof for the air conditioning for the art Gallery (over by the conservatory). I'm not fussed about what they look like but when the winds in the wrong direction they make a terrible racket which I can hear from my flat. Does any one else in the east & south facing Shakespeare flats and Gilbert hear it? It's a short .. er .. farting sound as the fans start and stop, every 20 seconds or so. Most annoying.  Checking out the planning application, it seems as if they should have an acoustic enclosure and be modified not to start and stop so abrupty. But this has not been done yet. Does anyone know who I should write to in the arts centre to jolly them along and discharge their planning conditions? Ta BB", 
+      "date": "2007-09-25 17:55:00", 
+      "id": 3433, 
+      "sentiment": 3, 
+      "subject": "Strange noises from the roof of the Arts Centre", 
+      "url": "http://www.barbicantalk.com/forum/viewtopic.php?f=2&t=3689"
+    }, 
+    {
+      "body": "Hello  Reading the below threads it is clear that a number of residents are suffering intermittent broadband faults. Either disconnection or slow speeds. Once again, I am not able to get online via my own connection, and I'm not able to make phone calls.  We understand from the fine work of the Barbican Association that BT has been moving some components related to the exchange, and also that there has been some sort of line fault. I sense from reading our experiences that there may be more going on that we have not been privy to. Firstly, is there anything more the BA can do on our behalf at this time? I am sick of spending hours on hold to BT's various departments, especially when I'm handed off to people in India who are not empowered to change the situation. Secondly, thank you to anyone who is leaving their wireless connections open at this time. I am able to get online, just about, thanks to someone whose connection is not password-protected. Be careful to ensure your connection is firewalled/virus protected and that you are not sharing your computer network along with your wireless internet. But thank you, because otherwise I would be spending most of the day going back and forth to various internet cafes / the library and spending a fortune.", 
+      "date": "2008-03-17 12:24:00", 
+      "id": 3822, 
+      "sentiment": 3, 
+      "subject": "Broadband faults: help from Association? + Wireless sharing", 
+      "url": "http://www.barbicantalk.com/forum/viewtopic.php?f=2&t=4132"
+    }
+  ]
+}

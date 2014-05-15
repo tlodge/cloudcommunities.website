@@ -28,7 +28,12 @@ define(['jquery'], function($){
     			
     			case 'sentiment':
     				return '../../assets/data/barbicanposts/sentiment.json';	
-    				
+    			
+    			case 'sentimentforcategory':
+    				var cat  = parameters.category.replace(" ", "_")
+    				var pole = parameters.pole
+    				var value = parameters.value
+    				return '../../assets/data/barbicanposts/' + cat + "/" + pole + "/" + value + ".json";	
     				
     			default:
     				return route;
