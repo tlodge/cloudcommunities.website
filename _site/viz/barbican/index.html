@@ -110,7 +110,7 @@
 				</div>
 				<div class="small-6 columns">
 						<p>
-							On this page you'll find a few summary observations, and a picture of your overall use of the site.    We will eventually tag all 5000 posts to provide you with a more complete picture. This has to be done manually, so will take time.  We have not (and won't) tag responses to these posts.
+							On this page you'll find a few summary observations, and a <a href="#" data-bind="click:function(){scrolltochart()}">picture of your overall use of the site.</a>  We will eventually tag all 5000 posts to provide you with a more complete picture. This has to be done manually, so will take time.  We have not (and won't) tag responses to these posts.
 						</p>
 				</div>
 				
@@ -211,8 +211,9 @@
 				</div>
 				<div class="row">
 					<div class="small-12 columns">
-						
-						<svg class="rootchart"></svg>
+						<div id="svgrootchart">
+							<svg class="rootchart"></svg>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -333,6 +334,7 @@
 				<div class="small-12 columns">
 					<h6 class="sentimenttext" data-bind="text:sentimentlabel"></h6>
 					<p class="sentimentexample" data-bind="html:sentimentexampletext"></p>
+					<p class="sentimentexample"> <strong> click on bar to drill down further </strong> </p>
 				</div>
 			</div>
 			<div class="row">
@@ -342,7 +344,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="sentimentdetail">
+			<div id="sentimentdetail" data-bind="visible:sentimentdetailvisible">
 				<div class="row">
 					<div class="small-12 columns">
 						<h4 data-bind="text: 'Sentiment breakdown for ' + currentcategory()"<h4>
@@ -357,9 +359,10 @@
 							<svg class="sentimentpie"></svg>
 						</div>
 					</div>
-					<div class="small-5 columns">
+					<div class="small-5 columns" data-bind="visible:sentimentexamplemessagesvisible">
+						<h4 data-bind="html: examplesheading() + '<small> a few example posts</small>'"></h4>
 						<div data-bind="foreach:examplemessages">
-							<h4> <a data-bind="attr:{href:url}, text:subject"></a></h4>
+							<h6> <a data-bind="attr:{href:url}, text:subject"></a></h6>
 							<blockquote data-bind="text:body"></blockquote>
 						</div>
 					</div>
@@ -369,6 +372,7 @@
 		
 	</div>
 </div>
+
 
 
 <script data-main="/assets/js/vizapp.js" src="/assets/js/require/require.js"></script>

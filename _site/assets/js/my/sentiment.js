@@ -4,9 +4,12 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 		
 		data = {},
 		
-		_current,
+		_current, //for pie chart
+		
+		selectedbar,
 		
 		lastsentiment = 1,
+		
 		
 		margin = {top: 20, right: 10, bottom: 150, left: 40},
     	
@@ -88,10 +91,19 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 		
 		examplemessages = ko.observableArray([]),
 		
-		currentsentiment = ko.observable("-1"),
+		examplesheading = ko.observable(""),
 		
 		currentcategory = ko.observable(""),
 		
+		sentimentdetailvisible = ko.computed(function(){
+			return currentcategory() != "";
+		}),
+		
+		sentimentexamplemessagesvisible = ko.computed(function(){
+			return examplemessages().length > 0;
+		}),
+		
+		currentsentiment = ko.observable("-1"),
 		
 		sentimentlabel = ko.computed(function(){
 			return sentimentlookup[currentsentiment()];
@@ -199,9 +211,14 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 		},
 		
 		barclicked = function(d){
-		
+			clearbarselection();
+			var g = d3.select(this).node()
+			selectedbar = d3.select(g);
+			selectedbar.style("fill", "#ff0000");	
+			selectedbar.style("stroke", "#dd0000");
+			
 			currentcategory(d.name);
-		
+			examplemessages([]);
 			renderpie(d);
 		
 			$('html, body').animate({
@@ -209,10 +226,20 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 			},1000);
 		},
 		
+		
+		clearbarselection = function(){
+			if (selectedbar){
+				selectedbar.style("fill", "#ABD9D0");
+				selectedbar.style("stroke", "#2CA089");
+			}
+		},		
+		
 		segmentclicked = function(d,i){
 			
 			pole 	= "";
 			value 	= "";
+			
+			examplesheading(piekey()[i].name);
 			
 			//translate values to sentiment scale (1-5, postive/negative)
 			if (i <= 4){
@@ -347,11 +374,15 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 	return{
 		section:section,
 		sentimentvisible:sentimentvisible,
+		sentimentdetailvisible:sentimentdetailvisible,
+		sentimentexamplemessagesvisible: sentimentexamplemessagesvisible,
+		
 		sentimentlabel:sentimentlabel,
 		sentimentexampletext:sentimentexampletext,
 		init:init,
 		currentcategory: currentcategory,
-		examplemessages: examplemessages
+		examplemessages: examplemessages,
+		examplesheading:examplesheading,
 	}
 
 });

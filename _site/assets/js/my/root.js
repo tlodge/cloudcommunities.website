@@ -31,9 +31,13 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb', 'custom_bindings'], functi
 			return section() == "root";	
 		}),
 		
-		rendersubcategory = function(data){
-			console.log("rendering  " + data);
+		
+		scrolltochart = function(){
+			$('html, body').animate({
+					scrollTop: $("#svgrootchart").offset().top
+			},1000);
 		},
+		
 		
 		renderroot = function(){
 			max = d3.max(data, function(d){return d3.max(d.posts, function(c){return c[1]})});
@@ -171,25 +175,22 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb', 'custom_bindings'], functi
 		//overlay sentiment by colouring circles different colour!!!
 		
 		circleclicked = function(p){
-			console.log("circle mouse over");
-			console.log(p);
 			var g = d3.select(this).node()
 			d3.select(g).style("fill", "#ff0000")
-			console.log(g);
 		},
 		
 		
 		mouseover = function(){ 
-			var g = d3.select(this).node().parentNode;
+			/*var g = d3.select(this).node().parentNode;
 			
 			d3.select(g).selectAll("circle").style("display","none");
-			d3.select(g).selectAll("text.value").style("display","block");
+			d3.select(g).selectAll("text.value").style("display","block");*/
 		},
 
 		mouseout = function() {
-			var g = d3.select(this).node().parentNode;
+			/*var g = d3.select(this).node().parentNode;
 			d3.select(g).selectAll("circle").style("display","block");
-			d3.select(g).selectAll("text.value").style("display","none");
+			d3.select(g).selectAll("text.value").style("display","none");*/
 		}
 		
 	return {
@@ -197,5 +198,6 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb', 'custom_bindings'], functi
 		rootvisible:rootvisible,
 		section: section,
 		categoryclicked:categoryclicked,
+		scrolltochart:scrolltochart,
 	}
 });
