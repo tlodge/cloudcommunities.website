@@ -8,6 +8,7 @@ require.config({
 	  	  "foundation" : "../foundation/foundation.min",
 	  	  "nvd3" : "../d3/nv.d3",
 	  	  "d3" : "../d3/d3",
+	  	  "firebase": "//cdn.firebase.com/js/client/1.0.15/firebase",
         },
         
         shim: {
@@ -15,7 +16,7 @@ require.config({
     	}
 })
 
-require(['jquery','knockout', 'd3', 'developments', 'ajaxservice', 'nav', 'root', 'catdetail', 'sentiment'], function($,ko,d3,developments,ajaxservice, nav, root, catdetail, sentiment) {
+require(['jquery','knockout', 'd3', 'developments', 'ajaxservice', 'nav', 'root', 'catdetail', 'sentiment', 'comic'], function($,ko,d3,developments,ajaxservice, nav, root, catdetail, sentiment, comic) {
 
 	//d3.json('../../assets/data/barbicanposts/posts.json', function(result){
 	
@@ -37,6 +38,7 @@ require(['jquery','knockout', 'd3', 'developments', 'ajaxservice', 'nav', 'root'
 			data[name] = postdata;
 		}
 		
+		comic.init();
 		root.init(data);
 		catdetail.init();
 		sentiment.init();
@@ -45,6 +47,7 @@ require(['jquery','knockout', 'd3', 'developments', 'ajaxservice', 'nav', 'root'
 		ko.applyBindings(root, 		document.getElementById("rootchart"));
 		ko.applyBindings(catdetail, document.getElementById("categorydetail"));
 		ko.applyBindings(sentiment, document.getElementById("sentiment"));
+		ko.applyBindings(comic, document.getElementById("home"));
 		
 		$("#viz").css("display","block");
 	});

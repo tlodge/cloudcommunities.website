@@ -23,7 +23,60 @@
 			</nav>
   		</div>  		
 		<style>
+
+	ul.unstyled{
+		list-style: none outside none;
+		margin-left: 0;
+	}
 	
+	.light { background-color: #fff; padding: 10px; font-size: 0.9em;
+		font-weight: 200;
+		color: #636363;}
+	
+	.dark { background-color: #eee; padding: 10px; font-size: 0.9em;
+		font-weight: 200;
+		color: #636363;}
+
+	.large{
+		font-size: 1.66em;
+		font-weight: 300;
+		color: #008080;
+	}	
+	
+	.medium{
+		font-size: 1.1em;
+		font-weight: 200;
+		color: #636363;
+	}	
+	
+	.imagebox{
+		padding-bottom: 10px;
+	}
+	
+	.sticky {  
+        position: fixed;  
+        width: 100%;  
+        left: 0;  
+        top: 0;  
+        z-index: 100; 
+        height: 40px;
+    }  
+    .barnav {
+    	background-color: #008080;;
+    	top: 0;
+    	z-index: 100;
+    	height: 40px;
+    	color: #fff;
+    	padding-top: 8px;
+	}
+	
+	.barnav .sub-nav dt a, .barnav  .sub-nav dd a, .barnav .sub-nav li a {
+		color: #fff;
+		padding: 0.1875rem 1rem;
+		text-decoration: none;
+		text-transform:uppercase;
+	}
+
 	.sentimentpie text{
 		font: 12px sans-serif;
 	}
@@ -99,6 +152,74 @@
 
 <div id="viz" style="display:none">
 	<div class="row" >
+	
+		<div id="home" data-bind='viewMoreBinding:homevisible'>
+			<div class="barnav">  
+				<dl class="sub-nav" data-bind="foreach:sections">
+					<dd data-bind="click:function(){$parent.sectionClicked(name)}">
+						<a href="#" data-bind="text:name"></a>
+					 </dd> 
+				</dl> 
+			</div>  
+    
+			<div data-bind="foreach:sections">
+				<div data-bind="attr:{id:name}">
+					<div class="row">
+						<hr>
+						<div class="small-4 columns">
+							<p class="large" data-bind="text:name"></p>
+						</div>
+						<div class="small-8 columns">
+							<p>
+								The Barbican has several volunteer residents committees who act on behalf of the rest of the community, to make decisions in the interest of all.  <strong> How well does this work? </strong>   
+							</p>
+						</div>
+					</div>
+					<div class="small-12 columns">
+						<div class="imagebox">
+							<img data-bind="attr:{src:image}"/>
+						</div>
+					</div>	
+					<div class="row">
+						<div class="small-3 columns">
+							<p class="medium">
+								thoughts and observations
+							</p>
+						</div>
+						<div class="small-9 columns">
+							<p>
+								The Barbican has several volunteer residents committees who act on behalf of the rest of the community, to make decisions in the interest of all.  <strong> How well does this work? </strong>   
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="small-3 columns">
+							<p class="medium">
+								comment on this
+							</p>
+						</div>
+						<div class="small-7 columns">
+							  <textarea data-bind="value: $parent.commentfor(name)" placeholder="do you agree/strongly disagree?"></textarea>
+						</div>
+						<div class="small-2 columns">
+							<a href="#" data-bind="click:function(){$parent.postcomment(name)}" class="button postfix">comment</a>
+						</div>
+					</div>	
+					<div class="row">
+						<div class="small-3 columns">
+							<p class="medium">
+								comments
+							</p>
+						</div>
+						<div class="small-9 columns">
+						  <ul class="unstyled" data-bind="foreach: $parent.commentsfor(name), stripe:$parent.commentsfor(name), evenClass: 'light', oddClass: 'dark'">
+								<li data-bind="text:$data"></li>
+							</ul>
+						</div>
+					</div>		
+				</div>
+    		</div>
+		</div> <!-- end of home! -->	
 		
 		<div id='rootchart' data-bind='viewMoreBinding:rootvisible'>
 			<div class="row">

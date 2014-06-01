@@ -2,7 +2,8 @@ define(['knockout', 'knockoutpb'], function(ko){
 	var 
 	
 		menuitems = ko.observableArray([	
-										{name:'home', section:'root'},
+										{name:'home', section:'home'},
+										{name:'summary', section:'root'},
 										{name:'categories', section:'catdetail'},
 										{name:'sentiment',section:'sentiment'}
 										]),
@@ -10,7 +11,7 @@ define(['knockout', 'knockoutpb'], function(ko){
 		amactive = function(sec){
 			return section() == sec;
 		},
-											
+								
 		section = ko.observable().syncWith("section")
 		
 		
