@@ -22,12 +22,18 @@ title: Communities in the Clouds - Viz
 		font-size: 1.66em;
 		font-weight: 300;
 		color: #008080;
+	}
+	
+	.strap{
+		font-size: 1.3em;
+		font-weight: 300;
+		
 	}	
 	
 	.medium{
 		font-size: 1.1em;
 		font-weight: 200;
-		color: #636363;
+		color: #008080;
 	}	
 	
 	.imagebox{
@@ -147,13 +153,11 @@ title: Communities in the Clouds - Viz
 				<div data-bind="attr:{id:name}">
 					<div class="row">
 						<hr>
-						<div class="small-4 columns">
+						<div class="small-3 columns">
 							<p class="large" data-bind="text:name"></p>
 						</div>
-						<div class="small-8 columns">
-							<p>
-								The Barbican has several volunteer residents committees who act on behalf of the rest of the community, to make decisions in the interest of all.  <strong> How well does this work? </strong>   
-							</p>
+						<div class="small-9 columns">
+							<p class="strap" data-bind="html:overview"></p>
 						</div>
 					</div>
 					<div class="small-12 columns">
@@ -168,9 +172,7 @@ title: Communities in the Clouds - Viz
 							</p>
 						</div>
 						<div class="small-9 columns">
-							<p>
-								The Barbican has several volunteer residents committees who act on behalf of the rest of the community, to make decisions in the interest of all.  <strong> How well does this work? </strong>   
-							</p>
+							<p data-bind="html:thoughts"></p>
 						</div>
 					</div>
 					<div class="row">
@@ -180,7 +182,7 @@ title: Communities in the Clouds - Viz
 							</p>
 						</div>
 						<div class="small-7 columns">
-							  <textarea data-bind="value: $parent.commentfor(name)" placeholder="do you agree/strongly disagree?"></textarea>
+							  <textarea data-bind="value: $parent.commentfor(name)" placeholder="please tell us what you think!"></textarea>
 						</div>
 						<div class="small-2 columns">
 							<a href="#" data-bind="click:function(){$parent.postcomment(name)}" class="button postfix">comment</a>
