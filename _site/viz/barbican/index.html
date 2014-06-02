@@ -39,6 +39,10 @@
   		</div>		
 		<style>
 
+	blockquote{
+		color: #008080;
+	}
+	
 	ul.unstyled{
 		list-style: none outside none;
 		margin-left: 0;
@@ -89,6 +93,7 @@
     	height: 40px;
     	color: #fff;
     	padding-top: 8px;
+    	margin-bottom: 10px;
 	}
 	
 	.barnav .sub-nav dt a, .barnav  .sub-nav dd a, .barnav .sub-nav li a {
@@ -177,14 +182,14 @@
 		<div id="home" data-bind='viewMoreBinding:homevisible'>
 			<div class="barnav">  
 				<dl class="sub-nav" data-bind="foreach:sections">
-					<dd data-bind="click:function(){$parent.sectionClicked(name)}">
+					<dd data-bind="click:function(){$parent.sectionClicked(id)}">
 						<a href="#" data-bind="text:name"></a>
 					 </dd> 
 				</dl> 
 			</div>  
     
 			<div data-bind="foreach:sections">
-				<div data-bind="attr:{id:name}">
+				<div data-bind="attr:{id:id}">
 					<div class="row">
 						<div class="small-3 columns">
 							<p class="large" data-bind="text:name"></p>
