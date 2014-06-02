@@ -12,6 +12,7 @@ title: Communities in the Clouds - Viz
 	ul.unstyled{
 		list-style: none outside none;
 		margin-left: 0;
+		margin-top: 10px;
 	}
 	
 	.light { background-color: #fff; padding: 10px; font-size: 0.9em;
@@ -219,7 +220,8 @@ title: Communities in the Clouds - Viz
 							</p>
 						</div>
 						<div class="small-9 columns">
-						   <ul class="unstyled" data-bind="foreach: $parent.commentsfor(id), stripe:$parent.commentsfor(id), evenClass: 'light', oddClass: 'dark'">
+						 <a href = "#" data-bind="text: $parent.commenttext(id), click:function(){$parent.togglecommentsvisible(id)}"></a>
+						   <ul class="unstyled" data-bind="visible:commentsvisible, foreach: $parent.commentsfor(id), stripe:$parent.commentsfor(id), evenClass: 'light', oddClass: 'dark'">
 								<li>
 									<div class="row">
 										<div class="small-3 columns">
