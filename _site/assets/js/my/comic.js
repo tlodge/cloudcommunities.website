@@ -1,4 +1,4 @@
-define(['jquery','knockout', 'knockoutpb', 'custom_bindings','firebase'], function($,ko){
+define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'], function($,ko,moment){
 
 	var 
 			
@@ -50,6 +50,10 @@ define(['jquery','knockout', 'knockoutpb', 'custom_bindings','firebase'], functi
 											}
 										]),
 	 	
+	 	author = ko.observable(""),
+	 	
+	 	email  = ko.observable(""),
+	 	
 	 	section = ko.observable().syncWith("section"),
 	 	
 	 	homevisible = ko.computed(function(){
@@ -71,8 +75,9 @@ define(['jquery','knockout', 'knockoutpb', 'custom_bindings','firebase'], functi
 		
 		
 		commentsfor = function(section){
+			
 			for (i = 0; i < sections().length; i++){
-				if (sections()[i].name == section){
+				if (sections()[i].id == section){
 					return sections()[i].comments;
 				}
 			}
@@ -80,24 +85,25 @@ define(['jquery','knockout', 'knockoutpb', 'custom_bindings','firebase'], functi
 		
 		commentfor = function(section){
 			for (i = 0; i < sections().length; i++){
-				if (sections()[i].name == section){
+				if (sections()[i].id == section){
 					return sections()[i].comment;
 				}
 			}
 		},
 		
 		postcomment = function(s){
-			console.log("posting to section");
-			console.log(s);
+		
 			fb = new Firebase('https://block49.firebaseio.com/' + s);
 
 			var pushref = fb.push();
 			
 			for (i = 0; i < sections().length; i++){
-				if (sections()[i].name == s){
+				if (sections()[i].id == s){
 					pushref.set({
-	  					comment:  sections()[i].comment(),
-	  					createdAt: Firebase.ServerValue.TIMESTAMP
+	  					comment		: sections()[i].comment(),
+	  					email		: email(),
+	  					author		: author(),
+	  					createdAt	: Firebase.ServerValue.TIMESTAMP
 					});
 				}	
 			}
@@ -110,6 +116,21 @@ define(['jquery','knockout', 'knockoutpb', 'custom_bindings','firebase'], functi
 			},1000);
 		},
 		
+		
+		_contains = function(tosearch, obj){
+			
+			for (var i = 0; i < tosearch.length; i++){
+				
+				if (tosearch[i].comment == obj.comment && tosearch[i].author == obj.author &&  tosearch[i].date == obj.date){
+				
+				return true;
+				}
+			}
+		
+			
+			return false;
+		},
+		
 		init = function(){
 		
 				section("home");
@@ -117,15 +138,22 @@ define(['jquery','knockout', 'knockoutpb', 'custom_bindings','firebase'], functi
 				var fb = new Firebase('https://block49.firebaseio.com/');
 				
 				fb.on("value", function(data) {	
-					console.log(data.val());
+					
+					
 					for (var item in data.val()){
-						for (i = 0; i < sections().length; i++){
-							if (sections()[i].name == item){
+						
+						for (var i = 0; i < sections().length; i++){
+
+							if (sections()[i].id == item){
+								
 								sections()[i].comment("");
 								for (value in data.val()[item]){
 									c = data.val()[item][value].comment;
-									if (sections()[i].comments().indexOf(c) == -1){
-										sections()[i].comments.push(c);
+									a = data.val()[item][value].author == "" ? "anonymous":data.val()[item][value].author;
+									d = moment.unix(data.val()[item][value].createdAt/1000);
+									cmt = {comment:c, author:a, date:d.format('MMM Do h:mm:ss a')};
+									if (_contains(sections()[i].comments(), cmt) == false){
+										sections()[i].comments.push(cmt);
 									}
 								}
 							}
@@ -148,6 +176,8 @@ define(['jquery','knockout', 'knockoutpb', 'custom_bindings','firebase'], functi
 		commentsfor:commentsfor,
 		commentfor:commentfor,
 		homevisible:homevisible,
+		author: author,
+		email: email,
 		init:init,	
 	}
 

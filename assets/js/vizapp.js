@@ -6,6 +6,7 @@ require.config({
           "jquery" : "../jquery/jquery-2.1.0.min",
 	  	  "modernizr" : "../modernizr/modernizr.min",
 	  	  "foundation" : "../foundation/foundation.min",
+	  	  "moment": "../moment/moment.min",
 	  	  "nvd3" : "../d3/nv.d3",
 	  	  "d3" : "../d3/d3",
 	  	  "firebase": "//cdn.firebase.com/js/client/1.0.15/firebase",

@@ -189,17 +189,20 @@ title: Communities in the Clouds - Viz
 						<div class="small-9 columns">
 							<div class="row"> 
 								<div class="small-12 columns">
-									<textarea rows="4" data-bind="value: $parent.commentfor(name)" placeholder="please tell us what you think!"></textarea>
+									<textarea rows="4" data-bind="value: $parent.commentfor(id)" placeholder="please tell us what you think!"></textarea>
 								</div>
 							</div>
 							<div class="row">
 							  	<div class="small-12 columns">
 							  		<div class="row">
-										<div class="small-6 columns">
-											<input type="text" placeholder="your name (optional!)"/>
+										<div class="small-5 columns">
+											<input type="text"  data-bind="value: $parent.author" placeholder="your name (optional!)"/>
 										</div>
-										<div class="small-6 columns">
-											<input type="text" placeholder="email (optional and not shown)"/>
+										<div class="small-5 columns">
+											<input type="text" data-bind="value: $parent.email" placeholder="email (optional and not shown)"/>
+										</div>
+										<div class="small-2 columns">
+											<a href="#" data-bind="click:function(){$parent.postcomment(id)}" class="button postfix">comment</a>
 										</div>
 									</div>
 							  	</div>
@@ -207,11 +210,7 @@ title: Communities in the Clouds - Viz
 					
 						</div>
 					</div>	
-					<div class="row">
-						<div class="small-2 small-offset-10 columns">
-							<a href="#" data-bind="click:function(){$parent.postcomment(name)}" class="button postfix">comment</a>
-						</div>
-					</div>
+					
 					<hr>
 					<div class="row">
 						<div class="small-3 columns">
@@ -220,8 +219,26 @@ title: Communities in the Clouds - Viz
 							</p>
 						</div>
 						<div class="small-9 columns">
-						  <ul class="unstyled" data-bind="foreach: $parent.commentsfor(name), stripe:$parent.commentsfor(name), evenClass: 'light', oddClass: 'dark'">
-								<li data-bind="text:$data"></li>
+						   <ul class="unstyled" data-bind="foreach: $parent.commentsfor(id), stripe:$parent.commentsfor(id), evenClass: 'light', oddClass: 'dark'">
+								<li>
+									<div class="row">
+										<div class="small-3 columns">
+											<div class="row">
+												<div class="small-12 columns">
+													<span data-bind="text:date"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="small-12 columns">
+													<span data-bind="text:'by: ' + author"></span>
+												</div>
+											</div>
+										</div>
+										<div class="small-9 columns">
+											<span data-bind="text:comment"></span>
+										</div>
+									</div>		
+								 </li>
 							</ul>
 						</div>
 					</div>
