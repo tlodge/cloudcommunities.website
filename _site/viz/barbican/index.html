@@ -6,7 +6,13 @@
     	<title>Residential Viz</title>
   		<link href="/assets/css/foundation.min.css" rel="stylesheet"/>
   	</head>
-  	
+  	<style>
+  		.disclaimer{
+			font-size: 1.2em;
+			font-weight: 300;
+			color: #000;
+  		}
+  	</style>
   	<body>
 		<div id="navigation">
 			<nav class="top-bar" data-topbar> 
@@ -21,7 +27,16 @@
 					</ul> 
 				</section> 
 			</nav>
-  		</div>  		
+  		</div>  
+  		<div class="row">
+  			<div class="small-12 columns">
+  				<hr>
+				<p class="disclaimer">
+					<strong>Please note:</strong> all the data used for building this site was taken from the publicly visible pages at www.barbicantalk.com.  We have <strong> no access to email addresses, contact details or any other data not shown on the public site.</strong> If you have any concerns about content on this site, please email <strong>communityclouds@gmail.com</strong>. Further information on this project can be found <a href="/">here</a>
+				</p>
+				<hr>
+  			<div>
+  		</div>		
 		<style>
 
 	ul.unstyled{
@@ -171,7 +186,6 @@
 			<div data-bind="foreach:sections">
 				<div data-bind="attr:{id:name}">
 					<div class="row">
-						<hr>
 						<div class="small-3 columns">
 							<p class="large" data-bind="text:name"></p>
 						</div>
@@ -225,7 +239,7 @@
 		
 		<div id='rootchart' data-bind='viewMoreBinding:rootvisible'>
 			<div class="row">
-				<hr>
+				
 				<div class="small-6 columns">
 						<p class="large">
 							We've started to analyse how the forum is used in the Barbican.  Please have a play with this site.  We've tagged around 1600 posts of about 5000 so this data takes you to around 2008.
@@ -344,7 +358,7 @@
 		
 		<div id='categorydetail' data-bind='viewMoreBinding:categoryvisible'>
 			<div class="row">
-					<hr>
+				
 					<div class="small-6 columns">
 						<p class="large">
 							We've broken down posts into a few categories to provide an overview of how barbican residents use their forum.
@@ -432,7 +446,7 @@
 		
 		<div id='sentiment' data-bind='visible:sentimentvisible'>
 			<div class="row">
-				<hr>
+				
 				<div class="small-6 columns">
 					<p class="large">
 						This page shows the sentiment (i.e. overall 'emotion' of a post) breakdown of your posts (again, only up to 2008...) 
