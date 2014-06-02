@@ -5,9 +5,9 @@ title: Communities in the Clouds - Viz
 
 <style>
 
-	blockquote{
+	/*blockquote{
 		color: #008080;
-	}
+	}*/
 	
 	ul.unstyled{
 		list-style: none outside none;
@@ -185,13 +185,32 @@ title: Communities in the Clouds - Viz
 								comment on this
 							</p>
 						</div>
-						<div class="small-7 columns">
-							  <textarea data-bind="value: $parent.commentfor(name)" placeholder="please tell us what you think!"></textarea>
-						</div>
-						<div class="small-2 columns">
-							<a href="#" data-bind="click:function(){$parent.postcomment(name)}" class="button postfix">comment</a>
+						<div class="small-9 columns">
+							<div class="row"> 
+								<div class="small-12 columns">
+									<textarea rows="4" data-bind="value: $parent.commentfor(name)" placeholder="please tell us what you think!"></textarea>
+								</div>
+							</div>
+							<div class="row">
+							  	<div class="small-12 columns">
+							  		<div class="row">
+										<div class="small-6 columns">
+											<input type="text" placeholder="your name (optional!)"/>
+										</div>
+										<div class="small-6 columns">
+											<input type="text" placeholder="email (optional and not shown)"/>
+										</div>
+									</div>
+							  	</div>
+							</div>
+					
 						</div>
 					</div>	
+					<div class="row">
+						<div class="small-2 small-offset-10 columns">
+							<a href="#" data-bind="click:function(){$parent.postcomment(name)}" class="button postfix">comment</a>
+						</div>
+					</div>
 					<div class="row">
 						<div class="small-3 columns">
 							<p class="medium">
@@ -203,7 +222,8 @@ title: Communities in the Clouds - Viz
 								<li data-bind="text:$data"></li>
 							</ul>
 						</div>
-					</div>		
+					</div>
+					<hr>		
 				</div>
     		</div>
 		</div> <!-- end of home! -->	

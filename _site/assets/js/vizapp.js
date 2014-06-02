@@ -11,6 +11,8 @@ require.config({
 	  	  "firebase": "//cdn.firebase.com/js/client/1.0.15/firebase",
         },
         
+        waitSeconds:0,
+        
         shim: {
 
     	}

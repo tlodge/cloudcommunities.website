@@ -96,7 +96,8 @@ define(['jquery','knockout', 'knockoutpb', 'custom_bindings','firebase'], functi
 			for (i = 0; i < sections().length; i++){
 				if (sections()[i].name == s){
 					pushref.set({
-	  					comment:  sections()[i].comment()
+	  					comment:  sections()[i].comment(),
+	  					createdAt: Firebase.ServerValue.TIMESTAMP
 					});
 				}	
 			}
