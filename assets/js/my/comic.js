@@ -129,6 +129,7 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 	  					author		: author(),
 	  					createdAt	: Firebase.ServerValue.TIMESTAMP
 					});
+					sections()[i].commentsvisible(true);
 				}	
 			}
 		},
