@@ -315,7 +315,7 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 		
 			
 			radius = 20,
-			sliderwidth = 500,
+			sliderwidth = 450,
 			sliderheight = 100,
 			happiness = d3.scale.linear().range([-5,4]),
 			happiness.domain([radius+2, (sliderwidth+20) - radius]);
