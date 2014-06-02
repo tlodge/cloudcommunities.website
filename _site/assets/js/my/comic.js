@@ -92,7 +92,7 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 			if (comments().length > 0){
 				return comments().length + " comments";
 			}
-			return "nothing to see";
+			return "no comments yet, please start the debate.";
 		},
 		
 		sectionfor = function(section){
@@ -129,6 +129,7 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 	  					author		: author(),
 	  					createdAt	: Firebase.ServerValue.TIMESTAMP
 					});
+					sections()[i].commentsvisible(true);
 				}	
 			}
 		},
