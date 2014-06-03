@@ -1,6 +1,7 @@
 define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'], function($,ko,moment){
 
 	var 
+		_comments = [],
 			
 		sections = ko.observableArray([
 											{
@@ -121,15 +122,18 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 
 			var pushref = fb.push();
 			
+			
 			for (i = 0; i < sections().length; i++){
 				if (sections()[i].id == s){
-					pushref.set({
-	  					comment		: sections()[i].comment(),
-	  					email		: email(),
-	  					author		: author(),
-	  					createdAt	: Firebase.ServerValue.TIMESTAMP
-					});
-					sections()[i].commentsvisible(true);
+					if (sections()[i].comment() != ""){
+						pushref.set({
+							comment		: sections()[i].comment(),
+							email		: email(),
+							author		: author(),
+							createdAt	: Firebase.ServerValue.TIMESTAMP
+						});
+						sections()[i].commentsvisible(true);
+					}
 				}	
 			}
 		},
@@ -144,6 +148,7 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 		
 		_contains = function(tosearch, obj){
 			
+			
 			for (var i = 0; i < tosearch.length; i++){
 				
 				if (tosearch[i].comment == obj.comment && tosearch[i].author == obj.author &&  tosearch[i].date == obj.date){
@@ -152,7 +157,7 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 				}
 			}
 		
-			
+		
 			return false;
 		},
 		
@@ -173,12 +178,16 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 								
 								sections()[i].comment("");
 								for (value in data.val()[item]){
-									c = data.val()[item][value].comment;
-									a = data.val()[item][value].author == "" ? "anonymous":data.val()[item][value].author;
-									d = moment.unix(data.val()[item][value].createdAt/1000);
-									cmt = {comment:c, author:a, date:d.format('MMM Do h:mm:ss a')};
-									if (_contains(sections()[i].comments(), cmt) == false){
+									//value is the firebase unique object id
+									if (_comments.indexOf(value) == -1){
+										c = data.val()[item][value].comment;
+										a = data.val()[item][value].author == "" ? "anonymous":data.val()[item][value].author;
+										d = moment.unix(data.val()[item][value].createdAt/1000);
+										cmt = {comment:c, author:a, date:d.format('MMM Do h:mm:ss a')};
+										//if (_contains(sections()[i].comments(), cmt) == false){
 										sections()[i].comments.push(cmt);
+										_comments.push(value);
+										//}
 									}
 								}
 							}

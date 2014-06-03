@@ -1,6 +1,7 @@
 define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'], function($,ko,moment){
 
 	var 
+		_comments = [],
 			
 		sections = ko.observableArray([
 											{
@@ -147,20 +148,16 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 		
 		_contains = function(tosearch, obj){
 			
-			//console.log("chceking for")
-			//console.log(obj)
-			//console.log("in ");
-			//console.log(tosearch);
 			
 			for (var i = 0; i < tosearch.length; i++){
 				
 				if (tosearch[i].comment == obj.comment && tosearch[i].author == obj.author &&  tosearch[i].date == obj.date){
-				//console.log("FOUND IT");
+				
 				return true;
 				}
 			}
 		
-			//console.log("NOT FOUND IT!");
+		
 			return false;
 		},
 		
@@ -172,8 +169,6 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 				
 				fb.on("value", function(data) {	
 					
-					console.log("receieved ");
-					console.log(data.val());
 					
 					for (var item in data.val()){
 						
@@ -183,14 +178,16 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 								
 								sections()[i].comment("");
 								for (value in data.val()[item]){
-									c = data.val()[item][value].comment;
-									a = data.val()[item][value].author == "" ? "anonymous":data.val()[item][value].author;
-									d = moment.unix(data.val()[item][value].createdAt/1000);
-									cmt = {comment:c, author:a, date:d.format('MMM Do h:mm:ss a')};
-									if (_contains(sections()[i].comments(), cmt) == false){
+									//value is the firebase unique object id
+									if (_comments.indexOf(value) == -1){
+										c = data.val()[item][value].comment;
+										a = data.val()[item][value].author == "" ? "anonymous":data.val()[item][value].author;
+										d = moment.unix(data.val()[item][value].createdAt/1000);
+										cmt = {comment:c, author:a, date:d.format('MMM Do h:mm:ss a')};
+										//if (_contains(sections()[i].comments(), cmt) == false){
 										sections()[i].comments.push(cmt);
-										//console.log("Section comments is now");
-										//console.log(sections()[i].comments());
+										_comments.push(value);
+										//}
 									}
 								}
 							}
