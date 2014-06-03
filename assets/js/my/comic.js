@@ -121,15 +121,18 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 
 			var pushref = fb.push();
 			
+			
 			for (i = 0; i < sections().length; i++){
 				if (sections()[i].id == s){
-					pushref.set({
-	  					comment		: sections()[i].comment(),
-	  					email		: email(),
-	  					author		: author(),
-	  					createdAt	: Firebase.ServerValue.TIMESTAMP
-					});
-					sections()[i].commentsvisible(true);
+					if (sections()[i].comment() != ""){
+						pushref.set({
+							comment		: sections()[i].comment(),
+							email		: email(),
+							author		: author(),
+							createdAt	: Firebase.ServerValue.TIMESTAMP
+						});
+						sections()[i].commentsvisible(true);
+					}
 				}	
 			}
 		},
