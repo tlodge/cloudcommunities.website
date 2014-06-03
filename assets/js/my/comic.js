@@ -172,6 +172,7 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 				
 				fb.on("value", function(data) {	
 					
+					console.log("receieved " + data.val());
 					
 					for (var item in data.val()){
 						
