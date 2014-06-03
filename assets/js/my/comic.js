@@ -147,20 +147,20 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 		
 		_contains = function(tosearch, obj){
 			
-			console.log("chceking for")
-			console.log(obj)
-			console.log("in ");
-			console.log(tosearch);
+			//console.log("chceking for")
+			//console.log(obj)
+			//console.log("in ");
+			//console.log(tosearch);
 			
 			for (var i = 0; i < tosearch.length; i++){
 				
 				if (tosearch[i].comment == obj.comment && tosearch[i].author == obj.author &&  tosearch[i].date == obj.date){
-				console.log("FOUND IT");
+				//console.log("FOUND IT");
 				return true;
 				}
 			}
 		
-			console.log("NOT FOUND IT!");
+			//console.log("NOT FOUND IT!");
 			return false;
 		},
 		
@@ -187,8 +187,8 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 									cmt = {comment:c, author:a, date:d.format('MMM Do h:mm:ss a')};
 									if (_contains(sections()[i].comments(), cmt) == false){
 										sections()[i].comments.push(cmt);
-										console.log("Section comments is now");
-										console.log(sections()[i].comments());
+										//console.log("Section comments is now");
+										//console.log(sections()[i].comments());
 									}
 								}
 							}
