@@ -214,7 +214,7 @@ define(['jquery','knockout', 'moment','knockoutpb', 'custom_bindings','firebase'
 		homevisible:homevisible,
 		author: author,
 		email: email,
-		init:init,	
+		init:init
 	}
 
 });
