@@ -9,7 +9,7 @@ require.config({
 	  	  "moment": "../moment/moment.min",
 	  	  "nvd3" : "../d3/nv.d3",
 	  	  "d3" : "../d3/d3",
-	  	  "firebase": "//cdn.firebase.com/js/client/1.0.15/firebase",
+	  	  "firebase": "//cdn.firebase.com/js/client/1.0.15/firebase"
         },
         
         waitSeconds:0,
@@ -17,7 +17,7 @@ require.config({
         shim: {
 
     	}
-})
+});
 
 require(['jquery','knockout', 'd3', 'developments', 'ajaxservice', 'nav', 'root', 'catdetail', 'sentiment', 'comic'], function($,ko,d3,developments,ajaxservice, nav, root, catdetail, sentiment, comic) {
 
