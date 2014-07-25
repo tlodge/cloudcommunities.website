@@ -382,7 +382,7 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 		init:init,
 		currentcategory: currentcategory,
 		examplemessages: examplemessages,
-		examplesheading:examplesheading,
+		examplesheading:examplesheading
 	}
 
 });

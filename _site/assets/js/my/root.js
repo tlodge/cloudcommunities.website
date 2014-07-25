@@ -196,6 +196,6 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb', 'custom_bindings'], functi
 		rootvisible:rootvisible,
 		section: section,
 		categoryclicked:categoryclicked,
-		scrolltochart:scrolltochart,
+		scrolltochart:scrolltochart
 	}
 });

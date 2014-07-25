@@ -329,7 +329,8 @@ position: relative;
 
 #blog .fullcontent{
    padding: 30px;
-   font-size: 18px;
+   font-size: 14px;
+   font-weight: 200;
 }
 
 #blog .blogcontainer{

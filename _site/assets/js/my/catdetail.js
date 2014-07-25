@@ -231,7 +231,7 @@ define(['knockout','d3', 'ajaxservice', 'knockoutpb'], function(ko,d3,ajaxservic
 		}),
 		
 		init = function(){
-			console.log("initing cat detail!!");
+			
 			ajaxservice.ajaxGetJson('categorylist', {} , function(result){
 				clist = result.categories; 
 				for (i = 0; i < clist.length; i++){

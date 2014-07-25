@@ -18,6 +18,6 @@ define(['knockout', 'knockoutpb'], function(ko){
 	return{
 		menuitems:menuitems,
 		section:section,
-		amactive:amactive,
+		amactive:amactive
 	}
 });
