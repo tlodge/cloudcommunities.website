@@ -11,7 +11,14 @@ require.config({
     }
 });
 
-require(['d3list', 'd3comments'], function(d3list, d3comments) {
+require(['jquery','d3list', 'd3comments'], function($,d3list, d3comments) {
+	
+ $(document).bind(
+ 	'touchmove',
+ 		function(e){
+ 			e.preventDefault();
+ 		}
+ );
   d3list.init();
   //d3comments.init();
 });

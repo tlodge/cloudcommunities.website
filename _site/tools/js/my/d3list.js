@@ -133,44 +133,44 @@ define(['jquery','d3'], function($,d3){
 			}
 				
 			neighbourcontainer.select("circle.outer")
-					.transition()
-					.duration(transitionduration)
+					//.transition()
+					//.duration(transitionduration)
 					.attr("r", multiplier(newpos) * ((height/mydata.length) / 2) - 4)
 					.attr("cy", cy(newpos))
 				
 			neighbourcontainer.select("circle.inner")
-					.transition()
-					.duration(transitionduration)
+					//.transition()
+					//.duration(transitionduration)
 					.attr("r", multiplier(newpos) * ((height/mydata.length) / 2) - 7)
 					.attr("cy", cy(newpos))
 					.style("fill", "#fff")
 					.style("stroke",function(d){return colour(newpos-1)})
 		
 			neighbourcontainer.select("text.rank")
-					.transition()
-					.duration(transitionduration)
+					//.transition()
+					//.duration(transitionduration)
 					.attr("y", function(d){return cy(newpos)})
 					.attr("font-size", function(d){return multiplier(newpos) * 35 + "px"})	
 					.text(function(d){return newpos})
 			
 			neighbourcontainer.select("text.label")
-					.transition()
-					.duration(transitionduration)
+					//.transition()
+					///.duration(transitionduration)
 					.attr("y", function(d){return cy(newpos)})
 					.attr("font-size", function(d){return multiplier(newpos) * 35 + "px"})	
 					.text(function(d){return d.value})
 						
 			neighbourcontainer.select("rect")
-					.transition()
-					.duration(transitionduration)
+					//.transition()
+					//.duration(transitionduration)
 					.attr("y", y(newpos))
 					.style("fill",function(d){return colour(newpos-1)})	
 					.style("stroke",function(d){return colour(newpos-1)})	
 		
 			neighbourcontainer.select("g")
 					.selectAll("circle")
-					.transition()
-					.duration(transitionduration)
+					//.transition()
+					//.duration(transitionduration)
 					.attr("cy", cy(newpos))
 					
 			
@@ -196,7 +196,7 @@ define(['jquery','d3'], function($,d3){
 	  				}
 	  			}
 	  		 	mydata.sort(function(a,b){return (a.position > b.position) ? 1 : (a.position < b.position) ? -1 : 0})
-	  		 	console.log(mydata);
+	  		 	
 	  			startpos = currentpos;
 	  		}	
 	  		
@@ -247,8 +247,8 @@ define(['jquery','d3'], function($,d3){
 	  				.attr("y", y(mydata[currentpos].position))	
 	  		
 	  		draggedcontainer.select("rect")
-	  				.transition()
-	  				.duration(transitionduration)
+	  				//.transition()
+	  				//.duration(transitionduration)
 	  				.style("fill", colour(currentpos))
 	  				.style("stroke", colour(currentpos));
 	  		
@@ -283,8 +283,8 @@ define(['jquery','d3'], function($,d3){
 	  				.style("stroke", function(d){return colour(d.position-1)});
 	  				
 	  		svg.selectAll("path")
-	  					.transition()
-	  					.duration(transitionduration)
+	  					//.transition()
+	  					//.duration(transitionduration)
 	  					.style("fill", colour(d.position-1));
 	  					
 	   	},
@@ -399,7 +399,8 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("dy", ".3em")
 	  			.attr("font-size", function(d){return multiplier(d.position-1) * 35 + "px"})
 	  			.text(function(d){return d.value})
-	  			  			
+	  			.call(drag)				
+	  		
 	  		container
 	  			.append("circle")
 	  			.attr("class", "ranking outer")
