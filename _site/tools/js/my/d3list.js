@@ -131,7 +131,11 @@ define(['jquery','d3'], function($,d3){
 			if (newpos == -1){
 				return;
 			}
-				
+			
+
+//neighbourcontainer
+//	  			.style("transform", function(d){ return "translate(0px,-" + cy(newpos) + "px)"});
+	  			
 			neighbourcontainer.select("circle.outer")
 					//.transition()
 					//.duration(transitionduration)
@@ -202,8 +206,15 @@ define(['jquery','d3'], function($,d3){
 	  		
 	  		vcenter   = (height/mydata.length)/2 - (rectmargin/2);
 	  		maxheight = height - vcenter;
+	  		d[0] = 0;
+	  		d[1] = Math.min(maxheight + vcenter, Math.max(vcenter, d3.event.y + vcenter));
 	  		
-	  		draggedcontainer.select("rect")
+	  		
+	  		draggedcontainer
+	  			.style("transform", function(d){ return "translate(" + d[0] + "px," + d[1] + "px)"});
+	  			
+	  			
+	  		/*draggedcontainer.select("rect")
 	   			.attr("x", d.x = 0)
 	   			.attr("y", d.y = Math.min(maxheight, Math.max(0,d3.event.y)))
 	   		
@@ -236,14 +247,17 @@ define(['jquery','d3'], function($,d3){
 	  		
 	  		draggedcontainer.select("text.label")
 				.attr("y", function(d){return Math.min(maxheight+vcenter,
-	  													Math.max(vcenter, d3.event.y + vcenter))})
+	  													Math.max(vcenter, d3.event.y + vcenter))})*/
 
 	   	},
 	   			
 	   	
 	   	dragend = function(d,i){
 	   	
-	   		draggedcontainer.select("rect")
+	   		draggedcontainer
+	  			.style("transform", function(d){ return "translate(" + 0 + "px," +  y(mydata[currentpos].position) + "px)"});
+	  		
+	   		/*draggedcontainer.select("rect")
 	  				.attr("y", y(mydata[currentpos].position))	
 	  		
 	  		draggedcontainer.select("rect")
@@ -267,9 +281,9 @@ define(['jquery','d3'], function($,d3){
 	  		draggedcontainer.selectAll("text")
 				.attr("y", function(d){return cy(mydata[currentpos].position)})
 	  			.attr("font-size", function(d){return multiplier(currentpos) * 35 + "px"})	
+	  		*/
 	  		
-	  		
-	  		var pointer   = draggedcontainer.select("g");
+	  		/*var pointer   = draggedcontainer.select("g");
 	  		
 	  		pointer.selectAll("circle")
 	  				.attr("cy", cy(mydata[currentpos].position));
@@ -285,7 +299,7 @@ define(['jquery','d3'], function($,d3){
 	  		svg.selectAll("path")
 	  					//.transition()
 	  					//.duration(transitionduration)
-	  					.style("fill", colour(d.position-1));
+	  					.style("fill", colour(d.position-1));*/
 	  					
 	   	},
 	   	
