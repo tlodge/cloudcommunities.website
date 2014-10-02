@@ -196,7 +196,7 @@ define(['jquery','d3'], function($,d3){
 	  				}
 	  			}
 	  		 	mydata.sort(function(a,b){return (a.position > b.position) ? 1 : (a.position < b.position) ? -1 : 0})
-	  		 	console.log(mydata);
+	  		 	
 	  			startpos = currentpos;
 	  		}	
 	  		
