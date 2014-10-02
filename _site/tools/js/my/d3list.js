@@ -74,7 +74,7 @@ define(['jquery','d3'], function($,d3){
 	  	},
 	  	
 	  	dragstart = function(d){
-	  		
+	  		//this.parentNode.appendChild(this);
 	  		startpos = (d.position - 1);
 	  		currentpos = startpos;
 	  		draggedcontainer = d3.select("g." +  mydata[startpos].value);
@@ -117,23 +117,29 @@ define(['jquery','d3'], function($,d3){
 	  		var neighbourcontainer = d3.select("g." +  mydata[pos].value);
 			var newpos = -1;
 			
-			 
+			var ydelta = -1;
+			
 			if (pos > startpos && pos > 0 && pos < mydata.length){	
 				newpos = mydata[pos].position - 1;
 				mydata[pos].position = newpos;
-				mydata[startpos].position += 1;				
+				mydata[startpos].position += 1;	
+				ydelta = -(height/mydata.length);		
 			}
 			else if (pos < startpos && pos >= 0 && pos < mydata.length-1){	
 				newpos = mydata[pos].position + 1;
 				mydata[pos].position = newpos;
 				mydata[startpos].position -= 1;
+				ydelta =  ((height/mydata.length) / 2) - rectmargin/2
 			}
 		
 			if (newpos == -1){
 				return;
 			}
-				
-			neighbourcontainer.select("circle.outer")
+			
+			d3.select(this)
+	  			.style(transform, function(d){return "translate(0px," + ydelta + "px)";})
+	  			 
+			/*neighbourcontainer.select("circle.outer")
 					//.transition()
 					//.duration(transitionduration)
 					.attr("r", multiplier(newpos) * ((height/mydata.length) / 2) - 4)
@@ -173,7 +179,7 @@ define(['jquery','d3'], function($,d3){
 					//.transition()
 					//.duration(transitionduration)
 					.attr("cy", cy(newpos))
-					
+			*/		
 			
 
 	  	},
@@ -204,9 +210,12 @@ define(['jquery','d3'], function($,d3){
 	  		vcenter   = (height/mydata.length)/2 - (rectmargin/2);
 	  		maxheight = height - vcenter;
 	  		
-	  		//d3.select(this)
-	  		draggedcontainer
-	  			.style(transform, function(d){return "translate(0px," + d3.event.y + "px)";})
+	  		
+	  		d[0] = 0;
+  			d[1] = d3.event.y - cy(d.position);
+
+  			d3.select(this)
+     			 .style(transform, function(d) { return "translate(" + d[0] + "px," + d[1] + "px)"; });
 	  			 
 	  		/*draggedcontainer.select("rect")
 	   			.attr("x", d.x = 0)
@@ -248,7 +257,10 @@ define(['jquery','d3'], function($,d3){
 	   	
 	   	dragend = function(d,i){
 	   	
-	   		draggedcontainer.select("rect")
+	   	//	draggedcontainer
+	  	//		.style(transform, function(d){return "translate(0px," + y(mydata[currentpos].position) + "px)";})
+	  			
+	   		/*draggedcontainer.select("rect")
 	  				.attr("y", y(mydata[currentpos].position))	
 	  		
 	  		draggedcontainer.select("rect")
@@ -290,11 +302,15 @@ define(['jquery','d3'], function($,d3){
 	  		svg.selectAll("path")
 	  					//.transition()
 	  					//.duration(transitionduration)
-	  					.style("fill", colour(d.position-1));
+	  					.style("fill", colour(d.position-1));*/
 	  					
 	   	},
 	   	
-	   	drag = d3.behavior.drag().on("dragstart", dragstart).on("drag", dragit).on("dragend", dragend),
+	   	drag = d3.behavior.drag()
+	   					  .origin(function(d) {return {x: 0, y:cy(d.position)}; })
+	   					  .on("dragstart", dragstart)
+	   					  .on("drag", dragit)
+	   					  .on("dragend", dragend),
 	   	
 	   	toggleoverlay = function(){
 
