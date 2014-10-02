@@ -399,7 +399,8 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("dy", ".3em")
 	  			.attr("font-size", function(d){return multiplier(d.position-1) * 35 + "px"})
 	  			.text(function(d){return d.value})
-	  			  			
+	  			.call(drag)				
+	  		
 	  		container
 	  			.append("circle")
 	  			.attr("class", "ranking outer")
