@@ -136,8 +136,8 @@ define(['jquery','d3'], function($,d3){
 				return;
 			}
 			
-			d3.select(this)
-	  			.style(transform, function(d){return "translate(0px," + ydelta + "px)";})
+			//d3.select(this)
+	  		//	.style(transform, function(d){return "translate(0px," + ydelta + "px)";})
 	  			 
 			/*neighbourcontainer.select("circle.outer")
 					//.transition()
@@ -194,12 +194,12 @@ define(['jquery','d3'], function($,d3){
 	  		if(Math.abs(currentpos-startpos) >= 1){ //if there has been some kind of movement
 	  			if (currentpos > startpos){
 	  				for (var i = startpos+1; i <= currentpos; i++){
-	  					//moveneighbour(i); //this is fine!
+	  					moveneighbour(i); //this is fine!
 	  				}
 	  				
 	  			}else{
 	  				for (var i = startpos-1; i >= currentpos; i--){
-	  					//moveneighbour(i);
+	  					moveneighbour(i);
 	  				}
 	  			}
 	  		 	mydata.sort(function(a,b){return (a.position > b.position) ? 1 : (a.position < b.position) ? -1 : 0})
