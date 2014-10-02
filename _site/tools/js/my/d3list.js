@@ -132,7 +132,7 @@ define(['jquery','d3'], function($,d3){
 				return;
 			}
 				
-			neighbourcontainer.select("circle.outer")
+			/*neighbourcontainer.select("circle.outer")
 					//.transition()
 					//.duration(transitionduration)
 					.attr("r", multiplier(newpos) * ((height/mydata.length) / 2) - 4)
@@ -171,7 +171,7 @@ define(['jquery','d3'], function($,d3){
 					.selectAll("circle")
 					//.transition()
 					//.duration(transitionduration)
-					.attr("cy", cy(newpos))
+					.attr("cy", cy(newpos))*/
 					
 			
 
