@@ -20,6 +20,7 @@ define(['jquery','d3'], function($,d3){
          
         smallbubble	= "m 433.84398,1212.9876 c 10.87312,-25.4968 -6.52217,-47.7724 11.26563,-56.3796 17.78776,-8.6072 62.30363,-42.7121 48.06646,-83.7428 -14.23712,-41.0306 -69.11472,-68.6351 -124.69494,-76.91352 -55.58028,-8.27847 -132.67227,7.48782 -165.65162,51.77382 -32.97945,44.2859 -5.85204,83.1973 32.09977,103.5921 37.29425,20.0413 111.28325,25.1469 141.78218,24.5249 30.49902,-0.6219 52.83522,12.7275 57.13252,37.1451 z",
        
+        transform = ["", "-webkit-", "-moz-", "-ms-", "-o-"].reduce(function(p, v) { return v + "transform" in document.body.style ? v : p; }) + "transform",
 	  	
 		colours		 = ["#880e4f","#c2185b", "#e91e63", "#f06292", "#f8bbd0"],
 		
@@ -187,12 +188,12 @@ define(['jquery','d3'], function($,d3){
 	  		if(Math.abs(currentpos-startpos) >= 1){ //if there has been some kind of movement
 	  			if (currentpos > startpos){
 	  				for (var i = startpos+1; i <= currentpos; i++){
-	  					moveneighbour(i); //this is fine!
+	  					//moveneighbour(i); //this is fine!
 	  				}
 	  				
 	  			}else{
 	  				for (var i = startpos-1; i >= currentpos; i--){
-	  					moveneighbour(i);
+	  					//moveneighbour(i);
 	  				}
 	  			}
 	  		 	mydata.sort(function(a,b){return (a.position > b.position) ? 1 : (a.position < b.position) ? -1 : 0})
@@ -203,7 +204,11 @@ define(['jquery','d3'], function($,d3){
 	  		vcenter   = (height/mydata.length)/2 - (rectmargin/2);
 	  		maxheight = height - vcenter;
 	  		
-	  		draggedcontainer.select("rect")
+	  		//d3.select(this)
+	  		draggedcontainer
+	  			.style(transform, function(d){return "translate(0px," + d3.event.y + "px)";})
+	  			 
+	  		/*draggedcontainer.select("rect")
 	   			.attr("x", d.x = 0)
 	   			.attr("y", d.y = Math.min(maxheight, Math.max(0,d3.event.y)))
 	   		
@@ -237,7 +242,7 @@ define(['jquery','d3'], function($,d3){
 	  		draggedcontainer.select("text.label")
 				.attr("y", function(d){return Math.min(maxheight+vcenter,
 	  													Math.max(vcenter, d3.event.y + vcenter))})
-
+			*/
 	   	},
 	   			
 	   	
@@ -371,7 +376,7 @@ define(['jquery','d3'], function($,d3){
 	  		var container = list.enter()
 	  						.append("g")
 	  						.attr("class", function(d){return d.value + " listitem"})
-	  						
+	  						.call(drag)
 	  		container
 	  			.append("rect")
 	  			.attr("rx", 8)
@@ -385,7 +390,7 @@ define(['jquery','d3'], function($,d3){
 	  			.style("stroke-width", 3)
 	  			.style("fill-opacity", 1.0)	
 				.style("stroke-opacity", 1.0)
-				.call(drag)	
+				//.call(drag)	
 	  		
 	  		
 	  			
@@ -399,7 +404,7 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("dy", ".3em")
 	  			.attr("font-size", function(d){return multiplier(d.position-1) * 35 + "px"})
 	  			.text(function(d){return d.value})
-	  			.call(drag)				
+	  			//.call(drag)				
 	  		
 	  		container
 	  			.append("circle")
@@ -412,7 +417,7 @@ define(['jquery','d3'], function($,d3){
 	  			.style("stroke-width", 4)
 	  			.style("fill-opacity", 1.0)	
 				.style("stroke-opacity", 1.0)
-	  			.call(drag)	
+	  			//.call(drag)	
 	  		
 	  		container
 						.append("circle")
@@ -425,7 +430,7 @@ define(['jquery','d3'], function($,d3){
 						.style("stroke-width", 4)
 						.style("fill-opacity", 1.0)	
 						.style("stroke-opacity", 1.0)
-						.call(drag)	
+						//.call(drag)	
 	  		
 	  		
 	  			
