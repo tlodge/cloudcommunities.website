@@ -52,7 +52,7 @@ define(['jquery','d3'], function($,d3){
 	  	},
 	  	
 	  	cx = function(position){
-	  		console.log("padding is " + pointerpadding[position-1]);
+	  		
 	  		return width + pointerwidth + pointerpadding[position-1] - ((height/mydata.length) / 2);
 	  	},
 	  
@@ -195,7 +195,8 @@ define(['jquery','d3'], function($,d3){
 	  					moveneighbour(i);
 	  				}
 	  			}
-	  		 	mydata.sort(function(a,b){return a.position > b.position})
+	  		 	mydata.sort(function(a,b){return (a.position > b.position) ? 1 : (a.position < b.position) ? -1 : 0})
+	  		 	console.log(mydata);
 	  			startpos = currentpos;
 	  		}	
 	  		
@@ -291,7 +292,7 @@ define(['jquery','d3'], function($,d3){
 	   	drag = d3.behavior.drag().on("dragstart", dragstart).on("drag", dragit).on("dragend", dragend),
 	   	
 	   	toggleoverlay = function(){
-	   		console.log("clicked");
+
 	   	},
 	   	
 	   	renderbubble = function(){
