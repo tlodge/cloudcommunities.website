@@ -74,12 +74,13 @@ define(['jquery','d3'], function($,d3){
 	  	},
 	  	
 	  	dragstart = function(d){
-	  		//this.parentNode.appendChild(this);
+	  		this.parentNode.appendChild(this);
+	  		
 	  		startpos = (d.position - 1);
 	  		currentpos = startpos;
-	  		draggedcontainer = d3.select("g." +  mydata[startpos].value);
+	  		//draggedcontainer = d3.select("g." +  mydata[startpos].value);
 	   		
-	  		draggedcontainer.select("rect")
+	  		/*draggedcontainer.select("rect")
 	  			.style("fill", highlighted(startpos))
 	  			.style("stroke", highlighted(startpos));
 	  		
@@ -108,7 +109,7 @@ define(['jquery','d3'], function($,d3){
 	  			.style("fill-opacity", 1.0)	
 	  			
 	  		pointer.selectAll("line")
-	  			.style("stroke-opacity", 1.0)	
+	  			.style("stroke-opacity", 1.0)	*/
 	  			
 	  	},
 	  	
@@ -194,12 +195,12 @@ define(['jquery','d3'], function($,d3){
 	  		if(Math.abs(currentpos-startpos) >= 1){ //if there has been some kind of movement
 	  			if (currentpos > startpos){
 	  				for (var i = startpos+1; i <= currentpos; i++){
-	  					moveneighbour(i); //this is fine!
+	  					//moveneighbour(i); //this is fine!
 	  				}
 	  				
 	  			}else{
 	  				for (var i = startpos-1; i >= currentpos; i--){
-	  					moveneighbour(i);
+	  					//moveneighbour(i);
 	  				}
 	  			}
 	  		 	mydata.sort(function(a,b){return (a.position > b.position) ? 1 : (a.position < b.position) ? -1 : 0})
@@ -211,11 +212,10 @@ define(['jquery','d3'], function($,d3){
 	  		maxheight = height - vcenter;
 	  		
 	  		
-	  		d[0] = 0;
-  			d[1] = d3.event.y - cy(d.position);
-
-  			d3.select(this)
-     			 .style(transform, function(d) { return "translate(" + d[0] + "px," + d[1] + "px)"; });
+	  		
+  			//draggedcontainer
+     		d3.select(this)
+     			 .style(transform, function(d) {console.log((cy(d.position)-d3.event.y)); return "translate(0px," + -(cy(d.position)-d3.event.y) + "px)"; });
 	  			 
 	  		/*draggedcontainer.select("rect")
 	   			.attr("x", d.x = 0)
@@ -307,7 +307,12 @@ define(['jquery','d3'], function($,d3){
 	   	},
 	   	
 	   	drag = d3.behavior.drag()
-	   					  .origin(function(d) {return {x: 0, y:cy(d.position)}; })
+	   					  .origin(function(t)
+	   					  	 {
+	   					  	 	
+	   					  	 	return {x: 0, y:cy(t.position)}; 
+	   					  	 }
+	   					   )
 	   					  .on("dragstart", dragstart)
 	   					  .on("drag", dragit)
 	   					  .on("dragend", dragend),
@@ -392,7 +397,7 @@ define(['jquery','d3'], function($,d3){
 	  		var container = list.enter()
 	  						.append("g")
 	  						.attr("class", function(d){return d.value + " listitem"})
-	  						.call(drag)
+	  						
 	  		container
 	  			.append("rect")
 	  			.attr("rx", 8)
@@ -406,7 +411,7 @@ define(['jquery','d3'], function($,d3){
 	  			.style("stroke-width", 3)
 	  			.style("fill-opacity", 1.0)	
 				.style("stroke-opacity", 1.0)
-				//.call(drag)	
+				.call(drag)	
 	  		
 	  		
 	  			
