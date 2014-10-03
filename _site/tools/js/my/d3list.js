@@ -12,7 +12,7 @@ define(['jquery','d3'], function($,d3){
 		
 		pointerpadding = [60,0,10,50,70],
 		
-		transitionduration = 1000,
+		transitionduration = 300,
 		
 		draggedcontainer,
 		
@@ -195,11 +195,9 @@ define(['jquery','d3'], function($,d3){
 	  	
 	  	dragit = function(d){
 	  		
-	  		//work done in here to minimum!
-	  		
 	  		currentpos = parseInt(calcpos(d3.event.y + (height/mydata.length)/2));
 	  		
-	  		//shift the rects above or below down/up
+	  		//shuffle the neighbouring rects above or below down/up if position changes
 		
 	  		if(Math.abs(currentpos-startpos) >= 1){ //if there has been some kind of movement
 	  			if (currentpos > startpos){
@@ -219,56 +217,18 @@ define(['jquery','d3'], function($,d3){
 	  			//selects seem to be quite expensive, so must do a minimum in the dragit function!
 	  			draggedcontainer.select("text.rank").text(mydata[currentpos].position)
 	  		}	
-	  		
-	  		//vcenter   = (height/mydata.length)/2 - (rectmargin/2);
-	  		//maxheight = height - vcenter;
-	  		
-	  		
+	  	
      		draggedcontainer
      			 .style(transform, function(d) {return "translate(0px," + -(dragoffset-d3.event.y) + "px)"; });
-	  		
-	  		
-	  			
-	  		/*draggedcontainer.select("rect")
-	   			.attr("x", d.x = 0)
-	   			.attr("y", d.y = Math.min(maxheight, Math.max(0,d3.event.y)))
-	   		
-
-			draggedcontainer.selectAll("circle.ranking")
-				.attr("cx", d.x = 0)
-				.attr("cy", d.y = Math.min(maxheight + vcenter, Math.max(vcenter, d3.event.y + vcenter)))
-	  		
-	  		
-	  		draggedcontainer.select("g").selectAll("circle")
-	  			.attr("cy", function(d){return Math.min(maxheight+vcenter,
-	  													Math.max(vcenter, d3.event.y + vcenter))})
-	  			.attr("cx", d.x = cx(mydata[currentpos].position))
-	  		
-	  		
-	  		draggedcontainer.select("g").selectAll("line")
-	  			
-	  			.attr("y1", function(d){return Math.min(maxheight + vcenter,
-	  										    		Math.max(vcenter, d3.event.y + vcenter))})
-	  			
-	  			.attr("y2", function(d){return Math.min(maxheight + vcenter,
-	  										    		Math.max(vcenter, d3.event.y + vcenter))})
-	  			
-	  			.attr("x2", cx(mydata[currentpos].position))					  	
-	  			
-			draggedcontainer.select("text.rank")
-				.attr("y", function(d){return Math.min(maxheight+vcenter,
-	  													Math.max(vcenter, d3.event.y + vcenter))})
-	  			.text(function(d){return mydata[currentpos].position})
-	  		
-	  		draggedcontainer.select("text.label")
-				.attr("y", function(d){return Math.min(maxheight+vcenter,
-	  													Math.max(vcenter, d3.event.y + vcenter))})
-			*/
 	   	},
 	   			
 	   	
 	   	dragend = function(d,i){
 	   	
+	   		//reset translation to 0 and update the x,y coords.  We do a translate as its the only
+	   		//way of shifting a svg group (g) element. And is more efficient than shifting each 
+	   		//component that makes up a group element.
+	   		
 	   		draggedcontainer
 	  			.style(transform, function(d){return "translate(0px,0px)";})
 	  			
@@ -276,8 +236,6 @@ define(['jquery','d3'], function($,d3){
 	  				.attr("y", y(mydata[currentpos].position))	
 	  		
 	  		draggedcontainer.select("rect")
-	  				//.transition()
-	  				//.duration(transitionduration)
 	  				.style("fill", colour(currentpos))
 	  				.style("stroke", colour(currentpos));
 	  		
@@ -321,12 +279,7 @@ define(['jquery','d3'], function($,d3){
 	  				.transition()
 	  				.duration(transitionduration)		
 	  				.attr("x2", cx(mydata[currentpos].position))	
-	  				
-	  		
-	  		
-	  		
-	  			
-	  							  			
+	  						  			
 	  		svg.selectAll("path")
 	  					.transition()
 	  					.duration(transitionduration)
@@ -335,12 +288,6 @@ define(['jquery','d3'], function($,d3){
 	   	},
 	   	
 	   	drag = d3.behavior.drag()
-	   					  /*.origin(function(t)
-	   					  	 {
-	   					  	 	
-	   					  	 	return {x: 0, y:cy(t.position)}; 
-	   					  	 }
-	   					   )*/
 	   					  .on("dragstart", dragstart)
 	   					  .on("drag", dragit)
 	   					  .on("dragend", dragend),
@@ -421,7 +368,9 @@ define(['jquery','d3'], function($,d3){
 	  		
 	  		var list = svg.selectAll(".mylist")
 	  					.data(mydata)
-	  					
+	  			
+	  			
+	  		//essential that the drag is called on the same object that we translate on		
 	  		var container = list.enter()
 	  						.append("g")
 	  						.attr("class", function(d){return d.value + " listitem"})
@@ -439,7 +388,7 @@ define(['jquery','d3'], function($,d3){
 	  			.style("stroke-width", 3)
 	  			.style("fill-opacity", 1.0)	
 				.style("stroke-opacity", 1.0)
-				//.call(drag)	
+				
 	  			
 	  		container
 	  			.append("text")
@@ -451,7 +400,7 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("dy", ".3em")
 	  			.attr("font-size", function(d){return multiplier(d.position-1) * 35 + "px"})
 	  			.text(function(d){return d.value})
-	  			//.call(drag)				
+	  						
 	  		
 	  		container
 	  			.append("circle")
@@ -464,7 +413,7 @@ define(['jquery','d3'], function($,d3){
 	  			.style("stroke-width", 4)
 	  			.style("fill-opacity", 1.0)	
 				.style("stroke-opacity", 1.0)
-	  			//.call(drag)	
+	  			
 	  		
 	  		container
 						.append("circle")
@@ -477,7 +426,7 @@ define(['jquery','d3'], function($,d3){
 						.style("stroke-width", 4)
 						.style("fill-opacity", 1.0)	
 						.style("stroke-opacity", 1.0)
-						//.call(drag)	
+						
 	  		
 	  		
 	  			
