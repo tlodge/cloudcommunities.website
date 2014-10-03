@@ -26,11 +26,11 @@ define(['jquery','d3'], function($,d3){
 	  	
 		colours		 = ["#880e4f","#c2185b", "#e91e63", "#f06292", "#f8bbd0"],
 		
-		mydata = [{position: 1, value: "cgreggs"},
-				  {position: 2, value: "cbirds"}, 
-				  {position: 3, value: "casda"},
-				  {position: 4, value: "ccoop"},
-				  {position: 5, value: "ctesco"},],
+		mydata = [{position: 1, value: "dgreggs"},
+				  {position: 2, value: "dbirds"}, 
+				  {position: 3, value: "dasda"},
+				  {position: 4, value: "dcoop"},
+				  {position: 5, value: "dtesco"},],
 				  
 		margin    = {top:20, right:pointerwidth+10, bottom:20,left:35},
 		
@@ -82,7 +82,6 @@ define(['jquery','d3'], function($,d3){
 	  		startpos = (d.position - 1);
 	  		currentpos = startpos;
 	  		dragoffset = cy(mydata[startpos].position);
-	  		console.log("DRAG OFFSET IS " + dragoffset);
 	  		
 	  		draggedcontainer = d3.select("g." +  mydata[startpos].value);
 	   		
@@ -145,7 +144,7 @@ define(['jquery','d3'], function($,d3){
 			//d3.select(this)
 	  		//	.style(transform, function(d){return "translate(0px," + ydelta + "px)";})
 	  			 
-			/*neighbourcontainer.select("circle.outer")
+			neighbourcontainer.select("circle.outer")
 					//.transition()
 					//.duration(transitionduration)
 					.attr("r", multiplier(newpos) * ((height/mydata.length) / 2) - 4)
@@ -185,7 +184,7 @@ define(['jquery','d3'], function($,d3){
 					//.transition()
 					//.duration(transitionduration)
 					.attr("cy", cy(newpos))
-			*/		
+					
 			
 
 	  	},
@@ -217,12 +216,11 @@ define(['jquery','d3'], function($,d3){
 	  		maxheight = height - vcenter;
 	  		
 	  		
-	  		console.log("translate(0px," + -(dragoffset-d3.event.y) + "px)");
 	  		
   			
      		//d3.select(this)
      		draggedcontainer
-     			 .style(transform, function(d) {console.log((dragoffset-d3.event.y)); return "translate(0px," + -(dragoffset-d3.event.y) + "px)"; });
+     			 .style(transform, function(d) {return "translate(0px," + -(dragoffset-d3.event.y) + "px)"; });
 	  			 
 	  		/*draggedcontainer.select("rect")
 	   			.attr("x", d.x = 0)
