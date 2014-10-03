@@ -10,7 +10,7 @@ define(['jquery','d3'], function($,d3){
 		
 		pointerwidth = 55,
 		
-		pointerpadding = [60,0,10,50,70],
+		pointerpadding = [40,-20,-15,50,70],
 		
 		transitionduration = 300,
 		
@@ -26,7 +26,7 @@ define(['jquery','d3'], function($,d3){
 	  	
 		colours		 = ["#880e4f","#c2185b", "#e91e63", "#f06292", "#f8bbd0"],
 		
-		mydata = [{position: 1, value: "greggs", comments:['a nice comment one about greggs','a nicer comment two about greggs']},
+		mydata = [{position: 1, value: "greggs", comments:['aaaaaaass nice comment one about greggs which should also go nicely onto a new line and I can say quite a bit too which is good and this makes it all loook terribly nice so there we go and this is a really special thing I think','a nicer comment two about greggs']},
 				  {position: 2, value: "birds", comments:['a nice comment one about birds','a nicer comment two about birds']}, 
 				  {position: 3, value: "asda", comments:['a nasty comment one about asda','a nice comment two about asda']},
 				  {position: 4, value: "coop", comments:['a lovely comment one about coop','a devastating comment two about coop']},
@@ -290,7 +290,12 @@ define(['jquery','d3'], function($,d3){
 	  					.transition()
 	  					.duration(transitionduration)
 	  					.style("fill", colour(d.position-1));
-	  					
+	  		
+	  		console.log(mydata[mydata[currentpos].position-1].comments[0]);
+	  		
+	  		svg.selectAll("text.comment")
+	  					.text(mydata[mydata[currentpos].position-1].comments[0])
+	  					.call(wrap, {0:100,1:260,3:350, 4:380, 5:360, 6:180, 7:160},{5:-80,6:-90, 7:-80})			
 	   	},
 	   	
 	   	drag = d3.behavior.drag()
@@ -308,7 +313,6 @@ define(['jquery','d3'], function($,d3){
     						.append("g")
     						.attr("transform", "translate(" + (89.714286 + bubblemargin.left) + ", -1030.0007)")
     						
-    			
     			comment1
     						.append("path")
     						.attr("d", largebubble)
@@ -337,9 +341,34 @@ define(['jquery','d3'], function($,d3){
 														comment1.select("text").style("fill", colour(0));
 														})	
 							.on("click", toggleoverlay)
-			
-				
 							
+				/*comment1
+    						.append("foreignObject")
+	  						.attr("width", 380)
+	  						.attr("height", 120)
+	  						.attr("y", 1080)
+	  						.attr("x", -80)
+	  						.append("xhtml:body")
+	  						.append("xhtml:div")
+	  						.attr("class", "comment")
+	  						.attr("width", 350)
+	  						.attr("height", 120)
+	  						.append("span")
+	  						.text(mydata[startpos].comments[0])	*/
+	  			comment1
+	  					.append("g")
+	  					.attr("width", 300)
+	  					.attr("height", 200)
+	  					.attr("transform", "translate(115, -15)")
+	  					.append("text")			
+	  					.attr("class", "comment")
+	  					.attr("dy", ".3em")
+	  					.attr("y", 1080)
+	  					.attr("text-anchor", "middle")
+	  					.attr("fill", "#fff")
+	  					.text(mydata[startpos].comments[0])
+	  					.call(wrap, {0:100,1:260,3:350, 4:380, 5:360, 6:180, 7:160},{5:-80,6:-90, 7:-80})
+	  								
 				comment1
     						.append("text")
 	  						.attr("class", "label")
@@ -486,6 +515,37 @@ define(['jquery','d3'], function($,d3){
 	  			
 	  	},
 	  	
+	  	
+	  	wrap = function(text, width, xpadding) {
+	  	
+			 text.each(function() {
+			 	
+				var text = d3.select(this),
+					words = text.text().split(/\s+/).reverse(),
+					word,
+					line = [],
+					lineNumber = 0,
+					lineHeight = 1.1, // ems
+					y = text.attr("y"),
+					dy = parseFloat(text.attr("dy")),
+					tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+				while (word = words.pop()) {
+				  line.push(word);
+				  tspan.text(line.join(" "));
+				  lwidth   = width[''+lineNumber] ? width[''+lineNumber] : 300;
+				  xp       = xpadding[''+lineNumber] ? xpadding[''+lineNumber] : 0;
+				  
+				  if (tspan.node().getComputedTextLength() > lwidth) {
+					line.pop();
+					tspan.text(line.join(" "));
+					line = [word];
+					tspan = text.append("tspan").attr("x", xp).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+				  }
+				}
+			  });
+		},
+		
+		
 	  	init = function(){
 	  	
 	  		renderbubble();	
