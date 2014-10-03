@@ -26,11 +26,11 @@ define(['jquery','d3'], function($,d3){
 	  	
 		colours		 = ["#880e4f","#c2185b", "#e91e63", "#f06292", "#f8bbd0"],
 		
-		mydata = [{position: 1, value: "agreggs"},
-				  {position: 2, value: "abirds"}, 
-				  {position: 3, value: "aasda"},
-				  {position: 4, value: "acoop"},
-				  {position: 5, value: "atesco"},],
+		mydata = [{position: 1, value: "greggs", comments:['a nice comment one about greggs','a nicer comment two about greggs']},
+				  {position: 2, value: "birds", comments:['a nice comment one about birds','a nicer comment two about birds']}, 
+				  {position: 3, value: "asda", comments:['a nasty comment one about asda','a nice comment two about asda']},
+				  {position: 4, value: "coop", comments:['a lovely comment one about coop','a devastating comment two about coop']},
+				  {position: 5, value: "tesco",comments:['a nice comment one about tesco','an okish comment two about tesco']}],
 				  
 		margin    = {top:20, right:pointerwidth+10, bottom:20,left:35},
 		
@@ -307,6 +307,7 @@ define(['jquery','d3'], function($,d3){
     		var comment1 = svg
     						.append("g")
     						.attr("transform", "translate(" + (89.714286 + bubblemargin.left) + ", -1030.0007)")
+    						
     			
     			comment1
     						.append("path")
@@ -336,7 +337,8 @@ define(['jquery','d3'], function($,d3){
 														comment1.select("text").style("fill", colour(0));
 														})	
 							.on("click", toggleoverlay)
-							
+			
+				
 							
 				comment1
     						.append("text")
