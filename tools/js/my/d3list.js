@@ -24,11 +24,11 @@ define(['jquery','d3'], function($,d3){
 	  	
 		colours		 = ["#880e4f","#c2185b", "#e91e63", "#f06292", "#f8bbd0"],
 		
-		mydata = [{position: 1, value: "greggs"},
-				  {position: 2, value: "birds"}, 
-				  {position: 3, value: "asda"},
-				  {position: 4, value: "coop"},
-				  {position: 5, value: "tesco"},],
+		mydata = [{position: 1, value: "agreggs"},
+				  {position: 2, value: "abirds"}, 
+				  {position: 3, value: "aasda"},
+				  {position: 4, value: "acoop"},
+				  {position: 5, value: "atesco"},],
 				  
 		margin    = {top:20, right:pointerwidth+10, bottom:20,left:35},
 		
