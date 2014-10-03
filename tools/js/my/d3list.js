@@ -215,20 +215,19 @@ define(['jquery','d3'], function($,d3){
 	  		 	mydata.sort(function(a,b){return (a.position > b.position) ? 1 : (a.position < b.position) ? -1 : 0})
 	  		 	
 	  			startpos = currentpos;
+	  			
+	  			//selects seem to be quite expensive, so must do a minimum in the dragit function!
+	  			draggedcontainer.select("text.rank").text(mydata[currentpos].position)
 	  		}	
 	  		
-	  		vcenter   = (height/mydata.length)/2 - (rectmargin/2);
-	  		maxheight = height - vcenter;
+	  		//vcenter   = (height/mydata.length)/2 - (rectmargin/2);
+	  		//maxheight = height - vcenter;
 	  		
 	  		
-	  		
-  			
-     		//d3.select(this)
      		draggedcontainer
      			 .style(transform, function(d) {return "translate(0px," + -(dragoffset-d3.event.y) + "px)"; });
 	  		
-	  		draggedcontainer.select("text.rank") 
-	  			.text(mydata[currentpos].position)
+	  		
 	  			
 	  		/*draggedcontainer.select("rect")
 	   			.attr("x", d.x = 0)
