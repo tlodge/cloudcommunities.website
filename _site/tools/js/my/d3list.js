@@ -161,29 +161,36 @@ define(['jquery','d3'], function($,d3){
 			neighbourcontainer.select("text.rank")
 					.transition()
 					.duration(transitionduration)
-					.attr("y", function(d){return cy(newpos)})
-					.attr("font-size", function(d){return multiplier(newpos) * 35 + "px"})	
+					.attr("y", cy(newpos))
+					.attr("font-size", multiplier(newpos) * 35 + "px")	
 					.text(function(d){return newpos})
 			
 			neighbourcontainer.select("text.label")
 					.transition()
 					.duration(transitionduration)
-					.attr("y", function(d){return cy(newpos)})
-					.attr("font-size", function(d){return multiplier(newpos) * 35 + "px"})	
+					.attr("y", cy(newpos))
+					.attr("font-size", multiplier(newpos) * 35 + "px")	
 					.text(function(d){return d.value})
 						
 			neighbourcontainer.select("rect")
 					.transition()
 					.duration(transitionduration)
 					.attr("y", y(newpos))
-					.style("fill",function(d){return colour(newpos-1)})	
-					.style("stroke",function(d){return colour(newpos-1)})	
+					.style("fill",colour(newpos-1))	
+					.style("stroke",colour(newpos-1))	
 		
 			neighbourcontainer.select("g")
 					.selectAll("circle")
 					.transition()
 					.duration(transitionduration)
 					.attr("cy", cy(newpos))
+					
+			neighbourcontainer.select("g")
+					.select("line")
+	  				.attr("y1", cy(newpos))
+	  				.attr("y2", cy(newpos))	
+	  				.attr("x2", cx(newpos))	
+	  				.style("stroke", function(d){return colour(d.position-1)});
 	  	},
 	  	
 	  	dragit = function(d){
@@ -219,7 +226,10 @@ define(['jquery','d3'], function($,d3){
      		//d3.select(this)
      		draggedcontainer
      			 .style(transform, function(d) {return "translate(0px," + -(dragoffset-d3.event.y) + "px)"; });
-	  			 
+	  		
+	  		draggedcontainer.select("text.rank") 
+	  			.text(mydata[currentpos].position)
+	  			
 	  		/*draggedcontainer.select("rect")
 	   			.attr("x", d.x = 0)
 	   			.attr("y", d.y = Math.min(maxheight, Math.max(0,d3.event.y)))
