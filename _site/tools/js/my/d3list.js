@@ -6,6 +6,8 @@ define(['jquery','d3'], function($,d3){
 		
 		rectmargin = 30,
 		
+		dragoffset = -1,
+		
 		pointerwidth = 55,
 		
 		pointerpadding = [60,0,10,50,70],
@@ -24,11 +26,11 @@ define(['jquery','d3'], function($,d3){
 	  	
 		colours		 = ["#880e4f","#c2185b", "#e91e63", "#f06292", "#f8bbd0"],
 		
-		mydata = [{position: 1, value: "agreggs"},
-				  {position: 2, value: "abirds"}, 
-				  {position: 3, value: "aasda"},
-				  {position: 4, value: "acoop"},
-				  {position: 5, value: "atesco"},],
+		mydata = [{position: 1, value: "cgreggs"},
+				  {position: 2, value: "cbirds"}, 
+				  {position: 3, value: "casda"},
+				  {position: 4, value: "ccoop"},
+				  {position: 5, value: "ctesco"},],
 				  
 		margin    = {top:20, right:pointerwidth+10, bottom:20,left:35},
 		
@@ -74,10 +76,14 @@ define(['jquery','d3'], function($,d3){
 	  	},
 	  	
 	  	dragstart = function(d){
-	  		this.parentNode.appendChild(this);
+	  		//this.parentNode.appendChild(this);
+	  		
 	  		
 	  		startpos = (d.position - 1);
 	  		currentpos = startpos;
+	  		dragoffset = cy(mydata[startpos].position);
+	  		console.log("DRAG OFFSET IS " + dragoffset);
+	  		
 	  		draggedcontainer = d3.select("g." +  mydata[startpos].value);
 	   		
 	  		/*draggedcontainer.select("rect")
@@ -118,19 +124,18 @@ define(['jquery','d3'], function($,d3){
 	  		var neighbourcontainer = d3.select("g." +  mydata[pos].value);
 			var newpos = -1;
 			
-			var ydelta = -1;
 			
 			if (pos > startpos && pos > 0 && pos < mydata.length){	
 				newpos = mydata[pos].position - 1;
 				mydata[pos].position = newpos;
 				mydata[startpos].position += 1;	
-				ydelta = -(height/mydata.length);		
+				
 			}
 			else if (pos < startpos && pos >= 0 && pos < mydata.length-1){	
 				newpos = mydata[pos].position + 1;
 				mydata[pos].position = newpos;
 				mydata[startpos].position -= 1;
-				ydelta =  ((height/mydata.length) / 2) - rectmargin/2
+				
 			}
 		
 			if (newpos == -1){
@@ -212,11 +217,12 @@ define(['jquery','d3'], function($,d3){
 	  		maxheight = height - vcenter;
 	  		
 	  		
+	  		console.log("translate(0px," + -(dragoffset-d3.event.y) + "px)");
 	  		
   			
      		//d3.select(this)
      		draggedcontainer
-     			 .style(transform, function(d) {console.log((cy(d.position)-d3.event.y)); return "translate(0px," + -(cy(d.position)-d3.event.y) + "px)"; });
+     			 .style(transform, function(d) {console.log((dragoffset-d3.event.y)); return "translate(0px," + -(dragoffset-d3.event.y) + "px)"; });
 	  			 
 	  		/*draggedcontainer.select("rect")
 	   			.attr("x", d.x = 0)
@@ -258,10 +264,10 @@ define(['jquery','d3'], function($,d3){
 	   	
 	   	dragend = function(d,i){
 	   	
-	   	//	draggedcontainer
-	  	//		.style(transform, function(d){return "translate(0px," + y(mydata[currentpos].position) + "px)";})
+	   		draggedcontainer
+	  			.style(transform, function(d){return "translate(0px,0px)";})
 	  			
-	   		/*draggedcontainer.select("rect")
+	   		draggedcontainer.select("rect")
 	  				.attr("y", y(mydata[currentpos].position))	
 	  		
 	  		draggedcontainer.select("rect")
@@ -303,17 +309,17 @@ define(['jquery','d3'], function($,d3){
 	  		svg.selectAll("path")
 	  					//.transition()
 	  					//.duration(transitionduration)
-	  					.style("fill", colour(d.position-1));*/
+	  					.style("fill", colour(d.position-1));
 	  					
 	   	},
 	   	
 	   	drag = d3.behavior.drag()
-	   					  .origin(function(t)
+	   					  /*.origin(function(t)
 	   					  	 {
 	   					  	 	
 	   					  	 	return {x: 0, y:cy(t.position)}; 
 	   					  	 }
-	   					   )
+	   					   )*/
 	   					  .on("dragstart", dragstart)
 	   					  .on("drag", dragit)
 	   					  .on("dragend", dragend),
