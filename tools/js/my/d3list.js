@@ -26,11 +26,11 @@ define(['jquery','d3'], function($,d3){
 	  	
 		colours		 = ["#880e4f","#c2185b", "#e91e63", "#f06292", "#f8bbd0"],
 		
-		mydata = [{position: 1, value: "dgreggs"},
-				  {position: 2, value: "dbirds"}, 
-				  {position: 3, value: "dasda"},
-				  {position: 4, value: "dcoop"},
-				  {position: 5, value: "dtesco"},],
+		mydata = [{position: 1, value: "greggs"},
+				  {position: 2, value: "birds"}, 
+				  {position: 3, value: "asda"},
+				  {position: 4, value: "coop"},
+				  {position: 5, value: "tesco"},],
 				  
 		margin    = {top:20, right:pointerwidth+10, bottom:20,left:35},
 		
@@ -49,6 +49,8 @@ define(['jquery','d3'], function($,d3){
 	  	y = function(position){
 	  		return (position - 1) * (height/mydata.length);
 	  	},
+	  	
+	  	rectoffset = (height/mydata.length),
 	  	
 	  	cy = function(position){
 	  		return ((position - 1) * (height/mydata.length)) + ((height/mydata.length) / 2) - rectmargin/2;
@@ -85,7 +87,7 @@ define(['jquery','d3'], function($,d3){
 	  		
 	  		draggedcontainer = d3.select("g." +  mydata[startpos].value);
 	   		
-	  		/*draggedcontainer.select("rect")
+	  		draggedcontainer.select("rect")
 	  			.style("fill", highlighted(startpos))
 	  			.style("stroke", highlighted(startpos));
 	  		
@@ -114,7 +116,7 @@ define(['jquery','d3'], function($,d3){
 	  			.style("fill-opacity", 1.0)	
 	  			
 	  		pointer.selectAll("line")
-	  			.style("stroke-opacity", 1.0)	*/
+	  			.style("stroke-opacity", 1.0)	
 	  			
 	  	},
 	  	
@@ -123,74 +125,70 @@ define(['jquery','d3'], function($,d3){
 	  		var neighbourcontainer = d3.select("g." +  mydata[pos].value);
 			var newpos = -1;
 			
-			
 			if (pos > startpos && pos > 0 && pos < mydata.length){	
 				newpos = mydata[pos].position - 1;
 				mydata[pos].position = newpos;
 				mydata[startpos].position += 1;	
-				
 			}
 			else if (pos < startpos && pos >= 0 && pos < mydata.length-1){	
 				newpos = mydata[pos].position + 1;
 				mydata[pos].position = newpos;
 				mydata[startpos].position -= 1;
-				
+			
 			}
 		
 			if (newpos == -1){
 				return;
 			}
 			
-			//d3.select(this)
-	  		//	.style(transform, function(d){return "translate(0px," + ydelta + "px)";})
-	  			 
+			//individually set the x and y coords.  this is much easier than translating the g container
+			//as then would need to subsequently offset by whatever translated to.
+			
 			neighbourcontainer.select("circle.outer")
-					//.transition()
-					//.duration(transitionduration)
+					.transition()
+					.duration(transitionduration)
 					.attr("r", multiplier(newpos) * ((height/mydata.length) / 2) - 4)
 					.attr("cy", cy(newpos))
 				
 			neighbourcontainer.select("circle.inner")
-					//.transition()
-					//.duration(transitionduration)
+					.transition()
+					.duration(transitionduration)
 					.attr("r", multiplier(newpos) * ((height/mydata.length) / 2) - 7)
 					.attr("cy", cy(newpos))
 					.style("fill", "#fff")
 					.style("stroke",function(d){return colour(newpos-1)})
 		
 			neighbourcontainer.select("text.rank")
-					//.transition()
-					//.duration(transitionduration)
+					.transition()
+					.duration(transitionduration)
 					.attr("y", function(d){return cy(newpos)})
 					.attr("font-size", function(d){return multiplier(newpos) * 35 + "px"})	
 					.text(function(d){return newpos})
 			
 			neighbourcontainer.select("text.label")
-					//.transition()
-					///.duration(transitionduration)
+					.transition()
+					.duration(transitionduration)
 					.attr("y", function(d){return cy(newpos)})
 					.attr("font-size", function(d){return multiplier(newpos) * 35 + "px"})	
 					.text(function(d){return d.value})
 						
 			neighbourcontainer.select("rect")
-					//.transition()
-					//.duration(transitionduration)
+					.transition()
+					.duration(transitionduration)
 					.attr("y", y(newpos))
 					.style("fill",function(d){return colour(newpos-1)})	
 					.style("stroke",function(d){return colour(newpos-1)})	
 		
 			neighbourcontainer.select("g")
 					.selectAll("circle")
-					//.transition()
-					//.duration(transitionduration)
+					.transition()
+					.duration(transitionduration)
 					.attr("cy", cy(newpos))
-					
-			
-
 	  	},
 	  	
 	  	dragit = function(d){
 	  		
+	  		//work done in here to minimum!
 	  		
 	  		currentpos = parseInt(calcpos(d3.event.y + (height/mydata.length)/2));
 	  		
@@ -199,7 +197,7 @@ define(['jquery','d3'], function($,d3){
 	  		if(Math.abs(currentpos-startpos) >= 1){ //if there has been some kind of movement
 	  			if (currentpos > startpos){
 	  				for (var i = startpos+1; i <= currentpos; i++){
-	  					moveneighbour(i); //this is fine!
+	  					moveneighbour(i); 
 	  				}
 	  				
 	  			}else{
@@ -294,7 +292,8 @@ define(['jquery','d3'], function($,d3){
 	  		var pointer   = draggedcontainer.select("g");
 	  		
 	  		pointer.selectAll("circle")
-	  				.attr("cy", cy(mydata[currentpos].position));
+	  				.attr("cy", cy(mydata[currentpos].position))
+	  				.attr("cx", cx(mydata[currentpos].position))
 	  		
 	  		pointer.select("circle.inner")
 	  				.style("fill", function(d){return colour(d.position-1)});
@@ -302,11 +301,16 @@ define(['jquery','d3'], function($,d3){
 	  		pointer.selectAll("line")
 	  				.attr("y1", cy(mydata[currentpos].position))
 	  				.attr("y2", cy(mydata[currentpos].position))	
+	  				.attr("x2", cx(mydata[currentpos].position))	
 	  				.style("stroke", function(d){return colour(d.position-1)});
-	  				
+	  		
+	  		
+	  		
+	  			
+	  							  			
 	  		svg.selectAll("path")
-	  					//.transition()
-	  					//.duration(transitionduration)
+	  					.transition()
+	  					.duration(transitionduration)
 	  					.style("fill", colour(d.position-1));
 	  					
 	   	},
