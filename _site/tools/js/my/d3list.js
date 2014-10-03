@@ -103,6 +103,7 @@ define(['jquery','d3'], function($,d3){
 	  		
 	  		pointers.selectAll("line")
 	  			.style("stroke-opacity", 0.0)
+	  	   
 	  				
 	  		//now make the current pointer opaque	
 	  		var pointer = draggedcontainer.select("g")
@@ -179,17 +180,22 @@ define(['jquery','d3'], function($,d3){
 					.style("fill",colour(newpos-1))	
 					.style("stroke",colour(newpos-1))	
 		
+		
+			//these are currently transparent so no point in doing a transition.
 			neighbourcontainer.select("g")
 					.selectAll("circle")
-					.transition()
-					.duration(transitionduration)
 					.attr("cy", cy(newpos))
-					
+					.attr("cx", cx(newpos))
+			
 			neighbourcontainer.select("g")
-					.select("line")
+					.select("circle.inner")		
+					.style("fill",colour(newpos-1))	
+			
+			neighbourcontainer.select("g")
+					.selectAll("line")
 	  				.attr("y1", cy(newpos))
 	  				.attr("y2", cy(newpos))	
-	  				.attr("x2", cx(newpos))	
+	  				.attr("x2",  cx(newpos))
 	  				.style("stroke", function(d){return colour(d.position-1)});
 	  	},
 	  	
