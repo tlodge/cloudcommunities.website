@@ -302,16 +302,26 @@ define(['jquery','d3'], function($,d3){
 	  		
 	  		pointer.selectAll("circle")
 	  				.attr("cy", cy(mydata[currentpos].position))
+	  		
+	  		pointer.selectAll("circle")
+	  				.transition()
+	  				.duration(transitionduration)	
 	  				.attr("cx", cx(mydata[currentpos].position))
 	  		
 	  		pointer.select("circle.inner")
+	  				
 	  				.style("fill", function(d){return colour(d.position-1)});
 	  				
 	  		pointer.selectAll("line")
 	  				.attr("y1", cy(mydata[currentpos].position))
 	  				.attr("y2", cy(mydata[currentpos].position))	
-	  				.attr("x2", cx(mydata[currentpos].position))	
 	  				.style("stroke", function(d){return colour(d.position-1)});
+	  				
+	  		pointer.selectAll("line")
+	  				.transition()
+	  				.duration(transitionduration)		
+	  				.attr("x2", cx(mydata[currentpos].position))	
+	  				
 	  		
 	  		
 	  		
