@@ -78,7 +78,7 @@ define(['jquery','d3'], function($,d3){
 	  		
 	  		startpos = (d.position - 1);
 	  		currentpos = startpos;
-	  		//draggedcontainer = d3.select("g." +  mydata[startpos].value);
+	  		draggedcontainer = d3.select("g." +  mydata[startpos].value);
 	   		
 	  		/*draggedcontainer.select("rect")
 	  			.style("fill", highlighted(startpos))
@@ -213,8 +213,9 @@ define(['jquery','d3'], function($,d3){
 	  		
 	  		
 	  		
-  			//draggedcontainer
-     		d3.select(this)
+  			
+     		//d3.select(this)
+     		draggedcontainer
      			 .style(transform, function(d) {console.log((cy(d.position)-d3.event.y)); return "translate(0px," + -(cy(d.position)-d3.event.y) + "px)"; });
 	  			 
 	  		/*draggedcontainer.select("rect")
@@ -397,7 +398,7 @@ define(['jquery','d3'], function($,d3){
 	  		var container = list.enter()
 	  						.append("g")
 	  						.attr("class", function(d){return d.value + " listitem"})
-	  						
+	  						.call(drag)
 	  		container
 	  			.append("rect")
 	  			.attr("rx", 8)
@@ -411,7 +412,7 @@ define(['jquery','d3'], function($,d3){
 	  			.style("stroke-width", 3)
 	  			.style("fill-opacity", 1.0)	
 				.style("stroke-opacity", 1.0)
-				.call(drag)	
+				//.call(drag)	
 	  		
 	  		
 	  			
