@@ -413,8 +413,6 @@ define(['jquery','d3'], function($,d3){
 	  			.style("fill-opacity", 1.0)	
 				.style("stroke-opacity", 1.0)
 				//.call(drag)	
-	  		
-	  		
 	  			
 	  		container
 	  			.append("text")
