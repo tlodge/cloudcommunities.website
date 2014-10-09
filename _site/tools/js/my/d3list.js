@@ -8,7 +8,7 @@ define(['jquery','d3'], function($,d3){
 		
 		dragoffset = -1,
 		
-		pointerwidth = 45,
+		//pointerwidth = 45,
 		
 		rankwidth 	= 50,
 		
@@ -18,61 +18,68 @@ define(['jquery','d3'], function($,d3){
 		
 		draggedcontainer,
 		
-		commentwidth = 615,
+		commentwidth = 574,
 		
-		bbottom = "m -118.71798,1509.5146 c 216.260627,-7.8118 420.8483,16.4323 614.43595,-32.843 l 0,141.4093 -614.43595,0 z",
-        blarge = "m 67.282024,1420.9671 c -21.902862,-42.4701 -17.965217,-99.6193 -35.210206,-101.3155 -17.24499,-1.6961 -108.681997,-61.2786 -98.162757,-135.0924 10.519255,-73.814 82.924888,-131.2813 161.060302,-155.258 78.135497,-23.9768 193.162097,-9.8424 251.531227,61.4956 58.36914,71.3381 28.74293,143.6877 -21.01262,185.6988 -48.89349,41.2832 -154.35158,62.9144 -198.48786,67.0891 -44.136199,4.1744 -52.123545,36.4431 -59.718086,77.3824 z",
-        bsmall = "m 390.13758,1466.5885 c 14.34671,-31.4682 7.26485,-41.2372 27.91587,-50.4904 20.65099,-9.2533 73.40237,-48.4377 60.95479,-102.1563 -12.44758,-53.7184 -71.54617,-94.254 -133.07728,-110.2059 -61.53123,-15.952 -149.19809,-3.3204 -189.89857,49.9697 -40.7006,53.2901 -13.63852,105.5559 27.12123,135.2529 40.05354,29.1823 122.46823,42.873 156.67252,45.0385 34.20439,2.1657 47.57915,1.0282 50.31144,32.5915 z",
+		bbottom = "m -118.78471,1563.6424 c 201.876986,-7.519 392.8574,15.8184 573.56946,-31.6134 l 0,136.1186 -573.56946,0 z",
+           blarge = "M 29.282024,1420.9671 C 7.379162,1378.497 11.316807,1321.3478 -5.928182,1319.6516 c -17.24499,-1.6961 -108.681998,-61.2786 -98.162758,-135.0924 10.519256,-73.814 82.924889,-131.2813 161.060303,-155.258 78.135497,-23.9768 193.162097,-9.8424 251.531227,61.4956 58.36914,71.3381 28.74293,143.6877 -21.01262,185.6988 -48.89349,41.2832 -154.35158,62.9144 -198.48786,67.0891 -44.136199,4.1744 -52.123545,36.4431 -59.718086,77.3824 z",
+              bsmall = "m 316.0968,1488.6856 c 14.34671,-31.4682 7.26485,-41.2372 27.91587,-50.4904 20.65099,-9.2533 73.40237,-48.4377 60.95479,-102.1563 -12.44758,-53.7184 -71.54617,-94.254 -133.07728,-110.2059 -61.53123,-15.952 -149.19809,-3.3204 -189.898566,49.9697 -40.7006,53.2901 -13.63852,105.5559 27.121226,135.2529 40.05354,29.1823 122.46823,42.873 156.67252,45.0385 34.20439,2.1657 47.57915,1.0282 50.31144,32.5915 z",
          
-		largebubble	= "m 68.32223,1410.4308 c -20.219119,-36.46 -9.310099,-97.6009 -34.930027,-107.8203 -25.6198479,-10.2195 -92.566848,-54.5542 -82.856263,-117.9224 9.710664,-63.3683 76.550267,-112.7031 148.679211,-133.2868 72.129029,-20.5837 178.313199,-8.4496 232.195339,52.7931 53.88214,61.2427 26.5334,123.354 -19.39733,159.4198 -45.13494,35.4411 -142.4862,54.0113 -183.22957,57.595 -40.743352,3.5838 -60.240984,52.1285 -60.46136,89.2216 z",
+		largebubble	= "m 26.32223,1410.4308 c -20.219119,-36.46 -9.310099,-97.6009 -34.930027,-107.8203 -25.619848,-10.2195 -92.566843,-54.5542 -82.856263,-117.9224 9.710664,-63.3683 76.550267,-112.7031 148.679211,-133.2868 72.129029,-20.5837 178.313199,-8.4496 232.195339,52.7931 53.88214,61.2427 26.5334,123.354 -19.39733,159.4198 -45.13494,35.4411 -142.4862,54.0113 -183.22957,57.595 -40.743352,3.5838 -60.240984,52.1285 -60.46136,89.2216 z",
          
-        smallbubble	 = "m 393.5478,1449.9822 c 10.65284,-26.2562 4.58484,-49.195 22.01232,-58.0584 17.42748,-8.8635 61.0417,-43.984 47.09288,-86.2364 -13.94875,-42.2524 -67.7148,-70.6788 -122.16924,-79.2038 -54.45444,-8.5249 -129.98491,7.7108 -162.29633,53.3154 -32.31141,45.6047 -5.73345,85.6748 31.44961,106.6768 36.53882,20.638 109.02922,25.8958 138.91038,25.2551 29.88124,-0.6404 40.79014,13.1066 45.00038,38.2513 z",
+        smallbubble	 = "m 319.50702,1472.0793 c 10.65284,-26.2562 4.58484,-49.195 22.01232,-58.0584 17.42748,-8.8635 61.0417,-43.984 47.09288,-86.2364 -13.94875,-42.2524 -67.7148,-70.6788 -122.16924,-79.2038 -54.45444,-8.5249 -129.98491,7.7108 -162.29633,53.3154 -32.311406,45.6047 -5.733446,85.6748 31.44961,106.6768 36.53882,20.638 109.02922,25.8958 138.91038,25.2551 29.88124,-0.6404 40.79014,13.1066 45.00038,38.2513 z",
          
         transform = ["", "-webkit-", "-moz-", "-ms-", "-o-"].reduce(function(p, v) { return v + "transform" in document.body.style ? v : p; }) + "transform",
 	  	
 		//colours		 = ["#880e4f","#c2185b", "#e91e63", "#f06292", "#f8bbd0"],
 		
-		colours = ["#9c27b0",  "#5677fc",  "#e91e63",  "#cddc39",  "#ff5722"],
+		colours = ["#9c27b0",  "#00bcd4",  "#e91e63",  "#cddc39",  "#ff5722"],
 		
-		mydata = [{position: 1, value: "greggs", comments:['aass nice wwwwww w wwwwww WWWWWWWW  wwwwww w ww ww wwww comment one about greggs which should also go nicely onto a new line and I can say quite a bit too which is good and this makes it all loook terribly nice so there we go and this is a really a a special thing I think','a a a a very much www w ww w ww w nice nicer nicer comment two about greggs and again aaa a a aa and again wwww let us see how far we cab go today and tomorrow and the next etc etc and still we go on and on and on again it']},
+		mydata = [{position: 1, value: "greggs", comments:['aass nice wwwwww w wwwwww WWWWWWWW  wwwwww w ww ww wwww comment one about greggs which should also go nicely onto a new line and I can say quite a bit too which is good and this makes it all loook terribly nice','a a a a very much www w ww w ww w nice nicer nicer comment two about greggs and again aaa a a aa and again wwww let us see how far we cab go today and tomorrow and the']},
 				  {position: 2, value: "birds", comments:['a nice comment one about birds','a nicer comment two about birds']}, 
 				  {position: 3, value: "asda", comments:['a nasty comment one about asda','a nice comment two about asda']},
 				  {position: 4, value: "coop", comments:['a lovely comment one about coop','a devastating comment two about coop']},
 				  {position: 5, value: "tesco",comments:['a nice comment one about tesco','an okish comment two about tesco']}],
 				  
-		margin    = {top:80, right:pointerwidth+10, bottom:20,left:0},
+		margin    = {top:0, right:0, bottom:0,left:0},
 		
-		width 	  = 490 - margin.left - margin.right,
+		width 	  = 450 - margin.left - margin.right,
 		
-	  	height    = 736 - margin.top - margin.bottom,
+		// iPad mini landscape height = 806px
+	  	height    = 768 - margin.top - margin.bottom,
 		
-		bubblemargin = {top:0, left: width -40, right:0, bottom:0},
+		bubblemargin = {top:0, left: width, right:0, bottom:0},
 		
+		topbarheight = 80,
+	  	
 	  	svg  = d3.select("#list").append("svg")
 				.attr("width", width + commentwidth + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom)
 				.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
 	
+		rectheight = ((height-topbarheight)/mydata.length),
 	  			
 	  	y = function(position){
-	  		return (position - 1) * (height/mydata.length);
+	  		return ((position - 1) * rectheight);
 	  	},
 	  	
-	  	rectoffset = (height/mydata.length),
+	  	ry = function(position){
+	  		return topbarheight + ((position - 1) * rectheight)
+	  	},
+
 	  	
 	  	cy = function(position){
-	  		return ((position - 1) * (height/mydata.length)) + ((height/mydata.length)/2);
+	  		return topbarheight + ((position - 1) * rectheight) + rectheight/2;
 	  	},
 	  	
 	  
 	  	cx = function(position){
-	  		
-	  		return width + pointerwidth + pointerpadding[position-1] - ((height/mydata.length) / 2);
+	  		return width +  (rectheight / 2);
 	  	},
 	  
 	  	calcpos = function(ypos){
-	  		return Math.max(0,Math.min(mydata.length-1,(ypos/height) * mydata.length));
+	  		ypos -= topbarheight;
+	  		return Math.max(0,Math.min(mydata.length-1, ((ypos/height) * mydata.length)));
 	  	},
 	  	
 	  	colour = function(ypos){
@@ -196,13 +203,13 @@ define(['jquery','d3'], function($,d3){
 			neighbourcontainer.select("rect")
 					.transition()
 					.duration(transitionduration)
-					.attr("y", y(newpos))
+					.attr("y", ry(newpos))
 					//.style("fill",colour(newpos-1))	
 					//.style("stroke",colour(newpos-1))	
 		
 		
 			//these are currently transparent so no point in doing a transition.
-			neighbourcontainer.select("g")
+			/*neighbourcontainer.select("g")
 					.selectAll("circle")
 					.attr("cy", cy(newpos))
 					.attr("cx", cx(newpos))
@@ -216,12 +223,12 @@ define(['jquery','d3'], function($,d3){
 	  				.attr("y1", cy(newpos))
 	  				.attr("y2", cy(newpos))	
 	  				.attr("x2",  cx(newpos))
-	  				.style("stroke", function(d){return colour(d.position-1)});
+	  				.style("stroke", function(d){return colour(d.position-1)});*/
 	  	},
 	  	
 	  	dragit = function(d){
 	  		
-	  		currentpos = parseInt(calcpos(d3.event.y + (height/mydata.length)/2));
+	  		currentpos = parseInt(calcpos(d3.event.y + rectheight/2));
 	  		
 	  		//shuffle the neighbouring rects above or below down/up if position changes
 		
@@ -259,7 +266,7 @@ define(['jquery','d3'], function($,d3){
 	  			.style(transform, function(d){return "translate(0px,0px)";})
 	  			
 	   		draggedcontainer.select("rect")
-	  				.attr("y", y(mydata[currentpos].position))	
+	  				.attr("y", ry(mydata[currentpos].position))	
 	  		
 	  		//draggedcontainer.select("rect")
 	  				//.style("fill", colour(currentpos))
@@ -339,7 +346,8 @@ define(['jquery','d3'], function($,d3){
 	   					
 	   		var comments = svg
     						.append("g")
-    						.attr("transform", "translate(" + (119 + bubblemargin.left) + ", -980)");
+    						.attr("class", "comments")
+    						.attr("transform", "translate(" + (120 + bubblemargin.left) + "," +  (-980 + topbarheight) + ")");
     						
     			
     			comments.append("rect")
@@ -387,7 +395,7 @@ define(['jquery','d3'], function($,d3){
 	  					.append("g")
 	  					.attr("width", 300)
 	  					.attr("height", 200)
-	  					.attr("transform", "translate(160, -15)")
+	  					.attr("transform", "translate(120, -15)")
 	  					.append("text")			
 	  					.attr("class", "comment1")
 	  					.attr("dy", ".3em")
@@ -410,7 +418,7 @@ define(['jquery','d3'], function($,d3){
 	  					.append("g")
 	  					.attr("width", 300)
 	  					.attr("height", 200)
-	  					.attr("transform", "translate(310, 170)")
+	  					.attr("transform", "translate(240, 193)")
 	  					.append("text")			
 	  					.attr("class", "comment2")
 	  					.attr("dy", ".3em")
@@ -420,13 +428,26 @@ define(['jquery','d3'], function($,d3){
 	  					.text(mydata[startpos].comments[1])
 	  					.call(wrap, {0:150,1:240,2:260,3:280, 4:270, 5:230, 6:170, 7:100},{})
 	  								  			  	
-    		
+    			comments
+    					.append("svg:image")
+    					.attr("xlink:href", "/assets/img/buildings.png")
+    					.attr("x", -112)
+    					.attr("y", 1580)
+    					.attr("width", 560)
+    					.attr("height",83)
+    					
+    			/*comments
+    					.append("rect")
+    					.attr("x", 100)
+    					.attr("y", 1000)
+    					.attr("width", 560)
+    					.attr("height",83)
+    					.style("fill", "white")*/
 	   	},
 	     
 	  	renderlist = function(){
 	  		
 	  		var itemheight = height/mydata.length;
-	  		var titlebarheight = 80;
 	  			
 	  		titlebar = svg
 	  			.append("g")
@@ -436,9 +457,9 @@ define(['jquery','d3'], function($,d3){
 	  			.append("rect")
 	  			.attr("class","titlebar")
 	  			.attr("x", 0)
-	  			.attr("y", -margin.top)
-	  			.attr("width" , (width-pointerwidth)+commentwidth+5)
-	  			.attr("height", titlebarheight)
+	  			.attr("y", 0)
+	  			.attr("width" , width+commentwidth)
+	  			.attr("height", topbarheight)
 	  			.style("fill", "#262238")
 	  		
 	  		titlebar
@@ -446,8 +467,8 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("class", "titletext")
 	  			.attr("text-anchor", "middle")
 	  			.attr("fill", "white")
-	  			.attr("x",  ((width-pointerwidth)+commentwidth+5)/2)
-	  			.attr("y",  -margin.top + (titlebarheight/2))
+	  			.attr("x",  (width+commentwidth)/2)
+	  			.attr("y",  (topbarheight/2))
 	  			.attr("dy", ".35em")
 	  			.text("best places to buy bread")
 	  			
@@ -465,9 +486,9 @@ define(['jquery','d3'], function($,d3){
 	  		container
 	  			.append("rect")
 	  			.attr("x", function(d){return 0})
-	  			.attr("y", function(d){return (d.position - 1) * itemheight})
-	  			.attr("width" , function(d){return width-pointerwidth})
-	  			.attr("height", function(d){return itemheight})
+	  			.attr("y", function(d){return ry(d.position)})
+	  			.attr("width" , function(d){return width})
+	  			.attr("height", function(d){return rectheight})
 	  			.style("fill", function(d){return colour(d.position - 1)})
 	  			.style("stroke", function(d){return colour(d.position - 1)})
 	  			.style("stroke-width", 3)
@@ -485,7 +506,7 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("text-anchor", "middle")
 	  			.attr("fill", "white")
 	  			.attr("y", function(d){return cy(d.position)})
-	  			.attr("x", function(d){return (width-pointerwidth)/2})
+	  			.attr("x", function(d){return (width)/2})
 	  			.attr("dy", ".3em")
 	  			.attr("dx", ".8em")
 	  			.attr("font-size", function(d){return multiplier(d.position-1) * rankwidth + "px"})
@@ -499,7 +520,7 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("class", "ranking outer")
 	  			.attr("cx", rankwidth + 10)
 	  			.attr("cy", function(d){return cy(d.position)})
-	  			.attr("r", function(d){return rankwidth})
+	  			.attr("r", function(d){return rectheight/2.5})
 	  			.style("fill", "#2d213a")
 	  			.style("stroke", "#fff" )
 	  			.style("stroke-width", 2)
@@ -557,6 +578,7 @@ define(['jquery','d3'], function($,d3){
 	  			
 	  	},
 	  	
+	
 	  	
 	  	wrap = function(text, width, xpadding) {
 	  	

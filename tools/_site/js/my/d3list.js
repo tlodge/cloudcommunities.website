@@ -429,20 +429,12 @@ define(['jquery','d3'], function($,d3){
 	  					.call(wrap, {0:150,1:240,2:260,3:280, 4:270, 5:230, 6:170, 7:100},{})
 	  								  			  	
     			comments
-    					.append("svg:image")
-    					.attr("xlink:href", "assets/img/buildings.png")
-    					.attr("x", -112)
-    					.attr("y", 1580)
-    					.attr("width", 560)
-    					.attr("height",83)
-    					
-    			/*comments
-    					.append("rect")
+    					.append("svg:img")
+    					.attr("xlink:href", "img/buildings.png")
     					.attr("x", 100)
     					.attr("y", 1000)
     					.attr("width", 560)
     					.attr("height",83)
-    					.style("fill", "white")*/
 	   	},
 	     
 	  	renderlist = function(){
