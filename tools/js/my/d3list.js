@@ -430,7 +430,7 @@ define(['jquery','d3'], function($,d3){
 	  								  			  	
     			comments
     					.append("svg:image")
-    					.attr("xlink:href", "assets/img/buildings.png")
+    					.attr("xlink:href", "/assets/img/buildings.png")
     					.attr("x", -112)
     					.attr("y", 1580)
     					.attr("width", 560)
