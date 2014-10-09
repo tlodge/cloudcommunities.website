@@ -20,6 +20,8 @@ define(['jquery','d3'], function($,d3){
 		
 		commentwidth = 574,
 		
+		overlayflag   = false,
+		
 		bbottom = "m -118.78471,1563.6424 c 201.876986,-7.519 392.8574,15.8184 573.56946,-31.6134 l 0,136.1186 -573.56946,0 z",
            blarge = "M 29.282024,1420.9671 C 7.379162,1378.497 11.316807,1321.3478 -5.928182,1319.6516 c -17.24499,-1.6961 -108.681998,-61.2786 -98.162758,-135.0924 10.519256,-73.814 82.924889,-131.2813 161.060303,-155.258 78.135497,-23.9768 193.162097,-9.8424 251.531227,61.4956 58.36914,71.3381 28.74293,143.6877 -21.01262,185.6988 -48.89349,41.2832 -154.35158,62.9144 -198.48786,67.0891 -44.136199,4.1744 -52.123545,36.4431 -59.718086,77.3824 z",
               bsmall = "m 316.0968,1488.6856 c 14.34671,-31.4682 7.26485,-41.2372 27.91587,-50.4904 20.65099,-9.2533 73.40237,-48.4377 60.95479,-102.1563 -12.44758,-53.7184 -71.54617,-94.254 -133.07728,-110.2059 -61.53123,-15.952 -149.19809,-3.3204 -189.898566,49.9697 -40.7006,53.2901 -13.63852,105.5559 27.121226,135.2529 40.05354,29.1823 122.46823,42.873 156.67252,45.0385 34.20439,2.1657 47.57915,1.0282 50.31144,32.5915 z",
@@ -336,9 +338,50 @@ define(['jquery','d3'], function($,d3){
 	   					  .on("dragend", dragend),
 	   	
 	   	toggleoverlay = function(){
-
+	   			
+			overlayflag = !overlayflag;
+			
+			if (overlayflag){
+				showoverlay();
+			}else{
+				hideoverlay();
+			}
 	   	},
 	   	
+	   	hideoverlay = function(){
+	   		
+	   		overlay = svg.selectAll("g.overlay");
+	   		
+	   		overlay
+	   				.transition()
+	   				.duration(800)
+	   				.attr("transform", "translate(0," +  (-height/2) + ")");
+	   	
+	   	},
+	   	
+	   	showoverlay = function(){
+	   		console.log("in show overlay");
+	   		svg.selectAll("g.overlay").remove();
+	   	
+	   	    overlay = svg.append("g")
+	   						.attr("class", "overlay")
+	   		
+	   		overlay.append("rect")
+    					.attr("x", 0)
+    					.attr("y", -height/2)
+    					.attr("width", width+commentwidth)
+    					.attr("height", height/2)
+    					.style("fill", "#fff")
+    					.style("fill-opacity", 0.95)
+    					.style("stroke", "#262238")
+    					.style("stroke-width", 2)
+    					
+	   		overlay
+	   				.transition()
+	   				.duration(800)
+	   				.attr("transform", "translate(0," +  (height/2) + ")");
+    						
+	   	},
 	   	
 	   	renderbubble = function(){
 	   		
@@ -435,14 +478,41 @@ define(['jquery','d3'], function($,d3){
     					.attr("y", 1580)
     					.attr("width", 560)
     					.attr("height",83)
-    					
-    			/*comments
-    					.append("rect")
-    					.attr("x", 100)
-    					.attr("y", 1000)
-    					.attr("width", 560)
-    					.attr("height",83)
-    					.style("fill", "white")*/
+    			
+    			
+    			comments
+    					.append("circle")
+    					.attr("class", "addcomment")
+	   					.attr("cx", 30)
+	   					.attr("cy", 1430)
+	   					.attr("r",30)
+	   					.attr("fill", "#262238")
+	   					.attr("stroke", "white")
+	   					.attr("stroke-width", "2px")
+	   					.on("click", toggleoverlay)
+	   			
+	   			comments
+    					.append("text")
+    					.attr("text-anchor", "middle")
+	   					.attr("x", 30)
+	   					.attr("y", 1430)
+	   					.attr("dy", ".35em")
+	   					.attr("font-size", "40px")
+	   					.text("+")
+	   					.attr("fill", "white")
+	   					.on("click", toggleoverlay)
+	   			
+	   			comments
+    					.append("text")
+    					.attr("text-anchor", "middle")
+	   					.attr("x", 30)
+	   					.attr("y", 1480)
+	   					.attr("dy", ".35em")
+	   					.attr("font-size", "20px")
+	   					.text("add comment")
+	   					.attr("fill", "white")	
+	   					.on("click", toggleoverlay)	
+	   					
 	   	},
 	     
 	  	renderlist = function(){
@@ -614,10 +684,9 @@ define(['jquery','d3'], function($,d3){
 		
 		
 	  	init = function(){
-	  		
 	  		renderbubble();	
-	  	
 			renderlist();
+			
 	  	}
 
 	return {
