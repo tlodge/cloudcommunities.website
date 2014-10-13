@@ -515,7 +515,7 @@ define(['jquery','d3'], function($,d3){
 	    
 	    
 	    renderkeypad = function(){
-	    	console.log("RENDERING KEYPAD!!");
+	    	keyspressed = [];
 	    	keyradius = 40;
 	    	keys = [0,1,2,3,4,5,6,7,8,9];
 	    	
