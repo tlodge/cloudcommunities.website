@@ -8,7 +8,9 @@ define(['jquery','d3'], function($,d3){
 		
 		dragoffset = -1,
 		
-		//pointerwidth = 45,
+		dragging, transitioning,
+		
+		keyspressed  = [],
 		
 		rankwidth 	= 50,
 		
@@ -21,6 +23,12 @@ define(['jquery','d3'], function($,d3){
 		commentwidth = 574,
 		
 		overlayflag   = false,
+		
+		keypressflag = false,
+		
+		authflag = false,
+		
+		usagetimer,
 		
 		bbottom = "m -118.78471,1563.6424 c 201.876986,-7.519 392.8574,15.8184 573.56946,-31.6134 l 0,136.1186 -573.56946,0 z",
            blarge = "M 29.282024,1420.9671 C 7.379162,1378.497 11.316807,1321.3478 -5.928182,1319.6516 c -17.24499,-1.6961 -108.681998,-61.2786 -98.162758,-135.0924 10.519256,-73.814 82.924889,-131.2813 161.060303,-155.258 78.135497,-23.9768 193.162097,-9.8424 251.531227,61.4956 58.36914,71.3381 28.74293,143.6877 -21.01262,185.6988 -48.89349,41.2832 -154.35158,62.9144 -198.48786,67.0891 -44.136199,4.1744 -52.123545,36.4431 -59.718086,77.3824 z",
@@ -97,49 +105,26 @@ define(['jquery','d3'], function($,d3){
 	  	},
 	  	
 	  	dragstart = function(d){
-	  		//this.parentNode.appendChild(this);
-	  		
-	  		
+	  		window.clearTimeout(usagetimer);
+	  	
+	  		d3.event.sourceEvent.stopPropagation();
+	   		d3.event.sourceEvent.preventDefault();
+	   		
+	  		if (dragging  && d.value != dragging)
+	  			return
+	  		if (transitioning)
+				return;	
+	  		dragging = d.value;
+	  	
 	  		startpos = (d.position - 1);
 	  		currentpos = startpos;
 	  		dragoffset = cy(mydata[startpos].position);
-	  		
 	  		draggedcontainer = d3.select("g." +  mydata[startpos].value);
-	   		
-	  		//draggedcontainer.select("rect")
-	  		//	.style("fill", highlighted(startpos))
-	  		//	.style("stroke", highlighted(startpos));
-	  		
-	  		//draggedcontainer.select("circle")
-	  		//	.style("fill","#ffeb3b")
-	  		
-	  		//make any previously selected pointers transparent
-	  		var listitems = d3.selectAll("g.listitem");
-	  		
-	  		var pointers = listitems.selectAll("g")
-	  		
-	  		pointers.selectAll("circle")
-	  			.style("stroke-opacity", 0.0)	
-	  			.style("fill-opacity", 0.0)	
-	  		
-	  		pointers.selectAll("line")
-	  			.style("stroke-opacity", 0.0)
-	  	   
-	  				
-	  		//now make the current pointer opaque	
-	  		/*var pointer = draggedcontainer.select("g")
-	  		
-	  		pointer.selectAll("circle.inner")
-	  			.style("stroke-opacity", 1.0)	
-	  			.style("fill-opacity", 1.0)	
-	  		
-	  		pointer.selectAll("circle.outer")
-	  			.style("stroke-opacity", 1.0)	
-	  			.style("fill-opacity", 1.0)	
-	  			
-	  		pointer.selectAll("line")
-	  			.style("stroke-opacity", 1.0)	*/
-	  			
+	   		 
+	  	},
+	  	
+	  	endtransition = function(){
+	  		transitioning = false;
 	  	},
 	  	
 	  	moveneighbour = function(pos){
@@ -156,37 +141,24 @@ define(['jquery','d3'], function($,d3){
 				newpos = mydata[pos].position + 1;
 				mydata[pos].position = newpos;
 				mydata[startpos].position -= 1;
-			
-			}
-		
-			if (newpos == -1){
+			}else{
 				return;
 			}
-			
+		
 			//individually set the x and y coords.  this is much easier than translating the g container
 			//as then would need to subsequently offset by whatever translated to.
+			transitioning = true;
 			
-			/*neighbourcontainer.select("circle.outer")
+			neighbourcontainer.select("rect")
 					.transition()
 					.duration(transitionduration)
-					.attr("r", multiplier(newpos) * ((height/mydata.length) / 2) - 4)
-					.attr("cy", cy(newpos))*/
-				
-			/*neighbourcontainer.select("circle.inner")
-					.transition()
-					.duration(transitionduration)
-					.attr("r", multiplier(newpos) * ((height/mydata.length) / 2) - 7)
-					.attr("cy", cy(newpos))
-					.style("fill", "#fff")
-					.style("stroke",function(d){return colour(newpos-1)})*/
+					.each("end", endtransition)
+					.attr("y", ry(newpos))
 					
 			neighbourcontainer.select("circle")
 					.transition()
 					.duration(transitionduration)
-					//.attr("r", rankwidth)
 					.attr("cy", cy(newpos))
-					//.style("fill", "#fff")
-					//.style("stroke",function(d){return colour(newpos-1)})
 		
 			neighbourcontainer.select("text.rank")
 					.transition()
@@ -202,34 +174,15 @@ define(['jquery','d3'], function($,d3){
 					.attr("font-size", multiplier(newpos) * rankwidth + "px")	
 					.text(function(d){return d.value})
 						
-			neighbourcontainer.select("rect")
-					.transition()
-					.duration(transitionduration)
-					.attr("y", ry(newpos))
-					//.style("fill",colour(newpos-1))	
-					//.style("stroke",colour(newpos-1))	
-		
-		
-			//these are currently transparent so no point in doing a transition.
-			/*neighbourcontainer.select("g")
-					.selectAll("circle")
-					.attr("cy", cy(newpos))
-					.attr("cx", cx(newpos))
 			
-			neighbourcontainer.select("g")
-					.select("circle.inner")		
-					.style("fill",colour(newpos-1))	
-			
-			neighbourcontainer.select("g")
-					.selectAll("line")
-	  				.attr("y1", cy(newpos))
-	  				.attr("y2", cy(newpos))	
-	  				.attr("x2",  cx(newpos))
-	  				.style("stroke", function(d){return colour(d.position-1)});*/
+		
 	  	},
 	  	
 	  	dragit = function(d){
-	  		
+			
+			if (d.value != dragging)
+				return;
+			
 	  		currentpos = parseInt(calcpos(d3.event.y + rectheight/2));
 	  		
 	  		//shuffle the neighbouring rects above or below down/up if position changes
@@ -259,7 +212,9 @@ define(['jquery','d3'], function($,d3){
 	   			
 	   	
 	   	dragend = function(d,i){
-	   	
+	   		
+	   		if (!dragging)
+	   			return;
 	   		//reset translation to 0 and update the x,y coords.  We do a translate as its the only
 	   		//way of shifting a svg group (g) element. And is more efficient than shifting each 
 	   		//component that makes up a group element.
@@ -269,58 +224,20 @@ define(['jquery','d3'], function($,d3){
 	  			
 	   		draggedcontainer.select("rect")
 	  				.attr("y", ry(mydata[currentpos].position))	
-	  		
-	  		//draggedcontainer.select("rect")
-	  				//.style("fill", colour(currentpos))
-	  				//.style("stroke", colour(currentpos));
+	  	
 	  		
 	  	    draggedcontainer.select("circle")
 	  				.attr("cy", function(d){return cy(mydata[currentpos].position)})
-	  				//.style("fill", "#2d213a")
-	  		/*draggedcontainer.select("circle.outer")
-	  				.attr("r", multiplier(mydata[currentpos].position) * ((height/mydata.length) / 2) - 4)
 	  				
-	  				
-	  		draggedcontainer.select("circle.inner")
-	  				.attr("r", multiplier(mydata[currentpos].position) * ((height/mydata.length) / 2) - 7)
-	  				.style("fill", "#fff")
-	  				.style("stroke",function(d){return colour(d.position - 1)})*/
 	  		
 	  		draggedcontainer.selectAll("text")
 				.attr("y", function(d){return cy(mydata[currentpos].position)})
 				
-	  			//.attr("font-size", function(d){return multiplier(currentpos) * rankwidth + "px"})	
-	  		
-	  		
-	  		var pointer   = draggedcontainer.select("g");
-	  		
-	  		pointer.selectAll("circle")
-	  				.attr("cy", cy(mydata[currentpos].position))
-	  	
-	  		pointer.selectAll("circle")
-	  				.transition()
-	  				.duration(transitionduration)	
-	  				.attr("cx", cx(mydata[currentpos].position))
-	  		
-	  		pointer.select("circle.inner")
-	  				.style("fill", function(d){return colour(d.position-1)});
-	  				
-	  		pointer.selectAll("line")
-	  				.attr("y1", cy(mydata[currentpos].position))
-	  				.attr("y2", cy(mydata[currentpos].position))	
-	  				.style("stroke", function(d){return colour(d.position-1)});
-	  				
-	  		pointer.selectAll("line")
-	  				.transition()
-	  				.duration(transitionduration)		
-	  				.attr("x2", cx(mydata[currentpos].position))	
 	  						  			
 	  		svg.selectAll("path.foreground")
 	  					.transition()
 	  					.duration(transitionduration)
 	  					.style("fill",  d.colour)
-	  					// colour(d.position-1));
-	  		
 	  		
 	  		svg.selectAll("text.comment1")
 	  					.text(mydata[mydata[currentpos].position-1].comments[0])
@@ -329,7 +246,50 @@ define(['jquery','d3'], function($,d3){
 	  		svg.selectAll("text.comment2")			
 	  					.text(mydata[startpos].comments[1])
 	  					.call(wrap, {0:150,1:240,2:260,3:280, 4:270, 5:230, 6:170, 7:100},{})
-	  							
+	  		
+	  		
+	  		dragging = null;
+	  		window.clearTimeout(usagetimer);
+	  		usagetimer = window.setTimeout(renderauth, 5000);
+	  				
+	   	},
+	   	
+	   	togglekeypad = function(d){
+	    	d3.event.sourceEvent.stopPropagation();
+	   		d3.event.sourceEvent.preventDefault();
+	    	overlay = svg.selectAll('rect.authrect');
+	    	authflag = !authflag;
+	    				 
+	    	if (authflag){
+	    		overlay.transition().duration(500).style("fill-opacity", 0.8);
+	    		renderkeypad();
+	    	}
+	    	else{
+	    		svg.selectAll('g.keypad').remove();
+	    		overlay.transition().duration(500).style("fill-opacity", 0.0);
+	    	}
+	    		
+	    },	
+	    
+	  
+	   	keypressed= function(d){
+	   		
+	   		if (keypressflag)
+	   			return;
+	   		keypressflag = true;
+	   		d3.event.sourceEvent.stopPropagation();
+	   		d3.event.sourceEvent.preventDefault();
+	   		
+	   		d3.select(this)
+	   			.transition()
+	   			.duration(200)
+	   			.each("end", function(){(keypressflag = false)})
+	   			.style("fill", "#ff0000")
+	   			
+	   	  	keyspressed.push(d);
+	   		if (keyspressed.length == 4){
+	   	  		validateinput();
+	   	  	}
 	   	},
 	   	
 	   	drag = d3.behavior.drag()
@@ -337,6 +297,25 @@ define(['jquery','d3'], function($,d3){
 	   					  .on("drag", dragit)
 	   					  .on("dragend", dragend),
 	   	
+	   	overlaydrag =  d3.behavior.drag()
+	   					  .on("dragend", togglekeypad),
+	   	
+	   	keypaddrag  = d3.behavior.drag().on("dragstart", keypressed),
+	   					  
+	   	
+	   	validateinput = function(){
+	   		keyspressed = [];
+	   		svg.selectAll('g.authoverlay')
+	   				.transition()
+	   				.each("end", function(){svg.selectAll('g.authoverlay').remove()})
+	   				.duration(500)
+	   				.style("opacity", 0.0)
+	   				
+	   				
+	   		usagetimer = window.setTimeout(renderauth, 5000);
+	   	},
+	   	
+	   		  		  
 	   	toggleoverlay = function(){
 	   			
 			overlayflag = !overlayflag;
@@ -360,7 +339,7 @@ define(['jquery','d3'], function($,d3){
 	   	},
 	   	
 	   	showoverlay = function(){
-	   		console.log("in show overlay");
+	   		
 	   		svg.selectAll("g.overlay").remove();
 	   	
 	   	    overlay = svg.append("g")
@@ -514,7 +493,51 @@ define(['jquery','d3'], function($,d3){
 	   					.on("click", toggleoverlay)	
 	   					
 	   	},
-	     
+	    
+	    renderauth = function(){
+	     	
+
+	     	overlay = svg.append("g")
+	   					 .attr("class", "authoverlay")	
+	   		
+	   		overlay.append("rect")
+	   					.attr("class", "authrect")
+    					.attr("x", 0)
+    					.attr("y", 0)
+    					.attr("width", width+commentwidth)
+    					.attr("height", height)
+    					.style("fill", "#fff")
+    					.style("fill-opacity", 0.0)
+    					.call(overlaydrag)//much more responsive than click or touch!
+    					
+	    },
+	    
+	    
+	    
+	    renderkeypad = function(){
+	    	console.log("RENDERING KEYPAD!!");
+	    	keyradius = 40;
+	    	keys = [0,1,2,3,4,5,6,7,8,9];
+	    	
+	    	mykeypad = svg.selectAll('g.authoverlay')
+	    			   	  .append("g")
+	    				  .attr("class", "keypad")
+	    				  .selectAll("keys")
+	        			  .data(keys)
+	        
+	        var akey = mykeypad.enter()
+	    				.append("circle")
+						.attr("cx", function(d,i){return 400 + (((i)%3) * ((2*keyradius)+20))})
+						.attr("cy", function(d,i){return 200 + (parseInt((i)/3) * ((2*keyradius)+20))})
+						.attr("r", keyradius)
+						.style("fill", "#fff")
+						.style("fill-opacity", 1.0)
+						.style("stroke", "#262238")	
+						.call(keypaddrag)
+	    	
+	    }
+	    
+	    
 	  	renderlist = function(){
 	  		
 	  		var itemheight = height/mydata.length;
@@ -686,7 +709,7 @@ define(['jquery','d3'], function($,d3){
 	  	init = function(){
 	  		renderbubble();	
 			renderlist();
-			
+			renderauth();
 	  	}
 
 	return {
