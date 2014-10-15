@@ -1,5 +1,6 @@
 define(['jquery','d3'], function($,d3){
 
+	"use strict";
 	var 
 	
 		startpos   = 0,
@@ -32,7 +33,7 @@ define(['jquery','d3'], function($,d3){
 		
 		helptimer,
 		
-		
+		currentpos, 
 		usagetimeout = 15000,
 		helptimeout  = 7000,
 		
@@ -70,7 +71,7 @@ define(['jquery','d3'], function($,d3){
 				.attr("width", width + commentwidth + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom)
 				.append("g")
-				.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
 				
   
 		rectheight = ((height-topbarheight)/mydata.length),
@@ -302,7 +303,7 @@ define(['jquery','d3'], function($,d3){
 	   	togglekeypad = function(d){
 	    	d3.event.sourceEvent.stopPropagation();
 	   		d3.event.sourceEvent.preventDefault();
-	    	overlay = svg.selectAll('rect.authrect');
+	    	var overlay = svg.selectAll('rect.authrect');
 	    	authflag = !authflag;
 	    				 
 	    	if (authflag){
@@ -355,7 +356,7 @@ define(['jquery','d3'], function($,d3){
 	   		var rectheight = 85;
 	   		var rectwidth = 294;
 	   		
-	   		help = svg.append("g")
+	   		var help = svg.append("g")
 	   					  .attr("class", "help")
 	   					  .attr("transform", "translate(" + x + "," + y + ")")
 	   					  .style("opacity",0)
@@ -428,7 +429,7 @@ define(['jquery','d3'], function($,d3){
 	   	
 	   	hidecommentoverlay = function(){
 	   		
-	   		overlay = svg.selectAll("g.overlay");
+	   		var overlay = svg.selectAll("g.overlay");
 	   		
 	   		d3.select("textarea.form-control").remove();
     				
@@ -631,7 +632,7 @@ define(['jquery','d3'], function($,d3){
 	    renderauth = function(){
 	     	
 
-	     	overlay = svg.append("g")
+	     	var overlay = svg.append("g")
 	   					 .attr("class", "authoverlay")	
 	   		
 	   		overlay.append("rect")
@@ -650,10 +651,10 @@ define(['jquery','d3'], function($,d3){
 	    
 	    renderkeypad = function(){
 	    	keyspressed = [];
-	    	keyradius = 40;
-	    	keys = [1,2,3,4,5,6,7,8,9,0];
+	    	var keyradius = 40;
+	    	var keys = [1,2,3,4,5,6,7,8,9,0];
 	    	
-	    	mykeypad = svg.selectAll('g.authoverlay')
+	    	var mykeypad = svg.selectAll('g.authoverlay')
 	    			   	  .append("g")
 	    				  .attr("class", "keypad")
 	    				  .selectAll("keys")
@@ -694,7 +695,7 @@ define(['jquery','d3'], function($,d3){
 	  		var itemheight = height/mydata.length;
 	  					  		
 					  			
-	  		titlebar = svg
+	  		var titlebar = svg
 	  			.append("g")
 	  			
 	  			
@@ -827,10 +828,10 @@ define(['jquery','d3'], function($,d3){
 	  	
 	  	wrap = function(text, options){
 	  		
-	  		 defaultwidth 	= options.width;
-	  		 defaultpadding = options.padding;
-	  		 widths       	= options.widths;
-	  		 paddings     	= options.paddings;
+	  		 var defaultwidth 	= options.width;
+	  		 var defaultpadding = options.padding;
+	  		 var widths       	= options.widths;
+	  		 var paddings     	= options.paddings;
 	  		 
 			 text.each(function() {
 			 	
@@ -843,12 +844,12 @@ define(['jquery','d3'], function($,d3){
 					y = text.attr("y"),
 					dy = parseFloat(text.attr("dy")),
 					xp  = paddings[0] ? paddings[0] : defaultpadding;
-					tspan = text.text(null).append("tspan").attr("x", xp).attr("y", y).attr("dy", dy + "em");
+					var tspan = text.text(null).append("tspan").attr("x", xp).attr("y", y).attr("dy", dy + "em");
 				while (word = words.pop()) {
 					
 				  line.push(word);
 				  tspan.text(line.join(" "));
-				  lwidth   = widths[lineNumber] ? widths[lineNumber] : defaultwidth;
+				  var lwidth   = widths[lineNumber] ? widths[lineNumber] : defaultwidth;
 				  
 				  
 				  if (tspan.node().getComputedTextLength() > lwidth) {
