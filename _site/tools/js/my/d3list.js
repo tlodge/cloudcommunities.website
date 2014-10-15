@@ -28,14 +28,17 @@ define(['jquery','d3'], function($,d3){
 		
 		authflag = false,
 		
-		usagetimer,
+		usagetimer,helptimer
 		
+		
+		usagetimeout = 15000,
+		helptimeout  = 7000,
+		
+		helphand = "m 73.222939,186.77729 -8.81248,-21.0859 c -15.07784,-5.2247 -30.15567,-12.6427 -45.23351,-19.2242 -5.96806,-12.5023 -11.4965704,-25.0922 -15.8317204,-39.5793 1.41613,-10.8284 3.82803,-20.8881 10.1775104,-29.9671 7.82983,-1.5338 11.82762,2.0255 12.43925,6.2196 l 0.84808,21.2031 c 5.03434,3.3479 9.09714,8.9116 13.85273,11.0257 5.50212,-5.6125 2.86161,-17.2522 1.69632,-26.5746 l -15.26631,-43.5372 c 0,0 -12.0056,-17.8188 -14.13548,-29.6845 -2.40118,-13.3771 14.33867,-14.5238 18.65887,-8.1986 6.07313,8.1239 12.31969,15.874 17.24529,26.0092 l 18.65878,42.1237 c 0,0 -14.67618,-31.1068 -11.30842,-40.7102 2.28972,-6.5292 13.0927,-6.3454 14.98357,-3.1097 10.22908,18.6809 5.0736,13.0386 17.24529,38.1657 0,0 -14.69154,-24.4991 -10.74293,-33.3596 3.92335,-8.8039 15.96294,-6.0035 19.78961,1.4135 l 11.591081,28.8363 c 0,0 -7.60008,-16.9604 -2.5444,-22.6167 2.44916,-2.7402 8.34661,-3.0667 11.02567,0 7.10536,12.0906 12.87184,24.8505 16.96254,38.4484 3.94774,21.3569 3.27038,41.1721 2.82707,61.0653 3.39256,17.469 5.98541,33.1044 9.37797,43.1371 z",
 		bbottom = "m -118.78471,1563.6424 c 201.876986,-7.519 392.8574,15.8184 573.56946,-31.6134 l 0,136.1186 -573.56946,0 z",
-           blarge = "M 29.282024,1420.9671 C 7.379162,1378.497 11.316807,1321.3478 -5.928182,1319.6516 c -17.24499,-1.6961 -108.681998,-61.2786 -98.162758,-135.0924 10.519256,-73.814 82.924889,-131.2813 161.060303,-155.258 78.135497,-23.9768 193.162097,-9.8424 251.531227,61.4956 58.36914,71.3381 28.74293,143.6877 -21.01262,185.6988 -48.89349,41.2832 -154.35158,62.9144 -198.48786,67.0891 -44.136199,4.1744 -52.123545,36.4431 -59.718086,77.3824 z",
-              bsmall = "m 316.0968,1488.6856 c 14.34671,-31.4682 7.26485,-41.2372 27.91587,-50.4904 20.65099,-9.2533 73.40237,-48.4377 60.95479,-102.1563 -12.44758,-53.7184 -71.54617,-94.254 -133.07728,-110.2059 -61.53123,-15.952 -149.19809,-3.3204 -189.898566,49.9697 -40.7006,53.2901 -13.63852,105.5559 27.121226,135.2529 40.05354,29.1823 122.46823,42.873 156.67252,45.0385 34.20439,2.1657 47.57915,1.0282 50.31144,32.5915 z",
-         
+        blarge = "M 29.282024,1420.9671 C 7.379162,1378.497 11.316807,1321.3478 -5.928182,1319.6516 c -17.24499,-1.6961 -108.681998,-61.2786 -98.162758,-135.0924 10.519256,-73.814 82.924889,-131.2813 161.060303,-155.258 78.135497,-23.9768 193.162097,-9.8424 251.531227,61.4956 58.36914,71.3381 28.74293,143.6877 -21.01262,185.6988 -48.89349,41.2832 -154.35158,62.9144 -198.48786,67.0891 -44.136199,4.1744 -52.123545,36.4431 -59.718086,77.3824 z",
+        bsmall = "m 316.0968,1488.6856 c 14.34671,-31.4682 7.26485,-41.2372 27.91587,-50.4904 20.65099,-9.2533 73.40237,-48.4377 60.95479,-102.1563 -12.44758,-53.7184 -71.54617,-94.254 -133.07728,-110.2059 -61.53123,-15.952 -149.19809,-3.3204 -189.898566,49.9697 -40.7006,53.2901 -13.63852,105.5559 27.121226,135.2529 40.05354,29.1823 122.46823,42.873 156.67252,45.0385 34.20439,2.1657 47.57915,1.0282 50.31144,32.5915 z", 
 		largebubble	= "m 26.32223,1410.4308 c -20.219119,-36.46 -9.310099,-97.6009 -34.930027,-107.8203 -25.619848,-10.2195 -92.566843,-54.5542 -82.856263,-117.9224 9.710664,-63.3683 76.550267,-112.7031 148.679211,-133.2868 72.129029,-20.5837 178.313199,-8.4496 232.195339,52.7931 53.88214,61.2427 26.5334,123.354 -19.39733,159.4198 -45.13494,35.4411 -142.4862,54.0113 -183.22957,57.595 -40.743352,3.5838 -60.240984,52.1285 -60.46136,89.2216 z",
-         
         smallbubble	 = "m 319.50702,1472.0793 c 10.65284,-26.2562 4.58484,-49.195 22.01232,-58.0584 17.42748,-8.8635 61.0417,-43.984 47.09288,-86.2364 -13.94875,-42.2524 -67.7148,-70.6788 -122.16924,-79.2038 -54.45444,-8.5249 -129.98491,7.7108 -162.29633,53.3154 -32.311406,45.6047 -5.733446,85.6748 31.44961,106.6768 36.53882,20.638 109.02922,25.8958 138.91038,25.2551 29.88124,-0.6404 40.79014,13.1066 45.00038,38.2513 z",
          
         transform = ["", "-webkit-", "-moz-", "-ms-", "-o-"].reduce(function(p, v) { return v + "transform" in document.body.style ? v : p; }) + "transform",
@@ -65,8 +68,9 @@ define(['jquery','d3'], function($,d3){
 				.attr("width", width + commentwidth + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom)
 				.append("g")
-				.attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
-	
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+				
+  
 		rectheight = ((height-topbarheight)/mydata.length),
 	  			
 	  	y = function(position){
@@ -241,18 +245,57 @@ define(['jquery','d3'], function($,d3){
 	  		
 	  		svg.selectAll("text.comment1")
 	  					.text(mydata[mydata[currentpos].position-1].comments[0])
-	  					.call(wrap, {0:100,1:260,3:365, 4:365, 5:375, 6:290, 7:195, 8:190},{5:0,6:-40, 7:-75, 8: -70})
-	  					
+	  					.call(wrap, {
+	  										width: 300,
+	  										padding: 0,
+	  										widths: {0:100,1:260,3:365, 4:365, 5:375, 6:290, 7:195, 8:190},
+	  										paddings: {5:0,6:-40, 7:-75, 8: -70}
+	  								})
+	  								
 	  		svg.selectAll("text.comment2")			
 	  					.text(mydata[startpos].comments[1])
-	  					.call(wrap, {0:150,1:240,2:260,3:280, 4:270, 5:230, 6:170, 7:100},{})
+	  					.call(wrap, {
+	  										width: 300,
+	  										padding: 0,
+	  										widths: {0:150,1:240,2:260,3:280, 4:270, 5:230, 6:170, 7:100},
+	  										paddings: {}
+	  								})
 	  		
 	  		
 	  		dragging = null;
 	  		window.clearTimeout(usagetimer);
-	  		usagetimer = window.setTimeout(renderauth, 5000);
+	  		usagetimer = window.setTimeout(renderauth, usagetimeout);
 	  				
 	   	},
+	   	
+	   
+	    
+	  
+	   	keypressed= function(d){
+	   		
+	   		if (keypressflag)
+	   			return;
+	   			
+	   		keypressflag = true;
+	   		d3.event.sourceEvent.stopPropagation();
+	   		d3.event.sourceEvent.preventDefault();
+	   		
+	   		d3.selectAll("circle.keypad")
+	   			.style("fill-opacity", 0.7)
+	   			
+	   		d3.select("circle.key-" + d)
+	   			.transition()
+	   			.duration(200)
+	   			.each("end", function(){(keypressflag = false)})
+	   			.style("fill-opacity", 1.0)
+	   			
+	   			
+	   	  	keyspressed.push(d);
+	   		if (keyspressed.length == 4){
+	   	  		validateinput();
+	   	  	}
+	   	},
+	   	
 	   	
 	   	togglekeypad = function(d){
 	    	d3.event.sourceEvent.stopPropagation();
@@ -261,37 +304,16 @@ define(['jquery','d3'], function($,d3){
 	    	authflag = !authflag;
 	    				 
 	    	if (authflag){
-	    		overlay.transition().duration(500).style("fill-opacity", 0.8);
+	    		//overlay.transition().duration(500).style("fill-opacity", 0.8);
 	    		renderkeypad();
 	    	}
 	    	else{
 	    		svg.selectAll('g.keypad').remove();
-	    		overlay.transition().duration(500).style("fill-opacity", 0.0);
+	    		//overlay.transition().duration(500).style("fill-opacity", 0.0);
 	    	}
 	    		
 	    },	
 	    
-	  
-	   	keypressed= function(d){
-	   		
-	   		if (keypressflag)
-	   			return;
-	   		keypressflag = true;
-	   		d3.event.sourceEvent.stopPropagation();
-	   		d3.event.sourceEvent.preventDefault();
-	   		
-	   		d3.select(this)
-	   			.transition()
-	   			.duration(200)
-	   			.each("end", function(){(keypressflag = false)})
-	   			.style("fill", "#ff0000")
-	   			
-	   	  	keyspressed.push(d);
-	   		if (keyspressed.length == 4){
-	   	  		validateinput();
-	   	  	}
-	   	},
-	   	
 	   	drag = d3.behavior.drag()
 	   					  .on("dragstart", dragstart)
 	   					  .on("drag", dragit)
@@ -305,32 +327,109 @@ define(['jquery','d3'], function($,d3){
 	   	
 	   	validateinput = function(){
 	   		keyspressed = [];
+	   		
+	   		
 	   		svg.selectAll('g.authoverlay')
 	   				.transition()
-	   				.each("end", function(){svg.selectAll('g.authoverlay').remove()})
+	   				.each("end", function(){svg.selectAll('g.authoverlay').remove();showhelp();})
 	   				.duration(500)
 	   				.style("opacity", 0.0)
 	   				
 	   				
-	   		usagetimer = window.setTimeout(renderauth, 5000);
+	   		usagetimer = window.setTimeout(renderauth, usagetimeout);
 	   	},
 	   	
+	   	
+	   	showhelp = function(){
+	   		popuphelp(200,200, "drag rectangles to set your ranking");
+			popuphelp(600,520, "touch here to add a comment!");
+			helptimer = window.setTimeout(hidehelp, helptimeout);
+	   	}
+	   	
+	   	popuphelp = function(x,y,helptext){
+	   		
+	   		var rectx = 119;
+	   		var recty = 102;
+	   		var rectheight = 85;
+	   		var rectwidth = 294;
+	   		
+	   		help = svg.append("g")
+	   					  .attr("class", "help")
+	   					  .attr("transform", "translate(" + x + "," + y + ")")
+	   					  .style("opacity",0)
+	   		
+	   		help
+	   					.append("rect")
+	   					.attr("rx", 8)
+	   					.attr("x", rectx)
+    					.attr("y", recty)
+    					.attr("width", rectwidth)
+    					.attr("height", rectheight)
+    					.style("fill", "#045050")
+    					.style("stroke", "#fff")
+    					.style("stroke-width", 2)
+	   		
+	   		help
+    					.append("path")
+    					.attr("class", "helphand")
+    					.attr("d", helphand)
+    					.style("stroke-width", 2)
+    					.style("stroke", "#fff")
+    					.style("fill", "#008080")
+    					
+    		help
+    					.append("text")			
+	  					.attr("class", "helptext")
+	  					.attr("dy", ".35em")
+	  					.attr("y", recty + 24)
+	  					.attr("fill", "#fff")
+	  					.attr("text-anchor", "middle")
+	  					.style("font-size", "26px")
+	  					.text(helptext)
+	  					.call(wrap, {
+	  										width: rectwidth-26,
+	  										padding: 270,
+	  										widths: {},
+	  										paddings: {}
+	  								}
+	  					)
+	  		
+	  		help
+	  			.transition()			
+	   			.duration(500)
+	   			.style("opacity", 1.0);
+	   		
+	   	},
+	   	
+	   	hidehelp = function(){
+	   	
+	   		window.clearTimeout(helptimer);
+	   	
+	   		svg.selectAll("g.help")
+	   				.transition()
+	   				.each("end",function(){ svg.selectAll("g.help").remove()})
+	   				.duration(500)
+	   				.style("opacity", 0);
+	   	},
+	   
 	   		  		  
-	   	toggleoverlay = function(){
+	   	togglecommentoverlay = function(){
 	   			
 			overlayflag = !overlayflag;
 			
 			if (overlayflag){
-				showoverlay();
+				showcommentoverlay();
 			}else{
-				hideoverlay();
+				hidecommentoverlay();
 			}
 	   	},
 	   	
-	   	hideoverlay = function(){
+	   	hidecommentoverlay = function(){
 	   		
 	   		overlay = svg.selectAll("g.overlay");
 	   		
+	   		d3.select("textarea.form-control").remove();
+    				
 	   		overlay
 	   				.transition()
 	   				.duration(800)
@@ -338,8 +437,18 @@ define(['jquery','d3'], function($,d3){
 	   	
 	   	},
 	   	
-	   	showoverlay = function(){
+	   	showcommentoverlay = function(){
 	   		
+	   		
+    		d3.select("body").append("textarea")
+    					 .attr("class", "form-control")
+    					 .attr("rows", 6)
+    					 .style("margin", "20px")
+    					 .style("width",  width+commentwidth-(2*20) + "px") 
+    					 .style("resize", "none")
+    					 .style("font-size", "40px")
+    					 .style("opacity", 0.0)
+    					 		 
 	   		svg.selectAll("g.overlay").remove();
 	   	
 	   	    overlay = svg.append("g")
@@ -349,16 +458,24 @@ define(['jquery','d3'], function($,d3){
     					.attr("x", 0)
     					.attr("y", -height/2)
     					.attr("width", width+commentwidth)
-    					.attr("height", height/2)
+    					.attr("height", height/2.2)
     					.style("fill", "#fff")
     					.style("fill-opacity", 0.95)
     					.style("stroke", "#262238")
     					.style("stroke-width", 2)
-    					
+    		
+    		d3.select("textarea.form-control")
+	   				.transition()
+	   				.duration(500)
+    				.style("opacity", 1.0)
+    				
 	   		overlay
 	   				.transition()
-	   				.duration(800)
+	   				.duration(500)
+	   				.each("end", function(){})
 	   				.attr("transform", "translate(0," +  (height/2) + ")");
+    		
+    		
     						
 	   	},
 	   	
@@ -425,8 +542,15 @@ define(['jquery','d3'], function($,d3){
 	  					.attr("text-anchor", "middle")
 	  					.attr("fill", "#fff")
 	  					.text(mydata[startpos].comments[0])
-	  					.call(wrap, {0:100,1:260,3:365, 4:365, 5:375, 6:290, 7:195, 8:190},{5:0,6:-40, 7:-75, 8: -70})
-	  										  	
+	  					.call(wrap, {
+	  										width: 300,
+	  										padding: 0,
+	  										widths: {0:100,1:260,3:365, 4:365, 5:375, 6:290, 7:195, 8:190},
+	  										paddings: {5:0,6:-40, 7:-75, 8: -70}
+	  								});
+	  					
+	  					
+	  								  	
     			
     			comments
 								.append("path")
@@ -448,7 +572,15 @@ define(['jquery','d3'], function($,d3){
 	  					.attr("text-anchor", "middle")
 	  					.attr("fill", "#fff")
 	  					.text(mydata[startpos].comments[1])
-	  					.call(wrap, {0:150,1:240,2:260,3:280, 4:270, 5:230, 6:170, 7:100},{})
+	  					.call(wrap, {
+	  										width: 300,
+	  										padding: 0,
+	  										widths: {0:150,1:240,2:260,3:280, 4:270, 5:230, 6:170, 7:100},
+	  										paddings: {}
+	  										});
+	  						
+	  					
+	  				
 	  								  			  	
     			comments
     					.append("svg:image")
@@ -468,7 +600,7 @@ define(['jquery','d3'], function($,d3){
 	   					.attr("fill", "#262238")
 	   					.attr("stroke", "white")
 	   					.attr("stroke-width", "2px")
-	   					.on("click", toggleoverlay)
+	   					.on("click", togglecommentoverlay)
 	   			
 	   			comments
     					.append("text")
@@ -479,7 +611,7 @@ define(['jquery','d3'], function($,d3){
 	   					.attr("font-size", "40px")
 	   					.text("+")
 	   					.attr("fill", "white")
-	   					.on("click", toggleoverlay)
+	   					.on("click", togglecommentoverlay)
 	   			
 	   			comments
     					.append("text")
@@ -490,7 +622,7 @@ define(['jquery','d3'], function($,d3){
 	   					.attr("font-size", "20px")
 	   					.text("add comment")
 	   					.attr("fill", "white")	
-	   					.on("click", toggleoverlay)	
+	   					.on("click", togglecommentoverlay)	
 	   					
 	   	},
 	    
@@ -515,9 +647,9 @@ define(['jquery','d3'], function($,d3){
 	    
 	    
 	    renderkeypad = function(){
-	    	console.log("RENDERING KEYPAD!!");
+	    	keyspressed = [];
 	    	keyradius = 40;
-	    	keys = [0,1,2,3,4,5,6,7,8,9];
+	    	keys = [1,2,3,4,5,6,7,8,9,0];
 	    	
 	    	mykeypad = svg.selectAll('g.authoverlay')
 	    			   	  .append("g")
@@ -526,14 +658,31 @@ define(['jquery','d3'], function($,d3){
 	        			  .data(keys)
 	        
 	        var akey = mykeypad.enter()
-	    				.append("circle")
-						.attr("cx", function(d,i){return 400 + (((i)%3) * ((2*keyradius)+20))})
-						.attr("cy", function(d,i){return 200 + (parseInt((i)/3) * ((2*keyradius)+20))})
-						.attr("r", keyradius)
-						.style("fill", "#fff")
-						.style("fill-opacity", 1.0)
-						.style("stroke", "#262238")	
-						.call(keypaddrag)
+	       
+	     
+	        akey
+				.append("circle")
+				.attr("class", function(d){return "keypad key-" + d})
+				.attr("cx", function(d,i){return 400 + (((i)%3) * ((2*keyradius)+20))})
+				.attr("cy", function(d,i){return 200 + (parseInt((i)/3) * ((2*keyradius)+20))})
+				.attr("r", keyradius)
+				.style("fill", "#fff")
+				.style("fill-opacity", 0.7)
+				.style("stroke", "#262238")	
+				.style("stroke-width", "3px")
+				.call(keypaddrag)
+	    	
+	    	akey
+				.append("text")
+				.attr("x", function(d,i){return 400 + (((i)%3) * ((2*keyradius)+20))})
+				.attr("y", function(d,i){return 200 + (parseInt((i)/3) * ((2*keyradius)+20))})
+				.attr("text-anchor", "middle")
+				.attr("dy", ".35em")
+				.attr("font-size", "40px")
+				.style("fill", "#000")
+				.text(function(d){return d})
+	    		.call(keypaddrag)
+	    	
 	    	
 	    }
 	    
@@ -541,7 +690,8 @@ define(['jquery','d3'], function($,d3){
 	  	renderlist = function(){
 	  		
 	  		var itemheight = height/mydata.length;
-	  			
+	  					  		
+					  			
 	  		titlebar = svg
 	  			.append("g")
 	  			
@@ -673,8 +823,13 @@ define(['jquery','d3'], function($,d3){
 	  	
 	
 	  	
-	  	wrap = function(text, width, xpadding) {
-	  	
+	  	wrap = function(text, options){
+	  		
+	  		 defaultwidth 	= options.width;
+	  		 defaultpadding = options.padding;
+	  		 widths       	= options.widths;
+	  		 paddings     	= options.paddings;
+	  		 
 			 text.each(function() {
 			 	
 				var text = d3.select(this),
@@ -685,17 +840,18 @@ define(['jquery','d3'], function($,d3){
 					lineHeight = 1.3, // ems
 					y = text.attr("y"),
 					dy = parseFloat(text.attr("dy")),
-					tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+					xp  = paddings[0] ? paddings[0] : defaultpadding;
+					tspan = text.text(null).append("tspan").attr("x", xp).attr("y", y).attr("dy", dy + "em");
 				while (word = words.pop()) {
 					
 				  line.push(word);
 				  tspan.text(line.join(" "));
-				  lwidth   = width[lineNumber] ? width[lineNumber] : 300;
+				  lwidth   = widths[lineNumber] ? widths[lineNumber] : defaultwidth;
 				  
 				  
 				  if (tspan.node().getComputedTextLength() > lwidth) {
 				 	++lineNumber;
-				 	xp  = xpadding[lineNumber] ? xpadding[lineNumber] : 0;
+				 	xp  = paddings[lineNumber] ? paddings[lineNumber] : defaultpadding;
 					line.pop();
 					tspan.text(line.join(" "));
 					line = [word];
@@ -710,6 +866,7 @@ define(['jquery','d3'], function($,d3){
 	  		renderbubble();	
 			renderlist();
 			renderauth();
+			
 	  	}
 
 	return {
