@@ -28,7 +28,9 @@ define(['jquery','d3'], function($,d3){
 		
 		authflag = false,
 		
-		usagetimer,helptimer
+		usagetimer,
+		
+		helptimer,
 		
 		
 		usagetimeout = 15000,
@@ -344,7 +346,7 @@ define(['jquery','d3'], function($,d3){
 	   		popuphelp(200,200, "drag rectangles to set your ranking");
 			popuphelp(600,520, "touch here to add a comment!");
 			helptimer = window.setTimeout(hidehelp, helptimeout);
-	   	}
+	   	},
 	   	
 	   	popuphelp = function(x,y,helptext){
 	   		
@@ -684,7 +686,7 @@ define(['jquery','d3'], function($,d3){
 	    		.call(keypaddrag)
 	    	
 	    	
-	    }
+	    },
 	    
 	    
 	  	renderlist = function(){
