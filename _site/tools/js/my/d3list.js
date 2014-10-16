@@ -326,7 +326,8 @@ define(['jquery','d3'], function($,d3){
 	   					  .on("dragend", togglekeypad),
 	   	
 	   	keypaddrag  = d3.behavior.drag().on("dragstart", keypressed),
-	   					  
+	   	
+	   		  
 	   	
 	   	validateinput = function(){
 	   		keyspressed = [];
@@ -416,7 +417,7 @@ define(['jquery','d3'], function($,d3){
 	   	},
 	   
 	   		  		  
-	   	togglecommentoverlay = function(){
+	   	/*togglecommentoverlay = function(){
 	   			
 			overlayflag = !overlayflag;
 			
@@ -425,9 +426,13 @@ define(['jquery','d3'], function($,d3){
 			}else{
 				hidecommentoverlay();
 			}
-	   	},
+	   	},*/
 	   	
 	   	hidecommentoverlay = function(){
+	   		
+	   		if (!overlayflag)
+	   			return;
+	   		overlayflag = false;
 	   		
 	   		var overlay = svg.selectAll("g.overlay");
 	   		
@@ -442,7 +447,12 @@ define(['jquery','d3'], function($,d3){
 	   	
 	   	showcommentoverlay = function(){
 	   		
+	   		if (overlayflag){
+	   			return;
+	   		}
 	   		
+	   		overlayflag = true;	
+    		
     		d3.select("body").append("textarea")
     					 .attr("class", "form-control")
     					 .attr("rows", 6)
@@ -454,7 +464,7 @@ define(['jquery','d3'], function($,d3){
     					 		 
 	   		svg.selectAll("g.overlay").remove();
 	   	
-	   	    overlay = svg.append("g")
+	   	    var overlay = svg.append("g")
 	   						.attr("class", "overlay")
 	   		
 	   		overlay.append("rect")
@@ -466,7 +476,8 @@ define(['jquery','d3'], function($,d3){
     					.style("fill-opacity", 0.95)
     					.style("stroke", "#262238")
     					.style("stroke-width", 2)
-    		
+    					.call(commentoverlaydrag)
+    					
     		d3.select("textarea.form-control")
 	   				.transition()
 	   				.duration(500)
@@ -481,6 +492,11 @@ define(['jquery','d3'], function($,d3){
     		
     						
 	   	},
+	   	
+	   	
+	   	commentdrag = d3.behavior.drag().on("dragstart", showcommentoverlay),
+	   	commentoverlaydrag = d3.behavior.drag().on("dragstart", hidecommentoverlay),	
+	   	
 	   	
 	   	renderbubble = function(){
 	   		
@@ -603,7 +619,7 @@ define(['jquery','d3'], function($,d3){
 	   					.attr("fill", "#262238")
 	   					.attr("stroke", "white")
 	   					.attr("stroke-width", "2px")
-	   					.on("click", togglecommentoverlay)
+	   					
 	   			
 	   			comments
     					.append("text")
@@ -614,7 +630,7 @@ define(['jquery','d3'], function($,d3){
 	   					.attr("font-size", "40px")
 	   					.text("+")
 	   					.attr("fill", "white")
-	   					.on("click", togglecommentoverlay)
+	   					
 	   			
 	   			comments
     					.append("text")
@@ -625,7 +641,16 @@ define(['jquery','d3'], function($,d3){
 	   					.attr("font-size", "20px")
 	   					.text("add comment")
 	   					.attr("fill", "white")	
-	   					.on("click", togglecommentoverlay)	
+	   			
+	   			//transparent circle to increase hit size		
+	   			comments
+    					.append("circle")
+    					.attr("class", "addcomment")
+	   					.attr("cx", 30)
+	   					.attr("cy", 1430)
+	   					.attr("r",50)
+	   					.style("opacity", 0.0)	   					
+	   					.call(commentdrag)	
 	   					
 	   	},
 	    
