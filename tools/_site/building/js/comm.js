@@ -6,6 +6,7 @@ require.config({
 	 	"pusher": "../pusher/pusher.min",
 	 	"knockout" : "../knockout/knockout-3.1.0",
         "knockoutpb": "../knockout/knockout-postbox",
+        "pubnub": "//cdn.pubnub.com/pubnub.min"
     },
 
 });
