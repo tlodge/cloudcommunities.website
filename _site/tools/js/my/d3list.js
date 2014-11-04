@@ -850,6 +850,9 @@ define(['jquery','d3'], function($,d3){
 	  	},
 	  	
 	
+	  	resize = function(){
+	  		console.log("resizing!!");
+	  	},
 	  	
 	  	wrap = function(text, options){
 	  		
@@ -891,6 +894,9 @@ define(['jquery','d3'], function($,d3){
 		
 		
 	  	init = function(){
+	  		console.log($(window).height(),$(window).width())
+	  		console.log($(document).height(),$(document).width())
+	  		d3.select(window).on('resize', resize);
 	  		renderbubble();	
 			renderlist();
 			renderauth();

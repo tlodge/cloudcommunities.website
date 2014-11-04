@@ -13,15 +13,13 @@ define(['jquery','d3'], function($,d3){
 		
 		keyspressed  = [],
 		
-		rankwidth 	= 50,
-		
 		pointerpadding = [100, 20,60,80,100],
 		
 		transitionduration = 300,
 		
 		draggedcontainer,
 		
-		commentwidth = 574,
+		//commentwidth = 574,
 		
 		overlayflag   = false,
 		
@@ -36,14 +34,17 @@ define(['jquery','d3'], function($,d3){
 		currentpos, 
 		usagetimeout = 15000,
 		helptimeout  = 7000,
-		
+	
+
 		helphand = "m 73.222939,186.77729 -8.81248,-21.0859 c -15.07784,-5.2247 -30.15567,-12.6427 -45.23351,-19.2242 -5.96806,-12.5023 -11.4965704,-25.0922 -15.8317204,-39.5793 1.41613,-10.8284 3.82803,-20.8881 10.1775104,-29.9671 7.82983,-1.5338 11.82762,2.0255 12.43925,6.2196 l 0.84808,21.2031 c 5.03434,3.3479 9.09714,8.9116 13.85273,11.0257 5.50212,-5.6125 2.86161,-17.2522 1.69632,-26.5746 l -15.26631,-43.5372 c 0,0 -12.0056,-17.8188 -14.13548,-29.6845 -2.40118,-13.3771 14.33867,-14.5238 18.65887,-8.1986 6.07313,8.1239 12.31969,15.874 17.24529,26.0092 l 18.65878,42.1237 c 0,0 -14.67618,-31.1068 -11.30842,-40.7102 2.28972,-6.5292 13.0927,-6.3454 14.98357,-3.1097 10.22908,18.6809 5.0736,13.0386 17.24529,38.1657 0,0 -14.69154,-24.4991 -10.74293,-33.3596 3.92335,-8.8039 15.96294,-6.0035 19.78961,1.4135 l 11.591081,28.8363 c 0,0 -7.60008,-16.9604 -2.5444,-22.6167 2.44916,-2.7402 8.34661,-3.0667 11.02567,0 7.10536,12.0906 12.87184,24.8505 16.96254,38.4484 3.94774,21.3569 3.27038,41.1721 2.82707,61.0653 3.39256,17.469 5.98541,33.1044 9.37797,43.1371 z",
-		bbottom = "m -118.78471,1563.6424 c 201.876986,-7.519 392.8574,15.8184 573.56946,-31.6134 l 0,136.1186 -573.56946,0 z",
-        blarge = "M 29.282024,1420.9671 C 7.379162,1378.497 11.316807,1321.3478 -5.928182,1319.6516 c -17.24499,-1.6961 -108.681998,-61.2786 -98.162758,-135.0924 10.519256,-73.814 82.924889,-131.2813 161.060303,-155.258 78.135497,-23.9768 193.162097,-9.8424 251.531227,61.4956 58.36914,71.3381 28.74293,143.6877 -21.01262,185.6988 -48.89349,41.2832 -154.35158,62.9144 -198.48786,67.0891 -44.136199,4.1744 -52.123545,36.4431 -59.718086,77.3824 z",
-        bsmall = "m 316.0968,1488.6856 c 14.34671,-31.4682 7.26485,-41.2372 27.91587,-50.4904 20.65099,-9.2533 73.40237,-48.4377 60.95479,-102.1563 -12.44758,-53.7184 -71.54617,-94.254 -133.07728,-110.2059 -61.53123,-15.952 -149.19809,-3.3204 -189.898566,49.9697 -40.7006,53.2901 -13.63852,105.5559 27.121226,135.2529 40.05354,29.1823 122.46823,42.873 156.67252,45.0385 34.20439,2.1657 47.57915,1.0282 50.31144,32.5915 z", 
-		largebubble	= "m 26.32223,1410.4308 c -20.219119,-36.46 -9.310099,-97.6009 -34.930027,-107.8203 -25.619848,-10.2195 -92.566843,-54.5542 -82.856263,-117.9224 9.710664,-63.3683 76.550267,-112.7031 148.679211,-133.2868 72.129029,-20.5837 178.313199,-8.4496 232.195339,52.7931 53.88214,61.2427 26.5334,123.354 -19.39733,159.4198 -45.13494,35.4411 -142.4862,54.0113 -183.22957,57.595 -40.743352,3.5838 -60.240984,52.1285 -60.46136,89.2216 z",
-        smallbubble	 = "m 319.50702,1472.0793 c 10.65284,-26.2562 4.58484,-49.195 22.01232,-58.0584 17.42748,-8.8635 61.0417,-43.984 47.09288,-86.2364 -13.94875,-42.2524 -67.7148,-70.6788 -122.16924,-79.2038 -54.45444,-8.5249 -129.98491,7.7108 -162.29633,53.3154 -32.311406,45.6047 -5.733446,85.6748 31.44961,106.6768 36.53882,20.638 109.02922,25.8958 138.91038,25.2551 29.88124,-0.6404 40.79014,13.1066 45.00038,38.2513 z",
-         
+	    
+bbottom = {'path': [{'xcomp': [0.0], 'type': 'M', 'ycomp': [31.613400000000183]}, {'xcomp': [201.876972, 392.8574, 573.56946], 'type': 'C', 'ycomp': [24.094400000000178, 47.43180000000007, 0.0]}, {'xcomp': [573.56946, 0.0], 'type': 'L', 'ycomp': [136.11860000000001, 136.11860000000001]}], 'height': 136.11860000000001, 'width': 573.56946} ,
+
+blarge = {'path': [{'xcomp': [156.738568], 'type': 'M', 'ycomp': [452.75023999999985]}, {'xcomp': [132.8802729, 137.16946149999998, 118.38488, 99.600297, 0.0, 11.458370000000002, 22.91677, 101.786608, 186.897777, 272.00904, 397.30495, 460.88514, 524.46534, 492.19417, 437.99656, 384.73797, 269.86482, 221.78815600000001, 173.711582, 165.011148, 156.738568], 'type': 'C', 'ycomp': [406.4883399999999, 344.2373399999999, 342.3896399999999, 340.54214, 275.64014, 195.2364399999999, 114.83253999999988, 52.2346399999999, 26.117419999999925, 0.0, 15.396209999999996, 93.10303999999996, 170.81024000000002, 249.61893999999984, 295.38074000000006, 340.3496399999999, 363.91184, 368.4592399999999, 373.0063399999999, 408.15603999999985, 452.75023999999985]}], 'height': 452.75023999999985, 'width': 524.46534} ,
+bsmall = {'path': [{'xcomp': [299.33981], 'type': 'M', 'ycomp': [303.69550000000004]}, {'xcomp': [314.96735, 307.25325000000004, 329.74795, 352.24261, 409.70351, 396.14463, 382.58578, 318.21098, 251.18653, 184.16194000000002, 88.66837000000001, 44.334246, 0.0, 29.478119, 73.87679, 117.50622000000001, 207.27870000000001, 244.53667000000002, 281.79476, 296.3636, 299.33981], 'type': 'C', 'ycomp': [269.41790000000015, 258.7768000000001, 248.6975, 238.61820000000012, 195.93540000000007, 137.42100000000005, 78.90660000000003, 34.75199999999995, 17.3759, 0.0, 13.759300000000167, 71.80709999999999, 129.8547000000001, 186.78660000000013, 219.13490000000002, 250.92250000000013, 265.83540000000016, 268.1943000000001, 270.55330000000004, 269.31449999999995, 303.69550000000004]}], 'height': 303.69550000000004, 'width': 409.70351} ,
+largebubble = {'path': [{'xcomp': [138.87949], 'type': 'M', 'ycomp': [413.50418]}, {'xcomp': [116.8552596, 128.7382106, 100.830995, 72.92386499999999, 0.0, 10.57750999999999, 21.155124999999998, 93.96201299999998, 172.530465, 251.09899, 366.76306999999997, 425.45568, 484.14831, 454.35792, 404.32661, 355.16211999999996, 249.11956, 204.738713, 160.35787599999998, 139.119542, 138.87949], 'type': 'C', 'ycomp': [373.7891800000001, 307.1895800000001, 296.05797999999993, 284.92618000000004, 236.63317999999992, 167.60757999999998, 98.58208000000002, 44.84278000000006, 22.42138, 0.0, 13.217489999999998, 79.92757999999992, 146.6378800000001, 214.29437999999993, 253.5799800000001, 292.18538, 312.4132800000001, 316.31697999999994, 320.22078, 373.09957999999995, 413.50418]}], 'height': 413.50418, 'width': 484.14831} ,
+smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800000000006]}, {'xcomp': [281.387246, 274.777516, 293.760876, 312.74424600000003, 360.252226, 345.058086, 329.864026, 271.297886, 211.981876, 152.66585600000002, 70.392186, 35.196076000000005, 0.0, 28.950782000000004, 69.453466, 109.254376, 188.216546, 220.76543600000002, 253.314386, 265.197216, 269.783336], 'type': 'C', 'ycomp': [224.13760000000002, 199.15100000000007, 189.4964, 179.8415, 141.5856000000001, 95.56100000000015, 49.53650000000016, 18.572200000000066, 9.286100000000033, 0.0, 17.685300000000097, 67.36120000000005, 117.03750000000014, 160.68499999999995, 183.56200000000013, 206.04230000000007, 211.76960000000008, 211.07169999999996, 210.37429999999995, 225.34850000000006, 252.73800000000006]}], 'height': 252.73800000000006, 'width': 360.252226} ,
+        
         transform = ["", "-webkit-", "-moz-", "-ms-", "-o-"].reduce(function(p, v) { return v + "transform" in document.body.style ? v : p; }) + "transform",
 	  	
 		//colours		 = ["#880e4f","#c2185b", "#e91e63", "#f06292", "#f8bbd0"],
@@ -58,19 +59,27 @@ define(['jquery','d3'], function($,d3){
 				  
 		margin    = {top:0, right:0, bottom:0,left:0},
 		
-		width 	  = 450 - margin.left - margin.right,
+		//width 	    = 450 - margin.left - margin.right,
+		
+		width		= $(document).width() - margin.left-margin.right,
+		
+		rectwidth   = (9/20) * width,
+		
+		rankwidth 	= 50,
 		
 		// iPad mini landscape height = 806px
-	  	height    = 768 - margin.top - margin.bottom,
+	  	height    = $(document).height() - margin.top - margin.bottom,
 		
-		bubblemargin = {top:0, left: width, right:0, bottom:0},
+		bubblemargin = {top:0, left: width-rectwidth, right:0, bottom:0},
 		
 		topbarheight = 80,
 	  	
 	  	svg  = d3.select("#list").append("svg")
-				.attr("width", width + commentwidth + margin.left + margin.right)
-				.attr("height", height + margin.top + margin.bottom)
+				.attr("width", "100%")
+				.attr("height", "100%")
+				.attr("viewBox", "0 0 " + width + " " + height)
 				.append("g")
+				
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
 				
   
@@ -84,14 +93,22 @@ define(['jquery','d3'], function($,d3){
 	  		return topbarheight + ((position - 1) * rectheight)
 	  	},
 
-	  	
 	  	cy = function(position){
 	  		return topbarheight + ((position - 1) * rectheight) + rectheight/2;
 	  	},
 	  	
-	  
+		//coordinates for the horizontal middle of the rhs comment rect, given width of object to be placed
+		commentxpos = function(objwidth, fraction){
+			return rectwidth + ((width-rectwidth)*fraction) - (objwidth/2)
+		},
+		
+		//coordinates for the  vertical middle of svg under the topbar
+		commentypos = function(objheight, fraction){
+			return  topbarheight  + ((height-topbarheight)*fraction) - (objheight/2)
+		},
+		  
 	  	cx = function(position){
-	  		return width +  (rectheight / 2);
+	  		return rectwidth +  (rectheight / 2);
 	  	},
 	  
 	  	calcpos = function(ypos){
@@ -111,6 +128,21 @@ define(['jquery','d3'], function($,d3){
 	  		return 1;//0.7 + (0.3 * (1 - (ypos/mydata.length)));
 	  	},
 	  	
+	  	
+	  	generatepath = function(pobj){
+	  		return pobj.path.map(function(x){
+	  			
+	  			var xpath = $.map(x['xcomp'], function(v,i){
+	  				return [v, x['ycomp'][i]]
+	  			});
+	  		
+	  			return x.type + " " + xpath.join();
+	  		}).reduce(function(x,y){
+	  			return x + " " + y;
+	  		}) + " z";
+	  		
+	  	},
+	  
 	  	dragstart = function(d){
 	  		window.clearTimeout(usagetimer);
 	  	
@@ -354,8 +386,8 @@ define(['jquery','d3'], function($,d3){
 	   		
 	   		var rectx = 119;
 	   		var recty = 102;
-	   		var rectheight = 85;
-	   		var rectwidth = 294;
+	   		var helprectheight = 85;
+	   		var helprectwidth = 294;
 	   		
 	   		var help = svg.append("g")
 	   					  .attr("class", "help")
@@ -367,8 +399,8 @@ define(['jquery','d3'], function($,d3){
 	   					.attr("rx", 8)
 	   					.attr("x", rectx)
     					.attr("y", recty)
-    					.attr("width", rectwidth)
-    					.attr("height", rectheight)
+    					.attr("width", helprectwidth)
+    					.attr("height", helprectheight)
     					.style("fill", "#045050")
     					.style("stroke", "#fff")
     					.style("stroke-width", 2)
@@ -391,7 +423,7 @@ define(['jquery','d3'], function($,d3){
 	  					.style("font-size", "26px")
 	  					.text(helptext)
 	  					.call(wrap, {
-	  										width: rectwidth-26,
+	  										width: helprectwidth-26,
 	  										padding: 270,
 	  										widths: {},
 	  										paddings: {}
@@ -417,17 +449,6 @@ define(['jquery','d3'], function($,d3){
 	   	},
 	   
 	   		  		  
-	   	/*togglecommentoverlay = function(){
-	   			
-			overlayflag = !overlayflag;
-			
-			if (overlayflag){
-				showcommentoverlay();
-			}else{
-				hidecommentoverlay();
-			}
-	   	},*/
-	   	
 	   	hidecommentoverlay = function(){
 	   		
 	   		if (!overlayflag)
@@ -457,7 +478,7 @@ define(['jquery','d3'], function($,d3){
     					 .attr("class", "form-control")
     					 .attr("rows", 6)
     					 .style("margin", "20px")
-    					 .style("width",  width+commentwidth-(2*20) + "px") 
+    					 .style("width",  width-(2*20) + "px") 
     					 .style("resize", "none")
     					 .style("font-size", "40px")
     					 .style("opacity", 0.0)
@@ -470,7 +491,7 @@ define(['jquery','d3'], function($,d3){
 	   		overlay.append("rect")
     					.attr("x", 0)
     					.attr("y", -height/2)
-    					.attr("width", width+commentwidth)
+    					.attr("width", width)
     					.attr("height", height/2.2)
     					.style("fill", "#fff")
     					.style("fill-opacity", 0.95)
@@ -497,6 +518,12 @@ define(['jquery','d3'], function($,d3){
 	   	commentdrag = d3.behavior.drag().on("dragstart", showcommentoverlay),
 	   	commentoverlaydrag = d3.behavior.drag().on("dragstart", hidecommentoverlay),	
 	   	
+	   	xScaleFactor = function(cwidth, newwidth){
+	   		console.log("cuuernt with is " + cwidth);
+	   		console.log("new witdh is " + newwidth);
+	   		console.log("scaling x by " + parseFloat(newwidth)/parseFloat(cwidth))
+	   		return parseFloat(newwidth)/parseFloat(cwidth);
+	   	},
 	   	
 	   	renderbubble = function(){
 	   		
@@ -505,152 +532,162 @@ define(['jquery','d3'], function($,d3){
 	   		var comments = svg
     						.append("g")
     						.attr("class", "comments")
-    						.attr("transform", "translate(" + (120 + bubblemargin.left) + "," +  (-980 + topbarheight) + ")");
     						
     			
     			comments.append("rect")
-    					.attr("x", -119)
-    					.attr("y", 980)
-    					.attr("width", commentwidth)
-    					.attr("height", height)
+    					.attr("x", rectwidth)
+    					.attr("y", topbarheight)
+    					.attr("width", width-rectwidth)
+    					.attr("height", height-topbarheight)
     					.style("fill", "#262238")
     					.style("fill-opacity", 0.8)
-    								
+    			
+    			var xtrans = (width-rectwidth) - bbottom.width;
+    			console.log(xtrans);
     			comments
     						.append("path")
-    						.attr("class", "bubbleback")
-    						.attr("d", bbottom)
+    						.attr("class", "commentfooter")
+    						.attr("d", generatepath(bbottom))
     					  	.style("stroke-width", 2)
     					  	.style("stroke", "#fff")
     					  	.style("fill", "#262238")
-    					  				
-    			comments
-    						.append("path")
-    						.attr("class", "bubbleback")
-    						.attr("d", blarge)
-    					  	.style("stroke-width", 10)
-    					  	.style("stroke", "#262238")
-    					  	.style("fill", "#262238")
-    					  	
-				
-    			comments
-    						.append("path")
-    						.attr("class", "bubbleback")
-    						.attr("d", bsmall)
-    					  	.style("stroke-width", 10)
-    					  	.style("stroke", "#262238")
-    					  	.style("fill", "#262238")	
+    					  	.attr("transform", "translate(" + rectwidth + "," +  (height-bbottom.height) + "),"  + "scale(" + 	xScaleFactor(bbottom.width, (width-rectwidth)) + ",1.0)" )
+    					  			
+    						
+    			
     			
     			comments
-								.append("path")
-								.attr("class", "foreground")
-								.attr("d", largebubble)
-								.style("stroke-width", 2)
-								.style("stroke", "#fff")
-								.style("fill", colour(0))		
+					.append("path")
+					.attr("class", "bubbleback")
+					.attr("d", generatepath(blarge))
+					.style("stroke-width", 10)
+					.style("stroke", "#262238")
+					.style("fill", "#262238")
+					.attr("transform", "translate(" + commentxpos(blarge.width,0.5) + "," + commentypos(blarge.height,0.35) + ")");
+								
+    			comments
+					.append("path")
+					.attr("class", "bubbleback")
+					.attr("d", generatepath(bsmall))
+					.style("stroke-width", 10)
+					.style("stroke", "#262238")
+					.style("fill", "#262238")	
+					.attr("transform", "translate(" + commentxpos(bsmall.width,0.6) + "," + commentypos(bsmall.height, 0.55) + ")");
+    						
+    			comments
+					.append("path")
+					.attr("class", "foreground")
+					.attr("d", generatepath(largebubble))
+					.style("stroke-width", 2)
+					.style("stroke", "#fff")
+					.style("fill", colour(0))		
+					.attr("transform", "translate(" + commentxpos(largebubble.width,0.5) + "," + commentypos(largebubble.height,0.35) + ")");
+								
+    			comments
+					.append("path")
+					.attr("class", "foreground")
+					.attr("d", generatepath(smallbubble))
+					.style("stroke-width", 2)
+					.style("stroke", "#fff")
+					.style("fill", colour(0))	
+					.attr("transform", "translate(" + commentxpos(smallbubble.width,0.6) + "," + commentypos(smallbubble.height, 0.55) + ")");
 				
 				comments
-	  					.append("g")
-	  					.attr("width", 300)
-	  					.attr("height", 200)
-	  					.attr("transform", "translate(120, -15)")
-	  					.append("text")			
-	  					.attr("class", "comment1")
-	  					.attr("dy", ".3em")
-	  					.attr("y", 1080)
-	  					.attr("text-anchor", "middle")
-	  					.attr("fill", "#fff")
-	  					.text(mydata[startpos].comments[0])
-	  					.call(wrap, {
-	  										width: 300,
-	  										padding: 0,
-	  										widths: {0:100,1:260,3:365, 4:365, 5:375, 6:290, 7:195, 8:190},
-	  										paddings: {5:0,6:-40, 7:-75, 8: -70}
-	  								});
+					.append("g")
+					.attr("width", 300)
+					.attr("height", 200)
+					.attr("transform", "translate(120, -15)")
+					.append("text")			
+					.attr("class", "comment1")
+					.attr("dy", ".3em")
+					.attr("y", 1080)
+					.attr("text-anchor", "middle")
+					.attr("fill", "#fff")
+					.text(mydata[startpos].comments[0])
+					.call(wrap, {
+										width: 300,
+										padding: 0,
+										widths: {0:100,1:260,3:365, 4:365, 5:375, 6:290, 7:195, 8:190},
+										paddings: {5:0,6:-40, 7:-75, 8: -70}
+								});
 	  					
 	  					
 	  								  	
     			
-    			comments
-								.append("path")
-								.attr("class", "foreground")
-								.attr("d", smallbubble)
-								.style("stroke-width", 2)
-								.style("stroke", "#fff")
-								.style("fill", colour(0))	
+    			
 								
 				comments
-	  					.append("g")
-	  					.attr("width", 300)
-	  					.attr("height", 200)
-	  					.attr("transform", "translate(240, 193)")
-	  					.append("text")			
-	  					.attr("class", "comment2")
-	  					.attr("dy", ".3em")
-	  					.attr("y", 1080)
-	  					.attr("text-anchor", "middle")
-	  					.attr("fill", "#fff")
-	  					.text(mydata[startpos].comments[1])
-	  					.call(wrap, {
-	  										width: 300,
-	  										padding: 0,
-	  										widths: {0:150,1:240,2:260,3:280, 4:270, 5:230, 6:170, 7:100},
-	  										paddings: {}
-	  										});
-	  						
-	  					
+					.append("g")
+					.attr("width", 300)
+					.attr("height", 200)
+					.attr("transform", "translate(240, 193)")
+					.append("text")			
+					.attr("class", "comment2")
+					.attr("dy", ".3em")
+					.attr("y", 1080)
+					.attr("text-anchor", "middle")
+					.attr("fill", "#fff")
+					.text(mydata[startpos].comments[1])
+					.call(wrap, {
+										width: 300,
+										padding: 0,
+										widths: {0:150,1:240,2:260,3:280, 4:270, 5:230, 6:170, 7:100},
+										paddings: {}
+										});
+						
+					
 	  				
 	  								  			  	
     			comments
-    					.append("svg:image")
-    					.attr("xlink:href", "/assets/img/buildings.png")
-    					.attr("x", -112)
-    					.attr("y", 1580)
-    					.attr("width", 560)
-    					.attr("height",83)
+					.append("svg:image")
+					.attr("xlink:href", "/assets/img/buildings.png")
+					.attr("x", -112)
+					.attr("y", 1580)
+					.attr("width", 560)
+					.attr("height",83)
     			
     			
     			comments
-    					.append("circle")
-    					.attr("class", "addcomment")
-	   					.attr("cx", 30)
-	   					.attr("cy", 1430)
-	   					.attr("r",30)
-	   					.attr("fill", "#262238")
-	   					.attr("stroke", "white")
-	   					.attr("stroke-width", "2px")
+					.append("circle")
+					.attr("class", "addcomment")
+					.attr("cx", 30)
+					.attr("cy", 1430)
+					.attr("r",30)
+					.attr("fill", "#262238")
+					.attr("stroke", "white")
+					.attr("stroke-width", "2px")
 	   					
 	   			
 	   			comments
-    					.append("text")
-    					.attr("text-anchor", "middle")
-	   					.attr("x", 30)
-	   					.attr("y", 1430)
-	   					.attr("dy", ".35em")
-	   					.attr("font-size", "40px")
-	   					.text("+")
-	   					.attr("fill", "white")
+					.append("text")
+					.attr("text-anchor", "middle")
+					.attr("x", 30)
+					.attr("y", 1430)
+					.attr("dy", ".35em")
+					.attr("font-size", "40px")
+					.text("+")
+					.attr("fill", "white")
 	   					
 	   			
 	   			comments
-    					.append("text")
-    					.attr("text-anchor", "middle")
-	   					.attr("x", 30)
-	   					.attr("y", 1480)
-	   					.attr("dy", ".35em")
-	   					.attr("font-size", "20px")
-	   					.text("add comment")
-	   					.attr("fill", "white")	
+					.append("text")
+					.attr("text-anchor", "middle")
+					.attr("x", 30)
+					.attr("y", 1480)
+					.attr("dy", ".35em")
+					.attr("font-size", "20px")
+					.text("add comment")
+					.attr("fill", "white")	
 	   			
 	   			//transparent circle to increase hit size		
 	   			comments
-    					.append("circle")
-    					.attr("class", "addcomment")
-	   					.attr("cx", 30)
-	   					.attr("cy", 1430)
-	   					.attr("r",50)
-	   					.style("opacity", 0.0)	   					
-	   					.call(commentdrag)	
+					.append("circle")
+					.attr("class", "addcomment")
+					.attr("cx", 30)
+					.attr("cy", 1430)
+					.attr("r",50)
+					.style("opacity", 0.0)	   					
+					.call(commentdrag)	
 	   					
 	   	},
 	    
@@ -664,7 +701,7 @@ define(['jquery','d3'], function($,d3){
 	   					.attr("class", "authrect")
     					.attr("x", 0)
     					.attr("y", 0)
-    					.attr("width", width+commentwidth)
+    					.attr("width", width)
     					.attr("height", height)
     					.style("fill", "#fff")
     					.style("fill-opacity", 0.0)
@@ -729,7 +766,7 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("class","titlebar")
 	  			.attr("x", 0)
 	  			.attr("y", 0)
-	  			.attr("width" , width+commentwidth)
+	  			.attr("width" , width)
 	  			.attr("height", topbarheight)
 	  			.style("fill", "#262238")
 	  		
@@ -738,7 +775,7 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("class", "titletext")
 	  			.attr("text-anchor", "middle")
 	  			.attr("fill", "white")
-	  			.attr("x",  (width+commentwidth)/2)
+	  			.attr("x",  (width)/2)
 	  			.attr("y",  (topbarheight/2))
 	  			.attr("dy", ".35em")
 	  			.text("best places to buy bread")
@@ -758,7 +795,7 @@ define(['jquery','d3'], function($,d3){
 	  			.append("rect")
 	  			.attr("x", function(d){return 0})
 	  			.attr("y", function(d){return ry(d.position)})
-	  			.attr("width" , function(d){return width})
+	  			.attr("width" , function(d){return rectwidth})
 	  			.attr("height", function(d){return rectheight})
 	  			.style("fill", function(d){return colour(d.position - 1)})
 	  			.style("stroke", function(d){return colour(d.position - 1)})
@@ -777,7 +814,7 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("text-anchor", "middle")
 	  			.attr("fill", "white")
 	  			.attr("y", function(d){return cy(d.position)})
-	  			.attr("x", function(d){return (width)/2})
+	  			.attr("x", function(d){return (rectwidth)/2})
 	  			.attr("dy", ".3em")
 	  			.attr("dx", ".8em")
 	  			.attr("font-size", function(d){return multiplier(d.position-1) * rankwidth + "px"})
@@ -808,50 +845,40 @@ define(['jquery','d3'], function($,d3){
 	  			.attr("dy", ".4em")
 	  			.style("fill", "white")
 	  			.attr("font-size", function(d){return multiplier(d.position-1) * rankwidth + "px"})
-	  			.text(function(d){return d.position})
-	  			
-	  				
-	  		/*var pointer = container
-	  			.append("g")
-
-	  		
-	  		pointer.append("circle")
-	  			.attr("class", "outer")
-	  			.attr("cx", function(d){return cx(d.position)})//return width + pointerwidth - (itemheight / 2) })
-	  			.attr("cy", function(d){return cy(d.position)})
-	  			.attr("r", function(d){return ((height/mydata.length) / 2)})
-	  			.style("fill", "#262238")
-	  			.style("stroke", "#fff")
-	  			.style("stroke-width", 4)
-	  			.style("stroke-opacity", 0.0)	
-	  			.style("fill-opacity", 0.0)	
-	  			
-	  		pointer.append("circle")
-	  			.attr("class", "inner")
-	  			.attr("cx", function(d){return cx(d.position)})//width + pointerwidth - ((height/mydata.length) / 2) })
-	  			.attr("cy", function(d){return cy(d.position)})
-	  			.attr("r", function(d){return ((height/mydata.length) / 4)})
-	  			.style("fill", function(d){return colour(d.position - 1)})
-	  			.style("stroke", "#fff")
-	  			.style("stroke-width", 8)
-	  			.style("stroke-opacity", 0.0)	
-	  			.style("fill-opacity", 0.0)	
-	  		
-	  		pointer.append("line")
-	  			.attr("y1", function(d){return cy(d.position)})
-				.attr("x1", function(d){return width - pointerwidth})
-				.attr("y2", function(d){return cy(d.position)})
-				.attr("x2", function(d){return cx(d.position)  })
-	  			.style("stroke", function(d){return colour(d.position - 1)})
-	  			.style("stroke-width", 3)
-	  			.style("stroke-opacity", 0.0)*/
-	  		
-	  			
+	  			.text(function(d){return d.position})	
 	  	},
 	  	
 	
-	  	resize = function(){
+	  	resize = function(x){
 	  		console.log("resizing!!");
+	  		resizeall();
+	  	},
+	  	
+	  	resizeall = function(){
+	  	/*	var newwidth  = $(window).width() - margin.left-margin.right;
+	  		var newheight = $(window).height() - margin.top - margin.bottom;
+	  		var scaleX = 0.0;
+	  		var scaleY = 0.0;
+	  		
+	  		scaleX = parseFloat(newwidth)/width;
+	  		scaleY = parseFloat(newheight)/height;
+	  			
+	  		
+	  		console.log("scale x is " + scaleX);
+	  		console.log("scale y is " + scaleY);
+	  		
+	  		var overall = d3.select("svg")
+	  		
+	  		var topcontainer = overall.select("g");
+	  		width = newwidth;
+	  		height = newheight;
+	  		
+	  		//topcontainer
+	  		//	.attr("transform", "scale(" + scaleX + "," + scaleY + ")")
+	  		
+	  		overall
+	  			.attr("width", width) 
+	  			.attr("height", height)	*/
 	  	},
 	  	
 	  	wrap = function(text, options){
@@ -897,10 +924,11 @@ define(['jquery','d3'], function($,d3){
 	  		console.log($(window).height(),$(window).width())
 	  		console.log($(document).height(),$(document).width())
 	  		d3.select(window).on('resize', resize);
-	  		renderbubble();	
+	  		
+	  		
 			renderlist();
 			renderauth();
-			
+			renderbubble();	
 	  	}
 
 	return {
