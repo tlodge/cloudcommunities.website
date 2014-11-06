@@ -16,24 +16,26 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 		apartmentdata 	  = {},
 		
 		roomdata		  = {},
-		
+		floordata		  = {},
 		flooroverlays 		= [],
 		apartmentpaths	  	= [],
 		maxwidths  			= [],
 		maxheights			= [],
 		apartmentrects	 	= [],
+		visiblerooms		= [],
 		
 		margin    = {top:10, right:0, bottom:0, left:20},
 
 	  	height    = $(document).height() - margin.top - margin.bottom,
 		
 	  	width    = $(document).width() - margin.left - margin.right,
-	  	
-	  	MAXROWS	 = 3,
-	  	
+	  
+	  	MAXCOLS  =  4,
+	  		
 	  	TRANSITIONDURATION = 1500,
 	  	
 	  	selectedfloors = [],
+	  	selectedrooms  = [],
 	  	
 	  	buildingwidth = 0,
 	  	
@@ -43,7 +45,6 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 	  	
 	  	layoutpadding  = 10,
 	  	
-	  
 	  	svg  = d3.select("#building").append("svg")
 				.attr("width", width)
 				.attr("height", height)
@@ -51,8 +52,75 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 				.append("g")
 				.attr("class", "building")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
-				
-  
+		
+		dragmove = function(d){
+		
+  			visiblerooms.forEach(function(room, i){
+  				var coords = room.coords;
+  				var x = d3.event.x;
+  				var y = d3.event.y;
+  				if ( (x >= coords.x && x <= coords.x+coords.width) && (y >= coords.y && y <= coords.y + coords.height)){
+  					d3.select("rect.room_" + room.id).style("fill", "red");
+  					visiblerooms.splice(i, 1);
+  					selectedrooms.push(room);
+  				}
+  			});
+  		},
+  		
+  		dragstart = function(d){
+			//generate all of the rooms that may drag into!
+			visiblerooms = [];
+			selectedrooms = [];
+			
+			d3.selectAll("rect.room").style("fill", function(d){return colour(d.data)})
+			
+			//apply the translation/scale coords to the coordinates to match coordinate systems 
+			//match between the x,y mouse and svg coords
+			
+			var rc  = rowscols(selectedfloors.length);
+			
+  			//could this live in a domain/range function...?
+			selectedfloors.forEach(function(floor,i){
+				floordata[floor.id].rooms.forEach(function(room){
+					
+					var rd = $.extend(true,{},roomdata[room.name]); //create a deep copy of roomdata
+					var scale = scalefactor(rc.cols,rc.rows,indexforid(floor.id));
+					
+					
+					var tx = ax(i,rc.rows,rc.cols) + layoutpadding;
+					var ty = cy(i, rc.rows,rc.cols,indexforid(floor.id));
+					
+					//scale
+					rd.coords.x *= scale;
+					rd.coords.y *= scale;
+					rd.coords.width *= scale;
+					rd.coords.height *= scale;
+					
+					//translate
+					rd.coords.x += tx;
+					rd.coords.y += ty;	
+					visiblerooms.push(rd);
+				});
+			});
+			
+			
+  		},
+  		
+  		dragend = function(d){
+
+  			selectedfloors = [];
+  			renderfloors();
+  			d3.selectAll("rect.window").style("fill-opacity", 0.0)
+  			renderrooms();
+  		},
+  		
+		drag = d3.behavior.drag()
+	   					  .on("drag", dragmove)
+						   .on("dragend", dragend)
+						   .on("dragstart", dragstart),
+  		
+  		
+	  	
   		ax = function(idx, rows,cols){
   			return ((idx % cols) * maxaspect(cols,rows)) + buildingwidth + apartmentpadding;
   		},
@@ -66,13 +134,41 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   			//y + height/2 - half height of (scaled) floorplan
   			return (Math.floor(i / cols) * maxaspect(cols,rows))  + (maxaspect(cols,rows)/2) - ((scalefactor(cols, rows, floorno) * maxheights[floorno])/2);
   		},
+  		
+  		
+  		maxrows = function(itemcount){
+  			var ratio = Math.floor(width/height);
+	  		return  Math.max(1,Math.floor(itemcount/ratio));	  	
+	  	},
+	  	
+  		rowscols = function(totalitems){
+  			if (totalitems == 0)
+  				return {rows:1,cols:1}
+  				
+  			//var rows = 	 Math.max(1,Math.floor(totalitems / maxrows(totalitems)));
+  			//var cols =   Math.ceil(totalitems / rows);
+  		
+  			var cols = 	 Math.max(1,Math.floor(totalitems / maxrows(totalitems)));
+  			var rows =   Math.ceil(totalitems / cols);
+  			
+  			//if rows != cols, work out which will give the largest aspect ratio!
+  			
+  			if ( maxaspect(cols,rows) < maxaspect(rows,cols)){
+  				var tmp = cols
+  				cols = rows;
+  				rows = tmp;
+  			}
+  			
+  			return {cols:cols, rows:rows};
+  		},
+  		
+  		
+  		
   			
   		renderbuilding = function(){
+  								
   			
-  			svg.append("g").attr("class","floors");
-  			svg.append("g").attr("class","flooroverlays");
-  			svg.append("g").attr("class","apartmentdetail");	
-  				
+  			//should use update/enter/exit with this
   				
   			//flatten data to matrix
 			// [
@@ -112,7 +208,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   				.enter()
   				.append("g")
   				.attr("class", function(d){return "floor"});
-  			
+  				
   			renderfloors();	
   			
   			var floor = floors
@@ -134,14 +230,15 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   						.data(flooroverlays)
   						.enter()
   						.append("rect")
-  						.attr("class", function(d){return "floor"+d.id})
+  						.attr("class", function(d){return "floor floor"+d.id})
   						.attr("x", function(d){return d.bounds.minx})
   						.attr("y", function(d){return d.bounds.miny})
   						.attr("width", function(d){return  (d.bounds.maxx-d.bounds.minx)})		
   						.attr("height", function(d){return (d.bounds.maxy-d.bounds.miny)})
   						.style("fill", "#d78242")
   						.style("fill-opacity", 0)
-  						.on("click", floorclicked);	
+  						.on("click", floorclicked)
+  							
   		},
   		
 		//pass in x,y width and height params here..
@@ -251,8 +348,6 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   			
   			//reset all room colours for ths floor
   			
-  			
-  				
   			if (item.data && item.data.type=="room"){		
   			
   				d3.select("g.floor_" + floor.id)
@@ -266,7 +361,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   		},
   		
   		renderdetail = function(){
-  			var rows = Math.ceil(6 / MAXROWS);
+  			var rows = Math.ceil(6 / MAXCOLS);
   			var cols = Math.ceil(6 / rows);
   			
   			var detail = svg.select("g.apartmentdetail")
@@ -317,12 +412,12 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   		renderfloor = function(){
   			 
   			 
-  			var rows = Math.ceil(6 / MAXROWS);
+  			var rows = Math.ceil(6 / MAXCOLS);
   			var cols = Math.ceil(6 / rows);
   			
   			var floorplans = svg.selectAll("g.floorcontainer")
   								.data(selectedfloors, function(d,i){return d.id})
-  			
+  								
   			var apartments  	= svg.select("g.apartmentdetail")
   								.selectAll("g.floorlabel")
   								.data(selectedfloors, function(d,i){return d.id})				
@@ -334,13 +429,13 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   					  .attr("y",function(d,i){return ay(i,rows,cols)})	
   					  .attr("width",  maxaspect(cols,rows) - (2*apartmentpadding))
   					  .attr("height", maxaspect(cols,rows) - (2*apartmentpadding))
-  			
+  						
   			apartments.select("circle")
   					.transition()
   					.duration(TRANSITIONDURATION)
   					.attr("cx",function(d,i){return ax(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))/2 })
 					.attr("cy",function(d,i){return ay(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))})
-						
+					
 			
 			apartments.select("text")
   					.transition()
@@ -368,22 +463,39 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   		
   		},
   		
+  		
+  		renderrooms = function(){
+  
+  			var rooms  	= svg.select("g.apartmentdetail")
+  							 .selectAll("g.room")
+  							 .data(selectedrooms, function(d,i){return d.id})
+  								 
+  			var rc = rowscols(selectedrooms.length);
+  			
+  			var room = rooms
+						.enter()
+						
+			room.append("rect")
+				.attr("class", "apartment")
+				.attr("x",function(d,i){return ax(i,rc.rows,rc.cols)})
+				.attr("y",function(d,i){return ay(i,rc.rows,rc.cols)})	
+				.attr("width", maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))
+				.attr("height", maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))	
+				.style("stroke-width", 1)
+				.style("stroke", "black")
+				.style("fill", "#d78242")
+				.style("fill-opacity", 0)					 
+  		},
+  		
   		renderfloors = function(){	
   			
 			d3.selectAll("g.detail").remove();
 			
   			var labelradius = 15;
-  			var rows = Math.ceil(selectedfloors.length / MAXROWS);
-  			var cols = Math.ceil(selectedfloors.length / rows);
   			
-  			//if rows != cols, work out which will give the largest aspect ratio!
   			
-  			if ( maxaspect(cols,rows) < maxaspect(rows,cols)){
-  				var tmp = cols
-  				cols = rows;
-  				rows = tmp;
-  			}
-  		
+  			var rc = rowscols(selectedfloors.length);
+  			
   			
   			var floordisplaywidth = width - buildingwidth - 30;
   				
@@ -402,28 +514,28 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   			apartments.select("rect")
   				  	  .transition()
   					  .duration(TRANSITIONDURATION)
-  					  .attr("x",function(d,i){return ax(i,rows,cols)})
-  					  .attr("y",function(d,i){return ay(i,rows,cols)})	
-  					  .attr("width",  maxaspect(cols,rows) - (2*apartmentpadding))
-  					  .attr("height", maxaspect(cols,rows) - (2*apartmentpadding))
+  					  .attr("x",function(d,i){return ax(i,rc.rows,rc.cols)})
+  					  .attr("y",function(d,i){return ay(i,rc.rows,rc.cols)})	
+  					  .attr("width",  maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))
+  					  .attr("height", maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))
   			
   			apartments.select("circle")
   					.transition()
   					.duration(TRANSITIONDURATION)
-  					.attr("cx",function(d,i){return ax(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))/2 })
-					.attr("cy",function(d,i){return ay(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))})	
+  					.attr("cx",function(d,i){return ax(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))/2 })
+					.attr("cy",function(d,i){return ay(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))})	
 			
 			apartments.select("text")
   					.transition()
   					.duration(TRANSITIONDURATION)
-  					.attr("x",function(d,i){return ax(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))/2 })
-					.attr("y",function(d,i){return ay(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))})	
+  					.attr("x",function(d,i){return ax(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))/2 })
+					.attr("y",function(d,i){return ay(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))})	
 	  		
 	  		
 	  		//use i to get paths!		
   			floorplans.transition()
   					  .duration(TRANSITIONDURATION)
-  					  .attr("transform", function(d,i){return "translate(" + (ax(i,rows,cols) + layoutpadding) + "," +  cy(i,rows,cols,indexforid(d.id)) + "),scale("+ scalefactor(cols,rows,indexforid(d.id)) + ")"})
+  					  .attr("transform", function(d,i){return "translate(" + (ax(i,rc.rows,rc.cols) + layoutpadding) + "," +  cy(i,rc.rows,rc.cols,indexforid(d.id)) + "),scale("+ scalefactor(rc.cols,rc.rows,indexforid(d.id)) + ")"})
   					
 		
 			var apt = apartments
@@ -433,10 +545,10 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 				
 				apt.append("rect")
 					.attr("class", "floorplan")
-					.attr("x",function(d,i){return ax(i,rows,cols)})
-					.attr("y",function(d,i){return ay(i,rows,cols)})	
-					.attr("width", maxaspect(cols,rows) - (2*apartmentpadding))
-					.attr("height", maxaspect(cols,rows) - (2*apartmentpadding))	
+					.attr("x",function(d,i){return ax(i,rc.rows,rc.cols)})
+					.attr("y",function(d,i){return ay(i,rc.rows,rc.cols)})	
+					.attr("width", maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))
+					.attr("height", maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))	
 					.style("stroke-width", 1)
 					.style("stroke", "black")
 					.style("fill", "#d78242")
@@ -444,8 +556,8 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 						
 				apt.append("circle")
 					.attr("class", "floorlabel")
-					.attr("cx",function(d,i){return ax(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))/2})
-					.attr("cy",function(d,i){return ay(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))})	
+					.attr("cx",function(d,i){return ax(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))/2})
+					.attr("cy",function(d,i){return ay(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))})	
 					.attr("r", labelradius)
 					.style("stroke-width", 1)
 					.style("stroke", "black")
@@ -454,8 +566,8 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 				apt.append("text")
 					.attr("class", "floortext")
 					.attr("dy", ".35em")
-	  				.attr("x",function(d,i){return ax(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))/2})
-					.attr("y",function(d,i){return ay(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))})	
+	  				.attr("x",function(d,i){return ax(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))/2})
+					.attr("y",function(d,i){return ay(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))})	
 	  				.attr("fill", "#000")
 	  				.attr("text-anchor", "middle")
 	  				.style("font-size", "26px")
@@ -466,7 +578,8 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 					.enter()
 					.append("g")
 					.attr("class", function(d){return "floorcontainer" + " floor_" + d.id})
-					.attr("transform", function(d,i){return "translate(" + (ax(i,rows,cols) + layoutpadding) + "," +  cy(i, rows,cols,indexforid(d.id)) + "),scale("+ scalefactor(cols,rows,indexforid(d.id)) + ")"})
+					.attr("transform", function(d,i){return "translate(" + (ax(i,rc.rows,rc.cols) + layoutpadding) + "," +  cy(i, rc.rows,rc.cols,indexforid(d.id)) + "),scale("+ scalefactor(rc.cols,rc.rows,indexforid(d.id)) + ")"})
+  					.call(drag);
   					
 		detail.selectAll("paths")
 					.data(function(d,i){return apartmentpaths[parseInt(d.id)-1]})
@@ -487,6 +600,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 												}
 												return "floorplan";
 											   })
+											   
     				.attr("x",function(d,i){return d.x})
 					.attr("y",function(d,i){return d.y})	
 					.attr("width", function(d){return d.width})
@@ -518,6 +632,13 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 	  		var screenwidth  = $(document).width();
 	  		var screenheight = $(document).height();
 	  		var bottompadding = 30;
+	  		
+	  		
+	  		svg.append("g").attr("class","floors");
+  			svg.append("g").attr("class","flooroverlays");
+  			svg.append("g").attr("class","apartmentdetail")
+  							.call(drag);
+  							
 	  		d3.json("data/building.json", function(error, json) {
   				if (error) return console.warn(error);
   				buildingdata = json.floors;
@@ -626,15 +747,30 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   					
   					//should do maxheights too so that we can center in container!
   					
-  					d3.json("data/roomdata.json", function(error, json){
+  					d3.json("data/floordata.json", function(error, json){
   						if(error)
   							console.warn(error);
   						
-  						roomdata = json;		
+  						floordata = json;
   						
-  						//attach local ids to each room
-  						Object.keys(roomdata).forEach(function(room, i){
-  							roomdata[room]["id"] = i;
+  						//generate data for looking up rooms
+  						//first get all svg data in the svg json (apartmentrects)
+  						
+  						apartmentrects.forEach(function(rects){
+  							rects.forEach(function(item){
+  								if (item.data.type == "room"){
+  									roomdata[item.data.name] = {"coords":{x:item.x,y:item.y,width:item.width,height:item.height}};
+  								}
+  							});
+  						});
+  						
+  						//now add additional (non-svg) metadata to roomdata
+  						Object.keys(floordata).forEach(function(floor){
+  							floordata[floor].rooms.forEach(function(room){
+  								for (var attrname in room){
+  									roomdata[room.name][attrname] = room[attrname];
+  								}
+  							});
   						});
   						
   						renderbuilding();
