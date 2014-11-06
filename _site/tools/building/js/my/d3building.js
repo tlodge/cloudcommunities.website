@@ -136,18 +136,17 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   		},
   		
   		
-  		maxrows = function(itemcount){
-  			var ratio = Math.floor(width/height);
-	  		return  Math.max(1,Math.floor(itemcount/ratio));	  	
+  		maxrows = function(itemcount){	
+  			var ratio = width/height;
+  			return Math.ceil(Math.sqrt( itemcount / ratio ));
+  			
+	  		//return  Math.max(1,Math.ceil(itemcount/ratio));	  	
 	  	},
 	  	
   		rowscols = function(totalitems){
   			if (totalitems == 0)
   				return {rows:1,cols:1}
-  				
-  			//var rows = 	 Math.max(1,Math.floor(totalitems / maxrows(totalitems)));
-  			//var cols =   Math.ceil(totalitems / rows);
-  		
+  			
   			var cols = 	 Math.max(1,Math.floor(totalitems / maxrows(totalitems)));
   			var rows =   Math.ceil(totalitems / cols);
   			
@@ -158,7 +157,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   				cols = rows;
   				rows = tmp;
   			}
-  			
+  			console.log({cols:cols, rows:rows});
   			return {cols:cols, rows:rows};
   		},
   		
