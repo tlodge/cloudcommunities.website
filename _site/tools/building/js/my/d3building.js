@@ -44,7 +44,33 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 	  	apartmentpadding = 10,
 	  	
 	  	layoutpadding  = 10,
-	  	
+	  
+  		lastcontrolx   = 0,
+  		
+  		controldragdir = 1,
+  		
+  		dragfloormove = function(d){
+  			
+  			var x = d3.event.x - margin.left;
+  			var y = d3.event.y - margin.top;
+  					
+  			flooroverlays.filter(function(item){
+  				return selectedfloors.indexOf(item) == -1;
+  			}).forEach(function(d){
+  				var bounds = d.bounds;
+  	
+  				if ( (x >= bounds.minx && x <= bounds.maxx) && (y >= bounds.miny && y <= bounds.maxy)){
+  					
+  					floorclicked(d);
+  					//d3.selectAll("rect.window" + d.id).style("fill-opacity", 1.0);
+  				} 	
+  			});
+  		},
+  		
+  		
+	  	dragfloors = d3.behavior.drag()
+  						   .on("drag", dragfloormove),
+								   		   
 	  	svg  = d3.select("#building").append("svg")
 				.attr("width", width)
 				.attr("height", height)
@@ -52,7 +78,8 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 				.append("g")
 				.attr("class", "building")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
-		
+				
+				
 		dragmove = function(d){
 		
   			visiblerooms.forEach(function(room, i){
@@ -107,18 +134,57 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   		},
   		
   		dragend = function(d){
-
-  			selectedfloors = [];
-  			renderfloors();
-  			d3.selectAll("rect.window").style("fill-opacity", 0.0)
-  			renderrooms();
+			if (selectedrooms.length > 0){
+  				selectedfloors = [];
+  				renderfloors();
+  				d3.selectAll("rect.window").style("fill-opacity", 0.0)
+  				renderrooms();
+  			}
   		},
   		
-		drag = d3.behavior.drag()
+  		
+  		dragcontrolstart = function(d){
+  			
+  		},
+  		
+  		dragcontrolmove = function(d){
+  			
+  			//d3.select("g.overlaycontrol").attr("transform", "translate(0," + (d3.event.y) + ")");
+  			
+  			
+  			controldragdir = (lastcontrolx > d3.event.x) ? 1:-1;
+  			lastcontrolx = d3.event.x;
+  		},
+  		
+  		dragcontrolend = function(d){
+  			
+  			var xtrans = 0
+  			var barwidth = (width/20);
+  			if(controldragdir == -1){
+  				xtrans = barwidth; 
+  			}else{
+  				xtrans = 0;
+  			}
+  			
+  			d3.select("g.overlaycontrol")
+  				.transition()
+  				.duration(500)
+  				.attr("transform", "translate(" + xtrans +",0)");
+  			lastcontrolx = 0;
+  			
+  		},
+  		
+  		
+  		
+		dragrooms = d3.behavior.drag()
 	   					  .on("drag", dragmove)
 						   .on("dragend", dragend)
 						   .on("dragstart", dragstart),
   		
+  		dragcontrol = d3.behavior.drag()
+	   					  .on("drag", dragcontrolmove)
+						   .on("dragend", dragcontrolend)
+						   .on("dragstart", dragcontrolstart),
   		
 	  	
   		ax = function(idx, rows,cols){
@@ -157,7 +223,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   				cols = rows;
   				rows = tmp;
   			}
-  			console.log({cols:cols, rows:rows});
+  			
   			return {cols:cols, rows:rows};
   		},
   		
@@ -237,7 +303,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   						.style("fill", "#d78242")
   						.style("fill-opacity", 0)
   						.on("click", floorclicked)
-  							
+  						.call(dragfloors)
   		},
   		
 		//pass in x,y width and height params here..
@@ -333,7 +399,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   		 	return "white";
   		},
   		
-  		selectfloor = function(floor){
+  		/*selectfloor = function(floor){
   			
 			d3.selectAll("rect.window").style("fill-opacity", 0);
 			d3.selectAll("rect.window"+floor.id).style("fill-opacity", 1);
@@ -357,9 +423,9 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   				
   	  		}
 
-  		},
+  		},*/
   		
-  		renderdetail = function(){
+  		/*renderdetail = function(){
   			var rows = Math.ceil(6 / MAXCOLS);
   			var cols = Math.ceil(6 / rows);
   			
@@ -406,9 +472,9 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   				.duration(TRANSITIONDURATION)
   				.attr("opacity", 1.0)
   				
-  		},
+  		},*/
   		
-  		renderfloor = function(){
+  		/*renderfloor = function(){
   			 
   			 
   			var rows = Math.ceil(6 / MAXCOLS);
@@ -460,7 +526,67 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   					  .exit()
   					  .remove()
   		
-  		},
+  		},*/
+  		
+  		
+  		
+  		rendercontrol = function(){
+  			var barwidth = width/20;
+  			
+  			var circleradius = (barwidth/2.5);
+  			var paddingtop = 30;
+  			var buttons = ["one", "two", "three", "four"];
+  			var rightmargin = barwidth;
+  			var controlbar = d3.select("g.overlaycontrol")
+  			var xpos = (width - margin.right - margin.left) - rightmargin;
+  			var xtrans = barwidth
+  			
+  			
+  			controlbar
+  								.append("circle")
+  								.attr("cx", xpos+2)
+  								.attr("cy",height/2)
+  								.attr("r",20)
+  								.style("fill","#30363c")
+  								.style("fill-opacity",0.8)
+  								//.style("stroke", "#30363c")
+  								.call(dragcontrol)
+  								
+  			controlbar			.append("rect")
+  								.attr("class","controlrect")
+  								.attr("x", xpos)
+  								.attr("y",0)
+  								.attr("width",barwidth)
+  								.attr("height",height)
+  								.style("fill","#30363c")//"#e9af7d")
+  								.style("fill-opacity",1)
+  								
+  			/*controlbar			.append("rect")
+  								.attr("class","controlborder")
+  								.attr("x", xpos-2)
+  								.attr("y",0)
+  								.attr("width",barwidth/15)
+  								.attr("height",height)
+  								.style("fill","#30363c")
+  								.style("fill-opacity",0.6)*/
+  			
+  			
+  			controlbar
+  					.attr("transform", "translate(" + xtrans + ",0)");
+  			
+  			
+  			/*controlbar
+  						.selectAll("button")
+  						.data(buttons)
+  						.enter()
+  						.append("circle")
+  						.attr("cx", function(d){return xpos + (barwidth/2)})
+  						.attr("cy", function(d,i){return 30 + ((height-30)/buttons.length) * i })
+  						.attr("r", circleradius)
+  						.style("fill", "#fbefe3")
+  						.style("stroke","white")
+  						.style("stroke-width", 2);*/
+  		},	
   		
   		
   		renderrooms = function(){
@@ -489,6 +615,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   		renderfloors = function(){	
   			
 			d3.selectAll("g.detail").remove();
+			d3.selectAll("rect.apartment").remove();
 			
   			var labelradius = 15;
   			
@@ -578,7 +705,6 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 					.append("g")
 					.attr("class", function(d){return "floorcontainer" + " floor_" + d.id})
 					.attr("transform", function(d,i){return "translate(" + (ax(i,rc.rows,rc.cols) + layoutpadding) + "," +  cy(i, rc.rows,rc.cols,indexforid(d.id)) + "),scale("+ scalefactor(rc.cols,rc.rows,indexforid(d.id)) + ")"})
-  					.call(drag);
   					
 		detail.selectAll("paths")
 					.data(function(d,i){return apartmentpaths[parseInt(d.id)-1]})
@@ -607,7 +733,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
     				.style("stroke-width", 1)
 					.style("stroke", "black")
 					.style("fill", function(d){return colour(d.data)})
-					.on("click", function(d,i){flooritemclicked(d,d3.select(this.parentNode).datum())})	
+					//.on("click", function(d,i){flooritemclicked(d,d3.select(this.parentNode).datum())})	
 		
 		
     		//remove old!	  
@@ -634,9 +760,14 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 	  		
 	  		
 	  		svg.append("g").attr("class","floors");
+	  		
   			svg.append("g").attr("class","flooroverlays");
+  									
   			svg.append("g").attr("class","apartmentdetail")
-  							.call(drag);
+  							.call(dragrooms);
+  			
+  			svg.append("g").attr("class","overlaycontrol")
+  							.call(dragcontrol);
   							
 	  		d3.json("data/building.json", function(error, json) {
   				if (error) return console.warn(error);
@@ -774,6 +905,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   						
   						renderbuilding();
   						renderapartments();
+  						rendercontrol();
   					});
 				});
 			});
