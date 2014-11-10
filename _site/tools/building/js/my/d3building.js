@@ -1,4 +1,4 @@
-define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/){
+define(['jquery','d3', 'd3menu', 'util', 'pusher' /*'pubnub'*/], function($,d3,menu,util,pusher /*,pubnub*/){
 
 	"use strict";
 	var 
@@ -45,9 +45,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 	  	
 	  	layoutpadding  = 10,
 	  
-  		lastcontrolx   = 0,
   		
-  		controldragdir = 1,
   		
   		dragfloormove = function(d){
   			
@@ -143,37 +141,8 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   		},
   		
   		
-  		dragcontrolstart = function(d){
-  			
-  		},
   		
-  		dragcontrolmove = function(d){
-  			
-  			//d3.select("g.overlaycontrol").attr("transform", "translate(0," + (d3.event.y) + ")");
-  			
-  			
-  			controldragdir = (lastcontrolx > d3.event.x) ? 1:-1;
-  			lastcontrolx = d3.event.x;
-  		},
-  		
-  		dragcontrolend = function(d){
-  			
-  			var xtrans = 0
-  			var barwidth = (width/20);
-  			if(controldragdir == -1){
-  				xtrans = barwidth; 
-  			}else{
-  				xtrans = 0;
-  			}
-  			
-  			d3.select("g.overlaycontrol")
-  				.transition()
-  				.duration(500)
-  				.attr("transform", "translate(" + xtrans +",0)");
-  			lastcontrolx = 0;
-  			
-  		},
-  		
+
   		
   		
 		dragrooms = d3.behavior.drag()
@@ -181,10 +150,6 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
 						   .on("dragend", dragend)
 						   .on("dragstart", dragstart),
   		
-  		dragcontrol = d3.behavior.drag()
-	   					  .on("drag", dragcontrolmove)
-						   .on("dragend", dragcontrolend)
-						   .on("dragstart", dragcontrolstart),
   		
 	  	
   		ax = function(idx, rows,cols){
@@ -306,21 +271,6 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   						.call(dragfloors)
   		},
   		
-		//pass in x,y width and height params here..
-  		generatepath = function(pobj){
-	  		return pobj.path.map(function(x){
-	  			
-	  			var xpath = $.map(x['xcomp'], function(v,i){
-	  				return [v, x['ycomp'][i]]
-	  			});
-	  		
-	  			return x.type + " " + xpath.join();
-	  		}).reduce(function(x,y){
-	  			return x + " " + y;
-	  		}) + " z";
-	  	},
-  	
-  		
   		renderapartments = function(){
   			
   			var paths = apartmentdata.filter(function(item){
@@ -334,7 +284,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   			
   			
   			paths.forEach(function(path){
-  				var pathstr = generatepath(path);
+  				var pathstr = util.generatepath(path);
   				
   				/*var apartment = svg.select("g")	
   								  
@@ -530,63 +480,6 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   		
   		
   		
-  		rendercontrol = function(){
-  			var barwidth = width/20;
-  			
-  			var circleradius = (barwidth/2.5);
-  			var paddingtop = 30;
-  			var buttons = ["one", "two", "three", "four"];
-  			var rightmargin = barwidth;
-  			var controlbar = d3.select("g.overlaycontrol")
-  			var xpos = (width - margin.right - margin.left) - rightmargin;
-  			var xtrans = barwidth
-  			
-  			
-  			controlbar
-  								.append("circle")
-  								.attr("cx", xpos+2)
-  								.attr("cy",height/2)
-  								.attr("r",20)
-  								.style("fill","#30363c")
-  								.style("fill-opacity",0.8)
-  								//.style("stroke", "#30363c")
-  								.call(dragcontrol)
-  								
-  			controlbar			.append("rect")
-  								.attr("class","controlrect")
-  								.attr("x", xpos)
-  								.attr("y",0)
-  								.attr("width",barwidth)
-  								.attr("height",height)
-  								.style("fill","#30363c")//"#e9af7d")
-  								.style("fill-opacity",1)
-  								
-  			/*controlbar			.append("rect")
-  								.attr("class","controlborder")
-  								.attr("x", xpos-2)
-  								.attr("y",0)
-  								.attr("width",barwidth/15)
-  								.attr("height",height)
-  								.style("fill","#30363c")
-  								.style("fill-opacity",0.6)*/
-  			
-  			
-  			controlbar
-  					.attr("transform", "translate(" + xtrans + ",0)");
-  			
-  			
-  			/*controlbar
-  						.selectAll("button")
-  						.data(buttons)
-  						.enter()
-  						.append("circle")
-  						.attr("cx", function(d){return xpos + (barwidth/2)})
-  						.attr("cy", function(d,i){return 30 + ((height-30)/buttons.length) * i })
-  						.attr("r", circleradius)
-  						.style("fill", "#fbefe3")
-  						.style("stroke","white")
-  						.style("stroke-width", 2);*/
-  		},	
   		
   		
   		renderrooms = function(){
@@ -766,8 +659,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   			svg.append("g").attr("class","apartmentdetail")
   							.call(dragrooms);
   			
-  			svg.append("g").attr("class","overlaycontrol")
-  							.call(dragcontrol);
+  			
   							
 	  		d3.json("data/building.json", function(error, json) {
   				if (error) return console.warn(error);
@@ -795,7 +687,7 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   						return items.filter(function(item){
   							return item.type=="path";
   						}).map(function(path){
-							return {path:generatepath(path),width:path.width,height:path.height};	
+							return {path:util.generatepath(path),width:path.width,height:path.height};	
 						});
   						
   					});
@@ -905,7 +797,8 @@ define(['jquery','d3', 'pusher' /*'pubnub'*/], function($,d3,pusher /*,pubnub*/)
   						
   						renderbuilding();
   						renderapartments();
-  						rendercontrol();
+  						
+  						menu.init("#building");
   					});
 				});
 			});

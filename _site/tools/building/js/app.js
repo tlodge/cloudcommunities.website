@@ -5,9 +5,10 @@ require.config({
         "jquery": "../jquery/jquery-2.1.0.min",
 		"d3": "../d3/d3",
 	 	"pusher": "../pusher/pusher.min",
-	 	"pubnub": "//cdn.pubnub.com/pubnub.min"
+	 	//"pubnub": "../pubnub/pubnub.min", 	
     },
-
+    
+	//"pubnub": "//cdn.pubnub.com/pubnub.min"
     
     "shim": {
     }
