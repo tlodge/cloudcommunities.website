@@ -1,44 +1,105 @@
 define(['jquery','d3', 'util'], function($,d3, util){
 
+	"use strict";
+	
 	var
   	
   		svg,
   		
-  		margin    = {top:10, right:0, bottom:0, left:20},
+  		margin    = {top:0, right:0, bottom:0, left:0},
 
 	  	height    = $(document).height() - margin.top - margin.bottom,
 		
 	  	width    = $(document).width() - margin.left - margin.right,
 	  	
 	  	overlaymenu,
-	  	overlayactive = true,
+	  	overlayactive = false,
 	  	
 	  	datamenu,
-	  	datamenuactive = true,
+	  	datamenuactive = false,
 	  	
 	  	filtermenu,
-	  	filtermenuactive = true,
+	  	filtermenuactive = false,
 	  	
 	  	draggedmenu,
 	  	
+	  	buttonwidth =  30,
+	  	
+	  	buttonheight = height/4,
+	  	 
 	  	dragmenu = function(d){
 	  		draggedmenu = d.id;	
 	  	},
 	  	
+	  	bw = function(d){
+	  		if (d.id == "overlaymenu" || d.id == "filtermenu"){
+	  			return buttonwidth;
+	  		}
+	  		return buttonheight;
+	  	},
+	  	
+	  	bh = function(d){
+	  		if (d.id == "overlaymenu" || d.id == "filtermenu"){
+	  			return buttonheight;
+	  		}
+	  		return buttonwidth;
+	  	},
+	  	
+	  	bx = function(d){
+	  		if (d.id == "overlaymenu"){
+	  			return -5;
+	  		}
+	  		else if (d.id == "filtermenu"){
+	  			return width - (margin.left) - buttonwidth + 5;
+	  		}
+	  		return width/2 - (buttonheight/2);
+	  	},
+	  	
+	  	by = function(d){
+	  		if (d.id == "overlaymenu" || d.id == "filtermenu"){
+	  			return buttonheight - (buttonheight / 2) 
+	  		}
+	  		return height - buttonwidth; 	
+	  	},
+	  	
+	  	bp = function(d){
+	  		if (d.id == "overlaymenu")
+	  			return util.rightroundedrect(bx(d)+5,by(d),bw(d),bh(d),8);
+	  		if (d.id == "filtermenu")
+	  			return util.leftroundedrect(bx(d),by(d),bw(d),bh(d),8);
+	  		else
+	  			return util.toproundedrect(bx(d),by(d),bw(d),bh(d),8);
+	  	},
+	  	
+	  	initialtransform = function(d){
+	  		var xtrans = 0;
+	  		var ytrans = 0;
+	  		
+	  		if (d.id == "overlaymenu"){
+	  			xtrans =  (-width/2);
+	  		}else if (d.id == "filtermenu"){
+	  			xtrans = width/2 - margin.left-margin.right;
+	  		}else if (d.id == "datamenu"){
+	  			ytrans = height/2 - margin.top-margin.bottom;
+	  		}
+	  		return  "translate(" + xtrans + "," + ytrans + ")";
+	  	},
+	  	
 	  	togglemenu = function(){
+	  		
 	  		var xtrans = 0;
 	  		var ytrans = 0;
 	  		
 	  		if (draggedmenu == "overlaymenu"){
-	  			xtrans = overlayactive ? (-width/2) : 0;
+	  			xtrans = overlayactive ? 0 : width/2;
 	  			overlayactive = !overlayactive;
 	  		}
 	  		else if (draggedmenu == "filtermenu"){
-	  			xtrans = filtermenuactive ? width/2 - margin.left-margin.right :0;
+	  			xtrans = filtermenuactive ? 0 : -width/2;
 	  			filtermenuactive = !filtermenuactive;
 	  		}
 	  		else if (draggedmenu == "datamenu"){
-	  			ytrans = datamenuactive ? height/2 - margin.top-margin.bottom :0;
+	  			ytrans = datamenuactive ? 0 : -height/2;
 	  			datamenuactive = !datamenuactive;
 	  		}
 	  		
@@ -57,7 +118,10 @@ define(['jquery','d3', 'util'], function($,d3, util){
   		colour = function(d){
   			
   			if (d.id == "datamenu"){
-  				return "#e9af7d";
+  				return "#f59946";
+  			}
+  			if (d.id == "overlaymenu"){
+  				return "#00aad4";
   			}
   			return "#4e4e4e";
   		},
@@ -111,18 +175,37 @@ define(['jquery','d3', 'util'], function($,d3, util){
 				var menu = svg.append("g")
 					.attr("class", "menu")
 					
-				menu.selectAll("menuitems")
+				var menuitems  = menu.selectAll("menuitems")
 					.data(pathdata)
 					.enter()
 					.append("g")
 					.attr("class", function(d){return d.id})
-					.append("path")
+					
+					
+				menuitems.append("path")
 					.attr("d", function(d){return d.path})
 					.style("fill", function(d){return colour(d)})
 					.style("stroke-width", 2)
 					.style("stroke", "white")
 					.style("fill-opacity",0.9)
-					.call(dragmenu);
+					.attr("transform", function(d){
+						 return initialtransform(d);
+					});
+				
+				
+				var buttons = menu.selectAll("menuitems")
+					.data(pathdata)
+					.enter()
+				
+				buttons.append("path")
+						.attr("d", function(d){return bp(d)})
+						.style("fill", function(d){return "#4e4e4e"})
+						.style("fill-opacity",0.2)
+						.style("stroke-width", 2)
+						.style("stroke", "white")
+						.call(dragmenu);
+						
+			
 						
 			});	
 			

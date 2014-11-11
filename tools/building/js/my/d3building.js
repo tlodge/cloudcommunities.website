@@ -24,8 +24,10 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher' /*'pubnub'*/], function($,d3,m
 		apartmentrects	 	= [],
 		visiblerooms		= [],
 		
-		margin    = {top:10, right:0, bottom:0, left:20},
+		margin    	   = {top:0, right:0, bottom:0, left:0},
 
+		innermargin    = {top:10, right:0, bottom:0, left:20},
+	  	
 	  	height    = $(document).height() - margin.top - margin.bottom,
 		
 	  	width    = $(document).width() - margin.left - margin.right,
@@ -75,9 +77,11 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher' /*'pubnub'*/], function($,d3,m
 				//.attr("viewBox", "0 0 " + width + " " + height)
 				.append("g")
 				.attr("class", "building")
-				.attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
-				
-				
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+				.append("g")
+				.attr("class", "padding")
+				.attr("transform", "translate(" + innermargin.left + "," + innermargin.top + ")"),
+		
 		dragmove = function(d){
 		
   			visiblerooms.forEach(function(room, i){

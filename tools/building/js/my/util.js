@@ -1,5 +1,7 @@
 define(['jquery'], function($){
 
+	"use strict";
+	
 	var 
 	
 		generatepath = function(pobj){
@@ -13,7 +15,38 @@ define(['jquery'], function($){
 	  		}).reduce(function(x,y){
 	  			return x + " " + y;
 	  		}) + " z";
-	  	}
+	  	},
+	  	
+	  	rightroundedrect = function(x,y,w,h,r){
+	  		 return "M" + x + "," + y
+						+ "h " + (w - r) + " " 
+						+ "a " + r + "," + r + " 0 0 1 " + r + "," + r + " "
+						+ "v " + (h - 2 * r) + " "
+						+ "a " + r + "," + r + " 0 0 1 " + -r + "," + r + " "
+						+ "h " + (r - w)
+						+ "z";
+	  	},
+	  	
+	    leftroundedrect = function(x,y,w,h,r){
+	  		 return "M" + x + "," + y
+	  		 			+ " a " + r + " " + r + ", 1, 0, 0," + (-r) + " " + r
+						+ "v " + (h - 2 * r) + " "
+						+ " a " + r + " " + r + ", 1, 0, 0," + r + " " + r
+						+ " h " + w
+						+ " v " +  -(h) + " "
+						+ "z";
+	  	},
+	  	
+	  	toproundedrect = function(x,y,w,h,r){
+	  		 return "M" + x + "," + y
+	  		 			+ " a " + r + " " + r + ", 1, 0, 0," + (-r) + " " + r
+						+ "v " + h + " "
+						+ " h " + w
+						+ "v " + (-h) + " "
+						+ " a " + r + " " + r + ", 1, 0, 0," + -r + " " + (-r)
+						+ "z";
+	  	},
+	  	
 	
 		//scale and relative translate
 		transformpath = function(pobj, transforms){
@@ -21,6 +54,8 @@ define(['jquery'], function($){
 	  		pobj.width = 0;
 	  		pobj.height = 0;
 	  		
+	  		console.log("before");
+	  		console.log(generatepath(pobj));
 	  		//scale...
 	  		pobj.path.forEach(function(path){
 	  		
@@ -30,6 +65,7 @@ define(['jquery'], function($){
 	  			path['ycomp'] = path['ycomp'].map(function(item){
 	  				return item * transforms['scaley'];
 	  			});	
+	  			
 	  			
 	  			pobj.width  = Math.max(pobj.width, path['xcomp'].reduce(function(x,y){return Math.max(x,y)}));
   				pobj.height = Math.max(pobj.height, path['ycomp'].reduce(function(x,y){return Math.max(x,y)}));
@@ -52,6 +88,8 @@ define(['jquery'], function($){
 	  			
 	  		});
 	  		
+	  		console.log("after");
+	  		console.log(generatepath(pobj));
 	  		
 	  		return pobj.path.map(function(x){
 	  			
@@ -67,6 +105,10 @@ define(['jquery'], function($){
 	  	
 	return {
 		generatepath: generatepath,
-		transformpath:transformpath
+		transformpath:transformpath,
+		rightroundedrect:rightroundedrect,
+		leftroundedrect:leftroundedrect,
+		toproundedrect:toproundedrect
+		
 	}
 });
