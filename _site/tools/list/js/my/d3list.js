@@ -1,4 +1,4 @@
-define(['jquery','d3'], function($,d3){
+define(['jquery','d3', 'util'], function($,d3,util){
 
 	"use strict";
 	var 
@@ -72,7 +72,7 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 		
 		bubblemargin = {top:0, left: width-rectwidth, right:0, bottom:0},
 		
-		topbarheight = 80,
+		topbarheight = height/6,
 	  	
 	  	svg  = d3.select("#list").append("svg")
 				.attr("width", "100%")
@@ -129,7 +129,7 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	  	},
 	  	
 	  	
-	  	generatepath = function(pobj){
+	  	/*generatepath = function(pobj){
 	  		return pobj.path.map(function(x){
 	  			
 	  			var xpath = $.map(x['xcomp'], function(v,i){
@@ -141,7 +141,7 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	  			return x + " " + y;
 	  		}) + " z";
 	  		
-	  	},
+	  	},*/
 	  
 	  	dragstart = function(d){
 	  		window.clearTimeout(usagetimer);
@@ -527,8 +527,11 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	   	
 	   	renderbubble = function(){
 	   		
+	   		var x0 	  	 = rectwidth;		
+	   		var y0 	  	 = topbarheight;
+	   		var cwidth 	 = width - rectwidth;
+	   		var cheight  = height-topbarheight;
 	   		
-	   					
 	   		var comments = svg
     						.append("g")
     						.attr("class", "comments")
@@ -541,56 +544,101 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
     					.attr("height", height-topbarheight)
     					.style("fill", "#262238")
     					.style("fill-opacity", 0.8)
+    					
     			
-    			var xtrans = (width-rectwidth) - bbottom.width;
-    			console.log(xtrans);
     			comments
     						.append("path")
     						.attr("class", "commentfooter")
-    						.attr("d", generatepath(bbottom))
+    						.attr("d", util.transformpath(bbottom, 
+    								{
+    									scalex:cwidth/bbottom.width, 
+    									scaley:(height/5)/bbottom.height, 
+    									transx:x0, 
+    									transy:height-((height/5)/bbottom.height* bbottom.height)
+    								}
+    						))
     					  	.style("stroke-width", 2)
     					  	.style("stroke", "#fff")
     					  	.style("fill", "#262238")
-    					  	.attr("transform", "translate(" + rectwidth + "," +  (height-bbottom.height) + "),"  + "scale(" + 	xScaleFactor(bbottom.width, (width-rectwidth)) + ",1.0)" )
+    					  	//.attr("transform", "translate(" + rectwidth + "," +  (height-bbottom.height) + "),"  + "scale(" + 	xScaleFactor(bbottom.width, (width-rectwidth)) + ",1.0)" )
     					  			
     						
     			
+    			var sf = (cheight/blarge.height)/1.35;
     			
     			comments
 					.append("path")
 					.attr("class", "bubbleback")
-					.attr("d", generatepath(blarge))
+					.attr("d",  util.transformpath(blarge, 
+								{
+    								scalex: sf,
+    								scaley: sf, 
+    								transx: (x0 + cwidth/2) - (sf*(blarge.width/1.6)), 
+    								transy: (y0 + (cheight/2) - (sf*(blarge.height/1.5)))
+    							}
+							)	
+					)
 					.style("stroke-width", 10)
 					.style("stroke", "#262238")
 					.style("fill", "#262238")
-					.attr("transform", "translate(" + commentxpos(blarge.width,0.5) + "," + commentypos(blarge.height,0.35) + ")");
-								
+					//.attr("transform", "translate(" + commentxpos(blarge.width,0.5) + "," + commentypos(blarge.height,0.35) + ")");
+				
+				sf = (cheight/bsmall.height)/1.8;
+							
     			comments
 					.append("path")
 					.attr("class", "bubbleback")
-					.attr("d", generatepath(bsmall))
+					.attr("d", util.transformpath(bsmall, 
+								{
+    								scalex: sf,
+    								scaley: sf, 
+    								transx: (x0 + cwidth/2) - (sf*(bsmall.width/3.3)), 
+    								transy: (y0 + (cheight/2) - (sf*(bsmall.height/3)))
+    							}
+							)	
+					)
 					.style("stroke-width", 10)
 					.style("stroke", "#262238")
 					.style("fill", "#262238")	
-					.attr("transform", "translate(" + commentxpos(bsmall.width,0.6) + "," + commentypos(bsmall.height, 0.55) + ")");
+					//.attr("transform", "translate(" + commentxpos(bsmall.width,0.6) + "," + commentypos(bsmall.height, 0.55) + ")");
+					
+				sf = (cheight/largebubble.height)/1.4;
     						
     			comments
 					.append("path")
 					.attr("class", "foreground")
-					.attr("d", generatepath(largebubble))
+					.attr("d", util.transformpath(largebubble, 
+								{
+    								scalex: sf,
+    								scaley: sf, 
+    								transx: (x0 + cwidth/2) - (sf*(largebubble.width/1.6)), 
+    								transy: (y0 + (cheight/2) - (sf*(largebubble.height/1.5)))
+    							}
+							)
+					)	
 					.style("stroke-width", 2)
 					.style("stroke", "#fff")
 					.style("fill", colour(0))		
-					.attr("transform", "translate(" + commentxpos(largebubble.width,0.5) + "," + commentypos(largebubble.height,0.35) + ")");
-								
+					//.attr("transform", "translate(" + commentxpos(largebubble.width,0.5) + "," + commentypos(largebubble.height,0.35) + ")");
+					
+				sf = (cheight/smallbubble.height)/2.0;		
+					
     			comments
 					.append("path")
 					.attr("class", "foreground")
-					.attr("d", generatepath(smallbubble))
+					.attr("d", util.transformpath(smallbubble, 
+								{
+    								scalex: sf,
+    								scaley: sf, 
+    								transx: (x0 + cwidth/2) - (sf*(smallbubble.width/3.6)), 
+    								transy: (y0 + (cheight/2) - (sf*(smallbubble.height/3.6)))
+    							}
+							)	
+					)
 					.style("stroke-width", 2)
 					.style("stroke", "#fff")
 					.style("fill", colour(0))	
-					.attr("transform", "translate(" + commentxpos(smallbubble.width,0.6) + "," + commentypos(smallbubble.height, 0.55) + ")");
+					//.attr("transform", "translate(" + commentxpos(smallbubble.width,0.6) + "," + commentypos(smallbubble.height, 0.55) + ")");
 				
 				comments
 					.append("g")
@@ -709,11 +757,23 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
     					
 	    },
 	    
+	    keyx = function(i, keyradius, keypadding){
+	    	var keypadwidth = (2 * keypadding) +  (3 * keyradius);
+	    	var offset = (width/2) - keypadwidth/2; 
+	    	return offset + ((i%3) * ((2*keyradius)+keypadding));
+	    },
 	    
+	    keyy = function(i, keyradius, keypadding){
+	    	var keypadheight = (3 * keypadding) + (4 * keyradius);
+	    	var offset = (height/2) - keypadheight/2; 
+	    	return offset + (parseInt(i/3) * ((2*keyradius)+keypadding));
+	    },
 	    
 	    renderkeypad = function(){
 	    	keyspressed = [];
 	    	var keyradius = 40;
+	    	var keypadding = 20;
+	    	
 	    	var keys = [1,2,3,4,5,6,7,8,9,0];
 	    	
 	    	var mykeypad = svg.selectAll('g.authoverlay')
@@ -728,8 +788,8 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	        akey
 				.append("circle")
 				.attr("class", function(d){return "keypad key-" + d})
-				.attr("cx", function(d,i){return 400 + (((i)%3) * ((2*keyradius)+20))})
-				.attr("cy", function(d,i){return 200 + (parseInt((i)/3) * ((2*keyradius)+20))})
+				.attr("cx", function(d,i){return keyx(i,keyradius, keypadding)})
+				.attr("cy", function(d,i){return keyy(i,keyradius, keypadding)})
 				.attr("r", keyradius)
 				.style("fill", "#fff")
 				.style("fill-opacity", 0.7)
@@ -739,8 +799,8 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	    	
 	    	akey
 				.append("text")
-				.attr("x", function(d,i){return 400 + (((i)%3) * ((2*keyradius)+20))})
-				.attr("y", function(d,i){return 200 + (parseInt((i)/3) * ((2*keyradius)+20))})
+				.attr("x", function(d,i){return keyx(i,keyradius, keypadding)})
+				.attr("y", function(d,i){return keyy(i,keyradius, keypadding)})
 				.attr("text-anchor", "middle")
 				.attr("dy", ".35em")
 				.attr("font-size", "40px")
@@ -927,8 +987,9 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	  		
 	  		
 			renderlist();
-			renderauth();
 			renderbubble();	
+			renderauth();
+			
 	  	}
 
 	return {
