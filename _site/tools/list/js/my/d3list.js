@@ -700,6 +700,9 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
     			
     			*/
     			
+    			console.log("bubble large is");
+    			console.log(bubblelarge);
+    			
     			comments
 					.append("circle")
 					.attr("class", "addcomment")
@@ -744,6 +747,8 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	   					
 	   	},
 	    
+	    
+	    //auth overlay / keypad etc should sit in the auth module!
 	    renderauth = function(){
 	     	
 			window.clearTimeout(usagetimer);
@@ -790,7 +795,7 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	        
 	        var akey = mykeypad.enter()
 	       
-	     
+	     	//add an on click and preventdefault here (as done with floors in building)
 	        akey
 				.append("circle")
 				.attr("class", function(d){return "keypad key-" + d})

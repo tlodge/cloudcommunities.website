@@ -53,8 +53,8 @@ define(['jquery'], function($){
 	  		
 	  		pobj.width	 = 0;
 	  		pobj.height	 = 0;
-	  		pobj.minx 	 =  Number.MAX_SAFE_INTEGER;
-	  		pobj.miny 	 =	Number.MAX_SAFE_INTEGER;
+	  		pobj.minx 	 =  999999;
+	  		pobj.miny 	 =	999999;
 	  		pobj.maxx 	 = 0;
 	  		pobj.maxy    = 0;
 	  		

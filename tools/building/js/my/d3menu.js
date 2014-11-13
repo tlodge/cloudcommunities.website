@@ -90,7 +90,6 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  		if (d3.event.defaultPrevented)
 	  			return;
 	  		else{	
-	  			console.log("handling click!");
 	  			draggedmenu = d.id;
 	  			togglemenu();
 	  		}
