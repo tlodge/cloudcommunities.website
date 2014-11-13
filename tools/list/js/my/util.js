@@ -51,11 +51,14 @@ define(['jquery'], function($){
 		//scale and relative translate
 		transformpath = function(pobj, transforms){
 	  		
-	  		pobj.width = 0;
-	  		pobj.height = 0;
+	  		pobj.width	 = 0;
+	  		pobj.height	 = 0;
+	  		pobj.minx 	 =  Number.MAX_SAFE_INTEGER;
+	  		pobj.miny 	 =	Number.MAX_SAFE_INTEGER;
+	  		pobj.maxx 	 = 0;
+	  		pobj.maxy    = 0;
 	  		
-	  		console.log("before");
-	  		console.log(generatepath(pobj));
+	  	
 	  		//scale...
 	  		pobj.path.forEach(function(path){
 	  		
@@ -65,11 +68,6 @@ define(['jquery'], function($){
 	  			path['ycomp'] = path['ycomp'].map(function(item){
 	  				return item * transforms['scaley'];
 	  			});	
-	  			
-	  			
-	  			pobj.width  = Math.max(pobj.width, path['xcomp'].reduce(function(x,y){return Math.max(x,y)}));
-  				pobj.height = Math.max(pobj.height, path['ycomp'].reduce(function(x,y){return Math.max(x,y)}));
-	  			
 	  		});
 	  		
 	  		
@@ -83,15 +81,18 @@ define(['jquery'], function($){
 	  				return item + transforms['transy'];
 	  			});	
 	  			
-	  			pobj.width  = Math.max(pobj.width, path['xcomp'].reduce(function(x,y){return Math.max(x,y)}));
-  				pobj.height = Math.max(pobj.height, path['ycomp'].reduce(function(x,y){return Math.max(x,y)}));
-	  			
+	  			pobj.maxx = Math.max(pobj.maxx, path['xcomp'].reduce(function(x,y){return Math.max(x,y)}));
+  				pobj.maxy = Math.max(pobj.maxy, path['ycomp'].reduce(function(x,y){return Math.max(x,y)}));
+	  			pobj.minx = Math.min(pobj.minx, path['xcomp'].reduce(function(x,y){return Math.min(x,y)}));
+  				pobj.miny = Math.min(pobj.miny, path['ycomp'].reduce(function(x,y){return Math.min(x,y)}));
+  				pobj.width = pobj.maxx - pobj.minx;
+  				pobj.height = pobj.maxy - pobj.miny;
 	  		});
 	  		
-	  		console.log("after");
-	  		console.log(generatepath(pobj));
 	  		
-	  		return pobj.path.map(function(x){
+	  		
+	  		return pobj;
+	  		/*return pobj.path.map(function(x){
 	  			
 	  			var xpath = $.map(x['xcomp'], function(v,i){
 	  				return [v, x['ycomp'][i]]
@@ -100,7 +101,7 @@ define(['jquery'], function($){
 	  			return x.type + " " + xpath.join();
 	  		}).reduce(function(x,y){
 	  			return x + " " + y;
-	  		}) + " z";
+	  		}) + " z";*/
 	  	}
 	  	
 	return {

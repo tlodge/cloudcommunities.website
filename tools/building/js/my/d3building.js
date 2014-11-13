@@ -1,4 +1,4 @@
-define(['jquery','d3', 'd3menu', 'util', 'pusher' /*'pubnub'*/], function($,d3,menu,util,pusher /*,pubnub*/){
+define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu,util,pusher,pubnub){
 
 	"use strict";
 	var 
@@ -6,10 +6,10 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher' /*'pubnub'*/], function($,d3,m
 		
 		//channel = pusher.subscribe('private-channel'),
    		
-   		/*PUBNUB_demo = PUBNUB.init({
-				publish_key: 'demo',
-				subscribe_key: 'demo'
-		}),*/
+   		channel = PUBNUB.init({
+				publish_key: 'pub-c-5ee6dec5-e3fe-4454-b7ea-fd95dc2d9702',
+				subscribe_key: 'sub-c-8a8c2a78-6b54-11e4-bf8f-02ee2ddab7fe'
+		}),
    		
 		buildingdata 	  = {},
 		
@@ -650,6 +650,17 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher' /*'pubnub'*/], function($,d3,m
   			return Math.min((floordisplaywidth/cols), (buildingheight/rows))
   		}, 
 	  	
+	  	
+	  	floorforid = function(id){
+	  		for (var i = 0; i < flooroverlays.length; i++){
+	  			var floor = flooroverlays[i];	
+	  			if (floor.id == id){
+	  				return floor;
+	  			}
+	  		}
+	  		return null;
+	  	},
+	  	
 	  	init = function(){
 	  		var screenwidth  = $(document).width();
 	  		var screenheight = $(document).height();
@@ -811,18 +822,29 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher' /*'pubnub'*/], function($,d3,m
       		//	alert(data.message);
    			//});
    			
-   			/*PUBNUB_demo.subscribe({
-				channel: 'demo_tutorial',
+   			channel.subscribe({
+				channel: 'list',
 				message: function(m){
-					var d = flooroverlays[1];
-					d3.selectAll("rect.window").style("fill-opacity", 0);
-					d3.selectAll("rect.window"+d.id).style("fill-opacity", 1);
-					selectedfloors = [d];
-					selectedfloors.sort(function(a,b){return (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0})
-  					renderfloors();
+					console.log("seen m");
+					var floor = floorforid(m.floor);
+					if (floor != null){
+						console.log("found floor");
+						console.log(floor);
+						floorclicked(floor);
+					}
+					//if (!floorselected(floor)){
+					//	selectedfloors.push(floor);
+					//}
+					//console.log(flooroverlays);
+					//var d = flooroverlays[1];
+					//d3.selectAll("rect.window").style("fill-opacity", 0);
+					//d3.selectAll("rect.window"+d.id).style("fill-opacity", 1);
+					//selectedfloors = [d];
+					//selectedfloors.sort(function(a,b){return (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0})
+  					//renderfloors();
 			
 				}
-			});*/
+			});
     
 			
 	  		//d3.select(window).on('resize', resize);
