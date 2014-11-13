@@ -303,7 +303,8 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   		},
   		
   		floorclicked = function(d){
-			if (d3.event){
+			console.log("floor clicked!");
+			if (d3.event != null){
   				if (d3.event.defaultPrevented)
 	  				return;
 	  		}
