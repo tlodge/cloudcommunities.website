@@ -303,8 +303,10 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   		},
   		
   		floorclicked = function(d){
-  			if (d3.event.defaultPrevented)
-	  			return;
+			if (d3.event){
+  				if (d3.event.defaultPrevented)
+	  				return;
+	  		}
 	  			
   			var idx = selectedfloors.indexOf(d);
   			
