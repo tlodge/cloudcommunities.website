@@ -85,6 +85,17 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  		return  "translate(" + xtrans + "," + ytrans + ")";
 	  	},
 	  	
+	  	
+	  	menuclicked = function(d){
+	  		if (d3.event.defaultPrevented)
+	  			return;
+	  		else{	
+	  			console.log("handling click!");
+	  			draggedmenu = d.id;
+	  			togglemenu();
+	  		}
+	  	},
+	  	
 	  	togglemenu = function(){
 	  		
 	  		var xtrans = 0;
@@ -203,6 +214,7 @@ define(['jquery','d3', 'util'], function($,d3, util){
 						.style("fill-opacity",0.2)
 						.style("stroke-width", 2)
 						.style("stroke", "white")
+						.on("click", menuclicked)
 						.call(dragmenu);
 						
 			

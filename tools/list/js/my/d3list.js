@@ -132,6 +132,7 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	  	
 	  
 	  	dragstart = function(d){
+	  		keypressed = [];
 	  		window.clearTimeout(usagetimer);
 	  	
 	  		d3.event.sourceEvent.stopPropagation();
@@ -240,8 +241,11 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	   	
 	   	dragend = function(d,i){
 	   		
+	   		console.log("drag end!!");
 	   		if (!dragging)
 	   			return;
+	   			
+	   		console.log("and am here!");
 	   		//reset translation to 0 and update the x,y coords.  We do a translate as its the only
 	   		//way of shifting a svg group (g) element. And is more efficient than shifting each 
 	   		//component that makes up a group element.
@@ -355,7 +359,12 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	   		
 	   		if (authenticated){
 	   			keyspressed = [];
+	   			
+	   			d3.select("circle.logout")
+	  				.style("fill-opacity", 0.2)
+	  				.style("stroke-opacity", 1.0)
 	   		
+	   			
 	   		
 	   			svg.selectAll('g.authoverlay')
 	   				.transition()
@@ -363,7 +372,7 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	   				.duration(500)
 	   				.style("opacity", 0.0)
 	   		
-	   				
+	   			svg.select()
 	   			usagetimer = window.setTimeout(renderauth, usagetimeout);
 	   		}
 	   	},
@@ -737,7 +746,8 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	    
 	    renderauth = function(){
 	     	
-
+			window.clearTimeout(usagetimer);
+			keyspressed = [];
 	     	var overlay = svg.append("g")
 	   					 .attr("class", "authoverlay")	
 	   		
@@ -815,7 +825,7 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 					  			
 	  		var titlebar = svg
 	  			.append("g")
-	  			
+	  			.attr("class", "titlebar")
 	  			
 	  		titlebar
 	  			.append("rect")
@@ -835,7 +845,24 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	  			.attr("y",  (topbarheight/2))
 	  			.attr("dy", ".35em")
 	  			.text("best places to buy bread")
-	  			
+	  		
+	  		titlebar
+	  			.append("circle")
+	  			.attr("class", "logout")
+	  			.attr("cx", width - 30*2)
+	  			.attr("cy", topbarheight/2)
+	  			.attr("r", 30)
+	  			.style("fill", "white")
+	  			.style("fill-opacity", 0.0)
+	  			.style("stroke", "white")
+	  			.style("stroke-width", 2)
+	  			.style("stroke-opacity", 0.0)
+	  			.on("click", function(){
+	  										d3.select(this).style("fill-opacity",0.0);
+	  										d3.select(this).style("stroke-opacity",0.0);
+	  										renderauth();	
+	  									})
+	  				
 	  		var list = svg.selectAll(".mylist")
 	  					.data(mydata)
 	  			
