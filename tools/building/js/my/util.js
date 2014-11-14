@@ -54,8 +54,7 @@ define(['jquery'], function($){
 	  		pobj.width = 0;
 	  		pobj.height = 0;
 	  		
-	  		console.log("before");
-	  		console.log(generatepath(pobj));
+	  		
 	  		//scale...
 	  		pobj.path.forEach(function(path){
 	  		
@@ -88,8 +87,6 @@ define(['jquery'], function($){
 	  			
 	  		});
 	  		
-	  		console.log("after");
-	  		console.log(generatepath(pobj));
 	  		
 	  		return pobj.path.map(function(x){
 	  			

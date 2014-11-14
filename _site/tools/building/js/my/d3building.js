@@ -1,16 +1,8 @@
-define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu,util,pusher,pubnub){
+define(['jquery','d3', 'util'], function($,d3,util){
 
 	"use strict";
 	var 
-		//pusher = new Pusher('8e22d04310c8ee0d5159'),
-		
-		//channel = pusher.subscribe('private-channel'),
-   		
-   		channel = PUBNUB.init({
-				publish_key: 'pub-c-5ee6dec5-e3fe-4454-b7ea-fd95dc2d9702',
-				subscribe_key: 'sub-c-8a8c2a78-6b54-11e4-bf8f-02ee2ddab7fe'
-		}),
-   		
+	
 		buildingdata 	  = {},
 		
 		apartmentdata 	  = {},
@@ -61,7 +53,7 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   	
   				if ( (x >= bounds.minx && x <= bounds.maxx) && (y >= bounds.miny && y <= bounds.maxy)){
   					
-  					floorclicked(d);
+  					floorselected(d);
   					//d3.selectAll("rect.window" + d.id).style("fill-opacity", 1.0);
   				} 	
   			});
@@ -81,7 +73,36 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
 				.append("g")
 				.attr("class", "padding")
 				.attr("transform", "translate(" + innermargin.left + "," + innermargin.top + ")"),
-		
+	
+		adjustfloorcoords = function(){
+  			var rc  = rowscols(selectedfloors.length);
+  			//could this live in a domain/range function...?
+			selectedfloors.forEach(function(floor,i){
+				if (floordata[floor.id]){
+					floordata[floor.id].rooms.forEach(function(room){
+					
+						var rd = $.extend(true,{},roomdata[room.name]); //create a deep copy of roomdata
+						var scale = scalefactor(rc.cols,rc.rows,indexforid(floor.id));
+					
+					
+						var tx = ax(i,rc.rows,rc.cols) + layoutpadding;
+						var ty = cy(i, rc.rows,rc.cols,indexforid(floor.id));
+					
+						//scale
+						rd.coords.x *= scale;
+						rd.coords.y *= scale;
+						rd.coords.width *= scale;
+						rd.coords.height *= scale;
+					
+						//translate
+						rd.coords.x += tx;
+						rd.coords.y += ty;	
+						visiblerooms.push(rd);
+					});
+				}
+			});
+  		},
+  			
 		dragmove = function(d){
 		
   			visiblerooms.forEach(function(room, i){
@@ -95,42 +116,22 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   				}
   			});
   		},
+  	
   		
   		dragstart = function(d){
 			//generate all of the rooms that may drag into!
 			visiblerooms = [];
 			selectedrooms = [];
 			
+			
 			d3.selectAll("rect.room").style("fill", function(d){return colour(d.data)})
 			
 			//apply the translation/scale coords to the coordinates to match coordinate systems 
 			//match between the x,y mouse and svg coords
 			
-			var rc  = rowscols(selectedfloors.length);
 			
-  			//could this live in a domain/range function...?
-			selectedfloors.forEach(function(floor,i){
-				floordata[floor.id].rooms.forEach(function(room){
-					
-					var rd = $.extend(true,{},roomdata[room.name]); //create a deep copy of roomdata
-					var scale = scalefactor(rc.cols,rc.rows,indexforid(floor.id));
-					
-					
-					var tx = ax(i,rc.rows,rc.cols) + layoutpadding;
-					var ty = cy(i, rc.rows,rc.cols,indexforid(floor.id));
-					
-					//scale
-					rd.coords.x *= scale;
-					rd.coords.y *= scale;
-					rd.coords.width *= scale;
-					rd.coords.height *= scale;
-					
-					//translate
-					rd.coords.x += tx;
-					rd.coords.y += ty;	
-					visiblerooms.push(rd);
-				});
-			});
+			adjustfloorcoords();
+  		
 			
 			
   		},
@@ -271,7 +272,7 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   						.attr("height", function(d){return (d.bounds.maxy-d.bounds.miny)})
   						.style("fill", "#d78242")
   						.style("fill-opacity", 0)
-  						.on("click", floorclicked)
+  						.on("click", floorselected)
   						.call(dragfloors)
   		},
   		
@@ -302,34 +303,50 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   	
   		},
   		
-  		floorclicked = function(d){
-			console.log("floor clicked!");
+  		floorselected = function(d){
+  		
+  			selectedrooms = []
+  			renderrooms();
+  			
 			if (d3.event != null){
   				if (d3.event.defaultPrevented)
 	  				return;
 	  		}
-	  			
   			var idx = selectedfloors.indexOf(d);
   			
   			if (idx == -1){
   				selectedfloors.push(d);
-  				//d3.select("rect.floor" + d.id).style("fill-opacity", 1.0);
   				d3.selectAll("rect.window" + d.id).style("fill-opacity", 1.0);
   			}else{
   				selectedfloors.splice(idx, 1);
   				d3.selectAll("rect.window" + d.id).style("fill-opacity", 0);
   			}	
-  			
   			selectedfloors.sort(function(a,b){return (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0})
   			renderfloors();
   		},
   		
-  		apartmentsforfloor = function(floorid){
-  			//.attr("d",  generatepath(path))
-    		//		  .style("stroke-width", 2)
-    		//		  .style("stroke", "red")
-    		//		  .style("fill-opacity",0)
+  		roomselected = function(room){
+  			if (!roomdata[room])
+  				return;
   			
+  			selectedrooms = [];	
+  			selectedfloors = [];
+  			renderfloors();
+  			
+  			
+  			var floor = floorforid(roomdata[room].floor);
+  			selectedfloors.push(floor);
+  			renderfloors();
+  			d3.select("rect.room_" + roomdata[room].id).style("fill", "red");
+  			
+  			window.setTimeout(function(){	
+  					selectedrooms.push(roomdata[room]);
+  					selectedfloors = [];
+  					renderfloors();
+  					d3.selectAll("rect.window").style("fill-opacity", 0.0)
+  					renderrooms();
+  			},1000);
+  				
   		},
   		
   		scalefactor = function(cols, rows, floor){
@@ -357,170 +374,129 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   			 }
   		 	return "white";
   		},
-  		
-  		/*selectfloor = function(floor){
-  			
-			d3.selectAll("rect.window").style("fill-opacity", 0);
-			d3.selectAll("rect.window"+floor.id).style("fill-opacity", 1);
-			selectedfloors = [floor];
-  			renderfloor();
-  		
-  		},
-  		
-  		
-  		flooritemclicked = function(item, floor){
-  			
-  			//reset all room colours for ths floor
-  			
-  			if (item.data && item.data.type=="room"){		
-  			
-  				d3.select("g.floor_" + floor.id)
-  							.selectAll("rect.room")
-  							.style("fill", function(d){ if (d.data.name == item.data.name) return "red" ;return colour(d.data)})
-  				   
-  				selectfloor(floor);
-  				
-  	  		}
 
-  		},*/
-  		
-  		/*renderdetail = function(){
-  			var rows = Math.ceil(6 / MAXCOLS);
-  			var cols = Math.ceil(6 / rows);
-  			
-  			var detail = svg.select("g.apartmentdetail")
-  							 .append("g")
-  							 .attr("class", "detail")
-  							 .attr("opacity", 0.0)
-  			
-  			detail
-  				.append("rect")	
-  				.attr("x",function(d,i){return buildingwidth + maxaspect(cols,rows) + apartmentpadding})
-  				.attr("y",function(d,i){return apartmentpadding})	
-  				.attr("width",  maxaspect(cols,rows) - (2*apartmentpadding))
-  				.attr("height", maxaspect(cols,rows) - (2*apartmentpadding))
-  				.style("stroke-width", 1)
-				.style("stroke", "black")
-				.style("fill", "#fff")
-					
-  			
-  			detail
-  				.append("rect")
-  				.attr("class", "detail")
-  				.attr("x",function(d,i){return buildingwidth + apartmentpadding})
-  				.attr("y",function(d,i){return maxaspect(cols,rows) + 2*apartmentpadding})	
-  				.attr("width",  (2 * maxaspect(cols,rows)) - (2*apartmentpadding))
-  				.attr("height", maxaspect(cols,rows) - (2*apartmentpadding))
-  				.style("stroke-width", 1)
-				.style("stroke", "black")
-				.style("fill", "#fff")
-				
-			detail
-  				.append("rect")
-  				.attr("class", "detail")
-  				.attr("x",function(d,i){return buildingwidth + 2*maxaspect(cols,rows) + apartmentpadding})
-  				.attr("y",function(d,i){return apartmentpadding})	
-  				.attr("width",  maxaspect(cols,rows) - (2*apartmentpadding))
-  				.attr("height",  (2 *maxaspect(cols,rows)) - apartmentpadding)
-  				.style("stroke-width", 1)
-				.style("stroke", "black")
-				.style("fill", "#fff")
-				
-  			detail
-  				.transition()
-  				.duration(TRANSITIONDURATION)
-  				.attr("opacity", 1.0)
-  				
-  		},*/
-  		
-  		/*renderfloor = function(){
-  			 
-  			 
-  			var rows = Math.ceil(6 / MAXCOLS);
-  			var cols = Math.ceil(6 / rows);
-  			
-  			var floorplans = svg.selectAll("g.floorcontainer")
-  								.data(selectedfloors, function(d,i){return d.id})
-  								
-  			var apartments  	= svg.select("g.apartmentdetail")
-  								.selectAll("g.floorlabel")
-  								.data(selectedfloors, function(d,i){return d.id})				
-  			
-  			apartments.select("rect")
-  				  	  .transition()
-  					  .duration(TRANSITIONDURATION)
-  					  .attr("x",function(d,i){return ax(i,rows,cols)})
-  					  .attr("y",function(d,i){return ay(i,rows,cols)})	
-  					  .attr("width",  maxaspect(cols,rows) - (2*apartmentpadding))
-  					  .attr("height", maxaspect(cols,rows) - (2*apartmentpadding))
-  						
-  			apartments.select("circle")
-  					.transition()
-  					.duration(TRANSITIONDURATION)
-  					.attr("cx",function(d,i){return ax(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))/2 })
-					.attr("cy",function(d,i){return ay(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))})
-					
-			
-			apartments.select("text")
-  					.transition()
-  					.duration(TRANSITIONDURATION)
-  					.attr("x",function(d,i){return ax(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))/2 })
-					.attr("y",function(d,i){return ay(i,rows,cols) + (maxaspect(cols,rows) - (2*apartmentpadding))})	
-	  		
-	  		
-	  		//use i to get paths!		
-  			floorplans.transition()
-  					  .duration(TRANSITIONDURATION)
-  					  .attr("transform", function(d,i){return "translate(" + (ax(i,rows,cols) + layoutpadding) + "," +  cy(i,rows,cols,indexforid(d.id)) + "),scale("+ scalefactor(cols,rows,indexforid(d.id)) + ")"})
-  			
-  			
-  			//add the extra rects for additional details...
-  			renderdetail();
-  				
-  			apartments
-  					  .exit()
-  					  .remove()
-  			
-  			floorplans
-  					  .exit()
-  					  .remove()
-  		
-  		},*/
-  		
-  		
-  		
-  		
-  		
+    			
   		renderrooms = function(){
-  
+  			
+  			
+  			selectedrooms.sort(function(a,b){return (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0})
+  			console.log(selectedrooms);
+  			
+  			var rc 		=  rowscols(selectedrooms.length);
+  			var roomhw  =  maxaspect(rc.cols,rc.rows) - (2*apartmentpadding);
+  			var transx  =  function(d,i){return -(d.coords.x*(roomhw/d.coords.width)) +  ax(i,rc.rows,rc.cols)};
+			var transy  =  function(d,i){return -(d.coords.y*(roomhw/d.coords.height)) + ay(i,rc.rows,rc.cols)};
+			var sfx     =  function (d){return roomhw/d.coords.width};
+			var sfy     =  function (d){return roomhw/d.coords.height};
+			var labelheight = function(d){return (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding)) / 5}
+  			
   			var rooms  	= svg.select("g.apartmentdetail")
   							 .selectAll("g.room")
   							 .data(selectedrooms, function(d,i){return d.id})
-  								 
-  			var rc = rowscols(selectedrooms.length);
   			
-  			var room = rooms
+  			
+  			//note that we can't just append labels to the rooms g container as when the translate
+  			//occurs it'll screw up the fonts. Instead we bind to selectedrooms again and update 
+  			//coords directly
+  			
+  			var labels  = svg.select("g.apartmentdetail")
+  							 .selectAll("g.roomlabel")
+  							 .data(selectedrooms, function(d,i){return d.id})
+  			
+  			//handle current rooms
+  			
+  			rooms.selectAll("rect.apartment")
+  				 .attr("x",function(d){return d.coords.x})
+				 .attr("y",function(d){return  d.coords.y})
+				 .attr("width", function(d){return d.coords.width})
+				 .attr("height", function(d){return d.coords.height})
+				 .style("fill", "red")
+  			
+  			//handle current labels
+  			
+  			labels.selectAll("rect.roomlabel")
+  				 .attr("x",function(d){return d.coords.x})
+				  .attr("y",function(d){return  d.coords.y + d.coords.height - roomlabelheight})
+				  .attr("width", function(d){return d.coords.width})
+				  .attr("height", function(d){return roomlabelheight})
+				  .style("stroke-width", function(d){return 1/sfx(d)})
+				  .style("stroke", "black")		  
+				  .style("fill-opacity", 1.0)
+				  .style("fill", "white")
+  			
+  			//handle new rooms					 	
+  			var window = rooms
 						.enter()
-						
-			room.append("rect")
-				.attr("class", "apartment")
-				.attr("x",function(d,i){return ax(i,rc.rows,rc.cols)})
-				.attr("y",function(d,i){return ay(i,rc.rows,rc.cols)})	
-				.attr("width", maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))
-				.attr("height", maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))	
-				.style("stroke-width", 1)
+						.append("g")
+						.attr("class", "room")
+				
+			
+			window.append("rect")
+				.attr("class", "apartment")	
+				.attr("x",function(d){return d.coords.x})
+				.attr("y",function(d){return  d.coords.y})
+				.attr("width", function(d){return d.coords.width})
+				.attr("height", function(d){return d.coords.height})
+				.style("fill", "red")
+				.transition()
+				.duration(500)	
+				.style("stroke-width", function(d){return 1/sfx(d)})
 				.style("stroke", "black")
-				.style("fill", "#d78242")
-				.style("fill-opacity", 0)					 
+				.style("fill", "white")
+				.each('end',function(){
+					//fade in labels once the room rects have moved into place!
+					 d3.selectAll("g.roomlabel")
+					 	.transition()
+					 	.duration(500)
+					    .style("opacity", 1.0);
+				});
+				
+			window.transition()
+				.duration(500)
+				.attr("transform", function(d,i){return "translate(" + transx(d,i) + "," + transy(d,i) +"),scale(" + sfx(d)  + "," + sfy(d) +")"})
+			
+			//handle new labels
+			var label = labels
+						.enter()
+						.append("g")
+						.attr("class", "roomlabel")	
+						.attr("opacity", 0.0)
+						
+			label.append("rect")
+				 .attr("x",function(d,i){return ax(i,rc.rows,rc.cols)})
+				 .attr("y",function(d,i){return ay(i,rc.rows,rc.cols) + (d.coords.height*sfy(d)) - labelheight(d)})	
+				 .attr("width",function(d,i){return maxaspect(rc.cols,rc.rows) - (2*apartmentpadding)})
+				 .attr("height", function(d){return labelheight(d)})	
+				 .style("stroke-width", function(d){return 1})
+				 .style("stroke", "black")
+				 .style("fill", "#d78242")
+			
+			
+			label.append("text")
+				  .attr("class", "roomlabel")
+				  .attr("dy", ".35em")
+	  			  .attr("x",function(d,i){return ax(i,rc.rows,rc.cols) +  (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))/2})
+				  .attr("y",function(d,i){return (ay(i,rc.rows,rc.cols) + (d.coords.height*sfy(d)) - labelheight(d)) + labelheight(d)/2})	
+	  			  .attr("fill", "#000")
+	  			  .attr("text-anchor", "middle")
+	  			  .style("font-size", function(d){return 0.8*labelheight(d) + "px"})
+	  			  .style("fill", "white")
+	  			  .text(function(d){return d.name;})
+	  			  	
+			//handle gone
+			
+			rooms.exit()
+				.remove();
+				
+			labels.exit()
+				.remove();
+			
   		},
   		
-  		renderfloors = function(){	
+  		renderfloors = function(cback){	
   			
-			d3.selectAll("g.detail").remove();
-			d3.selectAll("rect.apartment").remove();
-			
   			var labelradius = 15;
-  			
+  			var transitioncount = 0; //used to monitor when all transitions are ended (and when callback is called)
   			
   			var rc = rowscols(selectedfloors.length);
   			
@@ -528,7 +504,7 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   			var floordisplaywidth = width - buildingwidth - 30;
   				
   				
-  			var apartments  	= svg.select("g.apartmentdetail")
+  			var apartments  = svg.select("g.apartmentdetail")
   								.selectAll("g.floorlabel")
   								.data(selectedfloors, function(d,i){return d.id})
   								
@@ -540,13 +516,14 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   			//update current
   							
   			apartments.select("rect")
+  			
   				  	  .transition()
   					  .duration(TRANSITIONDURATION)
   					  .attr("x",function(d,i){return ax(i,rc.rows,rc.cols)})
   					  .attr("y",function(d,i){return ay(i,rc.rows,rc.cols)})	
   					  .attr("width",  maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))
   					  .attr("height", maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))
-  			
+  					   
   			apartments.select("circle")
   					.transition()
   					.duration(TRANSITIONDURATION)
@@ -554,18 +531,19 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
 					.attr("cy",function(d,i){return ay(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))})	
 			
 			apartments.select("text")
+					
   					.transition()
   					.duration(TRANSITIONDURATION)
   					.attr("x",function(d,i){return ax(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))/2 })
 					.attr("y",function(d,i){return ay(i,rc.rows,rc.cols) + (maxaspect(rc.cols,rc.rows) - (2*apartmentpadding))})	
-	  		
+	  				
+		
 	  		
 	  		//use i to get paths!		
   			floorplans.transition()
   					  .duration(TRANSITIONDURATION)
   					  .attr("transform", function(d,i){return "translate(" + (ax(i,rc.rows,rc.cols) + layoutpadding) + "," +  cy(i,rc.rows,rc.cols,indexforid(d.id)) + "),scale("+ scalefactor(rc.cols,rc.rows,indexforid(d.id)) + ")"})
-  					
-		
+  					  
 			var apt = apartments
 							.enter()
 							.append("g")
@@ -812,51 +790,23 @@ define(['jquery','d3', 'd3menu', 'util', 'pusher', 'pubnub'], function($,d3,menu
   								for (var attrname in room){
   									roomdata[room.name][attrname] = room[attrname];
   								}
+  								roomdata[room.name]['floor'] = floor;
   							});
   						});
-  						
   						renderbuilding();
   						renderapartments();
-  						
-  						menu.init("#building");
   					});
 				});
 			});
-			
-			//channel.bind('my_event', function(data) {
-      		//	alert(data.message);
-   			//});
-   			
-   			channel.subscribe({
-				channel: 'list',
-				message: function(m){
-					console.log("seen m");
-					var floor = floorforid(m.floor);
-					if (floor != null){
-						console.log("found floor");
-						console.log(floor);
-						floorclicked(floor);
-					}
-					//if (!floorselected(floor)){
-					//	selectedfloors.push(floor);
-					//}
-					//console.log(flooroverlays);
-					//var d = flooroverlays[1];
-					//d3.selectAll("rect.window").style("fill-opacity", 0);
-					//d3.selectAll("rect.window"+d.id).style("fill-opacity", 1);
-					//selectedfloors = [d];
-					//selectedfloors.sort(function(a,b){return (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0})
-  					//renderfloors();
-			
-				}
-			});
-    
-			
+		
 	  		//d3.select(window).on('resize', resize);
 	  	}
 
 	return {
 		init:init,
+		floorforid: floorforid,
+		floorselected:floorselected,
+		roomselected:roomselected,
 	}
 
 });

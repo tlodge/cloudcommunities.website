@@ -14,13 +14,16 @@ require.config({
     }
 });
 
-require(['jquery','d3building'], function($,d3building) {
+require(['jquery','d3building', 'query', 'd3menu'], function($,d3building, query, menu) {
 	
- $(document).bind(
- 	'touchmove',
- 		function(e){
- 			e.preventDefault();
- 		}
- );
-  d3building.init();
+	$(document).bind(
+		'touchmove',
+			function(e){
+				e.preventDefault();
+			}
+	);
+ 
+	d3building.init();
+  	query.subscribe('list');
+  	menu.init("#building");
 });

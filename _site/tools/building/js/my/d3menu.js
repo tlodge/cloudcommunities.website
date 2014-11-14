@@ -215,8 +215,8 @@ define(['jquery','d3', 'util'], function($,d3, util){
 						.style("stroke", "white")
 						.on("click", menuclicked)
 						.call(dragmenu);
-						
-			
+				
+				
 						
 			});	
 			
