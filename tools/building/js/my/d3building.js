@@ -447,12 +447,12 @@ define(['jquery','d3', 'util'], function($,d3,util){
 					//fade in labels once the room rects have moved into place!
 					 d3.selectAll("g.roomlabel")
 					 	.transition()
-					 	.duration(500)
+					 	.duration(800)
 					    .style("opacity", 1.0);
 				});
 				
 			window.transition()
-				.duration(500)
+				.duration(1000)
 				.attr("transform", function(d,i){return "translate(" + transx(d,i) + "," + transy(d,i) +"),scale(" + sfx(d)  + "," + sfy(d) +")"})
 			
 			//handle new labels
