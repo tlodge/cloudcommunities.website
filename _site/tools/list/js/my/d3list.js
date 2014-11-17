@@ -79,7 +79,7 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	  	svg  = d3.select("#list").append("svg")
 				.attr("width", "100%")
 				.attr("height", "100%")
-				.attr("viewBox", "0 0 " + width + " " + height)
+				//.attr("viewBox", "0 0 " + width + " " + height)
 				.append("g")
 				
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")"),

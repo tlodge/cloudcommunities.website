@@ -325,26 +325,49 @@ define(['jquery','d3', 'util'], function($,d3,util){
   			renderfloors();
   		},
   		
-  		roomselected = function(room){
-  			if (!roomdata[room])
-  				return;
+  		roomsselected = function(rooms){
   			
-  			selectedrooms = [];	
+  			//set all data to empty
+  			
+  			selectedrooms = [];
+  			renderrooms();
+  			
   			selectedfloors = [];
   			renderfloors();
   			
   			
-  			var floor = floorforid(roomdata[room].floor);
-  			selectedfloors.push(floor);
-  			renderfloors();
-  			d3.select("rect.room_" + roomdata[room].id).style("fill", "red");
+  			rooms.forEach(function(room){
+  				if (roomdata[room]){
+  				var floor = floorforid(roomdata[room].floor);
+  					selectedfloors.push(floor);
+  				}
+  			});
   			
-  			window.setTimeout(function(){	
-  					selectedrooms.push(roomdata[room]);
-  					selectedfloors = [];
-  					renderfloors();
-  					d3.selectAll("rect.window").style("fill-opacity", 0.0)
-  					renderrooms();
+  			renderfloors();
+  			
+  			window.setTimeout(function(){
+  					
+  				//drag start
+  				visiblerooms = [];
+				selectedrooms = [];
+				d3.selectAll("rect.room").style("fill", function(d){return colour(d.data)})
+				adjustfloorcoords();
+				
+				var roomnames = visiblerooms.map(function(item){
+					return item.name;
+				});
+				
+				//drag move		
+				selectedrooms = visiblerooms.filter(function(item){
+					return rooms.indexOf(item.name) != -1;
+				});
+				
+				//drag end
+				selectedfloors = [];
+  				renderfloors();
+  				d3.selectAll("rect.window").style("fill-opacity", 0.0)
+  				renderrooms();
+				
   			},1000);
   				
   		},
@@ -618,12 +641,23 @@ define(['jquery','d3', 'util'], function($,d3,util){
 		
     		//remove old!	  
     				  
+  					
   			apartments
   					  .exit()
+  					  .transition()
+  					  .duration(200)
+  					  .style("opacity",0)
+  					  .transition()
+  					  .duration(200)
   					  .remove()
-  			
+  					  
   			floorplans
   					  .exit()
+  					  .transition()
+  					  .duration(200)
+  					  .style("opacity",0)
+  					  .transition()
+  					  .duration(200)
   					  .remove()
   					  
   		},
@@ -806,7 +840,7 @@ define(['jquery','d3', 'util'], function($,d3,util){
 		init:init,
 		floorforid: floorforid,
 		floorselected:floorselected,
-		roomselected:roomselected,
+		roomsselected:roomsselected,
 	}
 
 });

@@ -13,7 +13,7 @@ define(['jquery','d3building','pubnub'], function($,building,pubnub){
 				message: function(m){
 					var floor = building.floorforid(m.floor);
 					if (floor != null){
-						building.roomselected("b.1.1");
+						building.roomsselected(["b.1.1", "b.4.1"]);
 						//building.floorselected(floor);
 					}
 				}
