@@ -3,7 +3,10 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	"use strict";
 	
 	var
-  	
+  		
+  		
+  		emitter,
+  		
   		svg,
   		
   		margin    = {top:0, right:0, bottom:0, left:0},
@@ -26,6 +29,7 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  	buttonwidth =  30,
 	  	
 	  	buttonheight = height/4,
+	  	
 	  	 
 	  	dragmenu = function(d){
 	  		draggedmenu = d.id;	
@@ -52,12 +56,13 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  		else if (d.id == "filtermenu"){
 	  			return width - (margin.left) - buttonwidth + 5;
 	  		}
-	  		return width/2 - (buttonheight/2);
+	  		return (width/2) - (buttonheight/2);
 	  	},
 	  	
 	  	by = function(d){
 	  		if (d.id == "overlaymenu" || d.id == "filtermenu"){
 	  			return buttonheight - (buttonheight / 2) 
+	  			//(height/2) - buttonheight/2;//
 	  		}
 	  		return height - buttonwidth; 	
 	  	},
@@ -95,6 +100,68 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  		}
 	  	},
 	  	
+	  	
+	  	tx = function(d){
+  			if (d.id == "datamenu"){
+  				return (width/2);
+  			}
+  			else if (d.id == "overlaymenu"){
+  				return buttonwidth/2;
+  			}
+  			else if (d.id == "filtermenu"){
+  				return width-(buttonwidth/2);
+  			}
+  			return 0;
+  		},
+  		
+  		ty = function(d){
+  			
+  			if (d.id == "datamenu"){
+  				return height-(buttonwidth/2);
+  			}
+  			else if (d.id == "overlaymenu"){
+  				return height/4;
+  			}
+  			else if (d.id == "filtermenu"){
+  				return height/4;
+  			}
+  			return 0;
+  		},
+  		
+  		trot = function(d){
+  			if (d.id == "datamenu"){
+  				return "rotate(0)";
+  			}
+  			if (d.id == "overlaymenu"){
+  				return "rotate(90," + tx(d) + "," + ty(d) + ")"
+  			}
+  			if (d.id == "filtermenu"){
+  				return "rotate(-90," + tx(d) + "," + ty(d) + ")"
+  			}
+  			return 0;
+  		} ,
+  		
+  		ttext = function(d){
+  			if (d.id == "datamenu")
+  				return "data";
+  			if (d.id == "overlaymenu")
+  				return "overlays";
+  			if (d.id == "filtermenu")
+  				return "filters";
+  		},
+  		
+  		sourceclicked = function(d){
+  			if (!d.running){
+  				d3.select("rect.source_" + d.id).style("fill", "red");
+  				emitter.dispatch({type:'select', source:d.name});
+  				d.running = true;
+  			}else{
+  				d3.select("rect.source_" + d.id).style("fill", "white");
+  				emitter.dispatch({type:'deselect', source:d.name});
+  				d.running = false;
+  			}
+  		},
+  		
 	  	togglemenu = function(){
 	  		
 	  		var xtrans = 0;
@@ -169,8 +236,62 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  		return {xscale:1,yscale:1,xtrans:0, ytrans:0};
 	  	},
 	  	
-		init = function(rootelement){
-	
+	  	adddatasources = function(){
+	  		var rheight = 1/2* (height/2)
+	  		var padding = rheight/4;
+	  		var rtexty =  (height/4) - (rheight/2) + rheight - (rheight/5);
+	  		
+	  		var datasources = [
+	  							{id:1, name:"favourite picture", running:false}, 
+	  							{id:2, name:"energy", running:false},
+	  							{id:2, name:"things I hate", running: false}];
+	  		
+	  		var sources = d3.select("g.datamenu")
+	  						.append("g")
+	  						.attr("transform", "translate(0,"  + height +  ")")
+	  						.selectAll("source")
+	  						.data(datasources)
+	  						.enter();
+	  		
+	  		sources.append("rect")
+	  				.attr("class", function(d){return "source source_" + d.id})
+	  				.attr("width", rheight)
+	  				.attr("height", rheight)
+	  				.attr("x", function(d,i){return padding + (i * (rheight+padding)) })
+	  				.attr("y", (height/4) - (rheight/2))				 
+	  				.style("fill", "white")
+	  				.style("stroke", "black")
+	  				.on("click", function(d){
+	  					//d3.select(this).style("fill", "red");
+	  					sourceclicked(d);		
+	  				})
+	  				
+	  		sources.append("rect")
+	  				.attr("width", rheight)
+	  				.attr("height", rheight/5)
+	  				.attr("x", function(d,i){return padding + (i * (rheight+padding)) })
+	  				.attr("y",	rtexty)			 
+	  				.style("fill", "#00aad4")
+	  				.style("stroke", "black")
+	  				
+	  		sources.append("text")		
+	  				.attr("class", "sourcetext")
+	  				.attr("dy", ".35em")
+	  				.attr("text-anchor", "middle")
+	  				.attr("x", function(d,i){return padding + (i * (rheight+padding)) + rheight/2})
+	  				.attr("y", function(d){return rtexty + (rheight/5)/2})
+	  				.attr("fill", "white")
+	  				.text(function(d){return d.name})
+	  				.style("font-size", (rheight/5)/2 + "px")
+	  					
+				
+	  	},
+	  	
+	  	
+		init = function(rootelement, datasource){
+			
+			emitter = datasource;
+			
 			d3.json("data/menu.json", function(error, json) {
 				
 				
@@ -215,9 +336,23 @@ define(['jquery','d3', 'util'], function($,d3, util){
 						.style("stroke", "white")
 						.on("click", menuclicked)
 						.call(dragmenu);
-				
-				
 						
+			
+  				buttons.append("text")		
+	  					.attr("class", "buttontext")
+	  					.attr("dy", ".35em")
+	  					.attr("dx", "-.2em")
+	  					.attr("text-anchor", "middle")
+	  					.attr("x", function(d){return tx(d)})
+	  					.attr("y", function(d){return ty(d)})
+	  					.attr("fill", "white"/*"#4e4e4e"*/)
+	  					.text(function(d){return ttext(d)})
+	  					.attr("transform", function(d){return trot(d)})
+	  					.style("font-size", "26px")
+	  					.on("click", menuclicked)
+						.call(dragmenu);
+				
+				adddatasources();	
 			});	
 			
 		}

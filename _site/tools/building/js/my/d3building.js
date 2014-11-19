@@ -1,8 +1,10 @@
-define(['jquery','d3', 'util'], function($,d3,util){
+define(['jquery','d3', 'util', 'signal'], function($,d3,util, Signal){
 
 	"use strict";
 	var 
 	
+		sourceselected = new Signal(this, "filterselected").bind(function(d){console.log("in building" + d)}),
+		
 		buildingdata 	  = {},
 		
 		apartmentdata 	  = {},
@@ -352,30 +354,23 @@ define(['jquery','d3', 'util'], function($,d3,util){
 			  	.append("circle")
 			  	.each(function(d){})
 			  	.attr("class", function(d){return "overlay overlay_"+d.id})
-  			  	.attr("cx", function(d){
-  			  							
-  			  							return  ((item.attr.cx) / 10) * (d.coords.width)
-  			  							
-  			  						})
-  			  	.attr("cy", function(d){
-  			  							return  ((item.attr.cy) / 10) * (d.coords.height)
-  			  						})
-  			  	.attr("r",  function(d){
-  			  							return ((item.attr.r) / 10) * d.coords.height;
-  			  						})
-  			  	
+  			  	.attr("cx", function(d){return  ((item.attr.cx) / 10) * (d.coords.width)})
+  			  	.attr("cy", function(d){return  ((item.attr.cy) / 10) * (d.coords.height)})
+  			  	.attr("r",  function(d){return ((item.attr.r) / 10) * d.coords.height;})
   			  	.style("fill", "#fff")
 				.style("stroke", "#000")
 				.style("stroke-width", 0.5)
   			  	.call(item.callback)					
-  			  	//.call call some kind of callback...
 			});
 		
   		},
   		
   		//update the current rooms with additional ones
   		unionrooms  = function(rooms){
-  		
+  			d3.selectAll("rect.window").style("fill-opacity", 0.0);
+  			selectedfloors = [];
+  			renderfloors();
+  			
   			//determine what level of zoom we're at?
 			if (!rooms)
 				return;
@@ -761,6 +756,9 @@ define(['jquery','d3', 'util'], function($,d3,util){
 	  	},
 	  	
 	  	init = function(){
+	  	
+	  		
+	  		
 	  		var screenwidth  = $(document).width();
 	  		var screenheight = $(document).height();
 	  		var bottompadding = 30;

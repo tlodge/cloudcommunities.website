@@ -14,7 +14,7 @@ require.config({
     }
 });
 
-require(['jquery','d3building', 'query', 'd3menu'], function($,d3building, query, menu) {
+require(['jquery','d3building', 'query', 'd3menu', 'signal'], function($,d3building, query, menu, Signal) {
 	
 	$(document).bind(
 		'touchmove',
@@ -23,7 +23,9 @@ require(['jquery','d3building', 'query', 'd3menu'], function($,d3building, query
 			}
 	);
  
+    datasource = new Signal(this, "filterselected");
+    query.init(datasource);
+	query.subscribe('list');
 	d3building.init();
-  	query.subscribe('list');
-  	menu.init("#building");
+  	menu.init("#building", datasource);
 });
