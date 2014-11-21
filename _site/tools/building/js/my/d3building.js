@@ -1,10 +1,8 @@
-define(['jquery','d3', 'util', 'signal'], function($,d3,util, Signal){
+define(['jquery','d3', 'util'], function($,d3,util){
 
 	"use strict";
 	var 
 	
-		sourceselected = new Signal(this, "filterselected").bind(function(d){console.log("in building" + d)}),
-		
 		buildingdata 	  = {},
 		
 		apartmentdata 	  = {},
@@ -339,30 +337,59 @@ define(['jquery','d3', 'util', 'signal'], function($,d3,util, Signal){
   			return false;
   		},
   		
-  		//interset and union?
-  		overlay = function(items){
+  		
+  		//intersect and union?
+  		overlay = function(item){
 
 			
-			var room = d3.selectAll("g.room");
+			d3.selectAll("g.room")
+				.selectAll("g.overlay").remove();
 			
-			items.forEach(function(item){
-			 
+			var room = d3.selectAll("g.room");	
+  			  	
+			
+			if (item.type == "circle"){ 
 			  //append g to reset coord system...
 			  room
 			  	.append("g")
+			  	.attr("class", "overlay")
 			  	.attr("transform", function(d){return "translate(" + d.coords.x + "," + d.coords.y + ")"})
 			  	.append("circle")
-			  	.each(function(d){})
-			  	.attr("class", function(d){return "overlay overlay_"+d.id})
+			  	.attr("class", function(d){return "overlayitem overlay_"+d.id})
   			  	.attr("cx", function(d){return  ((item.attr.cx) / 10) * (d.coords.width)})
   			  	.attr("cy", function(d){return  ((item.attr.cy) / 10) * (d.coords.height)})
-  			  	.attr("r",  function(d){return ((item.attr.r) / 10) * d.coords.height;})
+  			  	.attr("r",  function(d){return d.coords.height/2;})
   			  	.style("fill", "#fff")
 				.style("stroke", "#000")
 				.style("stroke-width", 0.5)
-  			  	.call(item.callback)					
-			});
-		
+  			  	.call(item.callback)	
+  			  }
+  			  
+  			  if (item.type =="path"){
+				
+				var sfw = selectedrooms[0].coords.width;
+				var sfh = selectedrooms[0].coords.width;
+				var transforms = {
+	  						scalex: sfw/item.attr.width,
+	  						scaley: sfh/item.attr.height,
+	  						transx: 0,
+	  						transy: 0,
+	  			}
+	  			var pth = util.transformpath(item.attr, transforms);
+	  			
+				room
+					.append("g")
+			  		.attr("class", "overlay")
+			  		.attr("transform", function(d){return "translate(" + d.coords.x + "," + d.coords.y + ")"})
+					.append("path")
+					.attr("class",function(d){return "overlayitem overlay_"+d.id})
+					.attr("d", function(d){
+						
+						return pth;
+					})
+					.style("fill", "#fff")
+					.style("stroke", "#000")
+			}							
   		},
   		
   		//update the current rooms with additional ones
@@ -527,7 +554,7 @@ define(['jquery','d3', 'util', 'signal'], function($,d3,util, Signal){
 						.attr("class", "room")
 				
 			window.append("rect")
-				.attr("class", "apartment")	
+				.attr("class", function(d){return "apartment apartment_" + d.id})	
 				.attr("x",function(d){return d.coords.x})
 				.attr("y",function(d){return  d.coords.y})
 				.attr("width", function(d){return d.coords.width})

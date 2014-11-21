@@ -689,16 +689,16 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 						
 					
 	  				
-	  								  			  	
+	  			*/					  			  	
     			comments
 					.append("svg:image")
-					.attr("xlink:href", "/assets/img/buildings.png")
-					.attr("x", -112)
-					.attr("y", 1580)
+					.attr("xlink:href", "img/buildings.png")
+					.attr("x", cfooterpath.minx + 28)
+					.attr("y", cfooterpath.miny + 30)
 					.attr("width", 560)
 					.attr("height",83)
     			
-    			*/
+    			
     			
     			console.log("bubble large is");
     			console.log(bubblelarge);

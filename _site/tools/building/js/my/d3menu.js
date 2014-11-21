@@ -151,9 +151,12 @@ define(['jquery','d3', 'util'], function($,d3, util){
   		},
   		
   		sourceclicked = function(d){
+  			
+  			d3.selectAll("rect.source").style("fill", "white");
+  			
   			if (!d.running){
   				d3.select("rect.source_" + d.id).style("fill", "red");
-  				emitter.dispatch({type:'select', source:d.name});
+  				emitter.dispatch({type:'select', source:{name:d.name, id:d.id}});
   				d.running = true;
   			}else{
   				d3.select("rect.source_" + d.id).style("fill", "white");
@@ -242,9 +245,10 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  		var rtexty =  (height/4) - (rheight/2) + rheight - (rheight/5);
 	  		
 	  		var datasources = [
-	  							{id:1, name:"favourite picture", running:false}, 
+	  							{id:1, name:"some live data", running:false}, 
 	  							{id:2, name:"energy", running:false},
-	  							{id:2, name:"things I hate", running: false}];
+	  							{id:3, name:"things I love", running: false},
+	  							{id:3, name:"favourite picture", running: false}];
 	  		
 	  		var sources = d3.select("g.datamenu")
 	  						.append("g")
