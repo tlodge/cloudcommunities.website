@@ -248,7 +248,7 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  							{id:1, name:"some live data", running:false}, 
 	  							{id:2, name:"energy", running:false},
 	  							{id:3, name:"things I love", running: false},
-	  							{id:3, name:"favourite picture", running: false}];
+	  							{id:4, name:"favourite picture", running: false}];
 	  		
 	  		var sources = d3.select("g.datamenu")
 	  						.append("g")
