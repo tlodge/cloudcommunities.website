@@ -1,8 +1,13 @@
-define(['jquery','d3', 'util', 'numeric'], function($,d3,util,numeric){
+define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric, pubnub){
 
 	"use strict";
 	var 
 	
+		channel = PUBNUB.init({
+			publish_key: 'pub-c-5ee6dec5-e3fe-4454-b7ea-fd95dc2d9702',
+			subscribe_key: 'sub-c-8a8c2a78-6b54-11e4-bf8f-02ee2ddab7fe'
+		}),
+		
 		delegate,
 		
 		apartmentdata 	  = {},
@@ -498,6 +503,13 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3,util,numeric){
   			return parseInt(id)-1;
   		},
   		
+  		roomclicked = function(d){
+  			channel.publish({
+					channel: 'taptap',
+					message: d.id
+			});	
+  		},
+  		
   		renderrooms = function(){
   		
   			selectedrooms.sort(function(a,b){return (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0})
@@ -565,6 +577,7 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3,util,numeric){
 				.attr("width", function(d){return d.coords.width})
 				.attr("height", function(d){return d.coords.height})
 				.style("fill", "red")
+				.on("click", roomclicked)
 				.transition()
 				.duration(500)	
 				.style("stroke-width", function(d){return 1/sfx(d)})
@@ -576,7 +589,8 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3,util,numeric){
 					 	.transition()
 					 	.duration(800)
 					    .style("opacity", 1.0);
-				});
+				})
+			
 			
 			room.append("rect")
 				 .attr("class", "roomlabelcontainer")
@@ -962,6 +976,47 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3,util,numeric){
 		  ];
 		},
 	  	
+	  	
+	  	subscribe = function(chnl){			
+			channel.subscribe({
+				channel: 'photo',
+				message: function(m){
+					var image = document.createElement("img");
+					
+					var el = d3.select("g.room").select("rect.apartment");
+					var x = el.attr("x");
+					var y = el.attr("y");
+					var width = el.attr("width");
+					var height = el.attr("height");
+					
+					image.src = m;
+					image.width = width;
+					image.height = height;
+					
+					console.log(image.src);
+					
+					d3.select("g.room")
+						.insert("foreignObject", ":first-child")
+						//.append("foreignObject")
+						.attr("x", x)
+						.attr("y", y)
+						.attr("width", width)
+						.attr("height", height)
+						.html(image.outerHTML);
+						
+					/*d3.select("g.room")
+						.insert("svg:image", ":first-child")
+						//.append("foreignObject")
+						.attr("x", x)
+						.attr("y", y)
+						.attr("width", width)
+						.attr("height", height)
+						.attr("xlink:href",image.src);	*/
+						
+				}
+			});	
+		},
+		
 	  	init = function(){
 	  	
 	  		
@@ -1106,6 +1161,8 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3,util,numeric){
   					
   					//should do maxheights too so that we can center in container!
   					renderbuilding(buildingdata);
+  					subscribe();
+  				
 				});
 			});
 		
