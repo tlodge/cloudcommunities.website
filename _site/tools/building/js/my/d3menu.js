@@ -150,17 +150,23 @@ define(['jquery','d3', 'util'], function($,d3, util){
   				return "filters";
   		},
   		
+  		
+  		filterclicked = function(d){
+  			emitter.dispatch({source:"filter", type:'neighbour', data:{}})
+  		
+  		},
+  		
   		sourceclicked = function(d){
   			
   			d3.selectAll("rect.source").style("fill", "white");
   			
   			if (!d.running){
   				d3.select("rect.source_" + d.id).style("fill", "red");
-  				emitter.dispatch({type:'select', source:{name:d.name, id:d.id}});
+  				emitter.dispatch({source:'data', type:'select', data:{name:d.name, id:d.id}});
   				d.running = true;
   			}else{
   				d3.select("rect.source_" + d.id).style("fill", "white");
-  				emitter.dispatch({type:'deselect', source:d.name});
+  				emitter.dispatch({source:'data', type:'deselect', data:{name:d.name}});
   				d.running = false;
   			}
   		},
@@ -237,6 +243,54 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  			}
 	  		}
 	  		return {xscale:1,yscale:1,xtrans:0, ytrans:0};
+	  	},
+	  	
+	  	addfilters = function(){
+	  		
+	  		var filters = [
+	  				{id:1, name:"adjacent neighbours"}, 
+	  				{id:2, name:"all neighbours (including above and below)"}, 
+	  				{id:3, name:"all rooms above"},
+	  				{id:4, name:"all rooms below"}
+	  				];
+	  		
+	  		var options = d3.select("g.filtermenu")
+	  						.append("g")
+	  						.attr("transform", "translate(" + width + ",0)")
+	  						.selectAll("filter")
+	  						.data(filters)
+	  						.enter();
+	  		
+	  		options.append("rect")
+	  			   .attr("class", function(d){return "filteroption filteroption_" + d.id})
+	  			   .attr("x", 20)
+	  			   .attr("y", function(d,i){return 20 + (30 * i)})
+	  			   .attr("width",20)
+	  			   .attr("height", 20)
+	  			   .style("fill", "#4e4e4e")
+	  			   .style("stroke", "white")
+	  			   .style("stroke-width", 2)
+	  			   .on("click",filterclicked)
+	  			   				
+	  		/*options.append("circle")
+	  			   .attr("class", function(d){return "filteroption filteroption_" + d.id})
+	  			   .attr("cx", 20)
+	  			   .attr("cy", function(d,i){return 20 + (30 * i)})
+	  			   .attr("r",function(d){return 10})
+	  			   .style("fill", "#4e4e4e")
+	  			   .style("stroke", "white")
+	  			   .style("stroke-width", 2);*/
+	  			   
+	  			   
+	  		options.append("text")		
+	  				.attr("class", "sourcetext")
+	  				.attr("dy", ".35em")
+	  				.attr("x", 50)
+	  				.attr("y", function(d,i){return 30 + (30 * i)})
+	  				.style("fill", "white")
+	  				.text(function(d){return d.name})
+	  				.style("font-size",  "14px")
+	  			   	
 	  	},
 	  	
 	  	adddatasources = function(){
@@ -357,6 +411,7 @@ define(['jquery','d3', 'util'], function($,d3, util){
 						.call(dragmenu);
 				
 				adddatasources();	
+				addfilters();
 			});	
 			
 		}

@@ -1,0 +1,96 @@
+{
+	"floors":[
+
+		{	
+			"id":"f1", 
+			"level":0,
+			"name":"first floor", 
+			"apartments":[
+				{"id":"a1", "name":"b.1.1", "beds":1, "relations":{"adjacent":["a2"], "above":["a3"]}},
+				{"id":"a2", "name":"b.1.2", "beds":1, "relations":{"adjacent":["a1"], "above":["a4","a3"]}}
+			]
+		},
+		{	
+			"id":"f2", 
+			"level":1, 
+			"apartments":[
+				{"id":"a3", "name":"b.2.1", "beds":1, "relations":{"adjacent":["a4"], "above":["a7"], "below":["a1"]}},
+				{"id":"a4", "name":"b.2.2", "beds":2, "relations":{"adjacent":["a3", "a5"], "above":["a8"], "below":["a2"]}},
+				{"id":"a5", "name":"b.2.3", "beds":2, "study":1, "relations":{"adjacent":["a4", "a6"], "above":["a9"], "below":["a2"]}},
+				{"id":"a6", "name":"b.2.4", "beds":1, "relations":{"adjacent":["a5"], "above":["a10"],"below":["a2"]}}
+			 ]
+		},
+		{	
+			"id":"f3", 
+			"level":2, 
+			"apartments": [
+					{"id":"a7", "name":"b.3.1", "beds":1, "relations":{"adjacent":["a8"], "above":["a11"], "below":["a3"]}},
+					{"id":"a8", "name":"b.3.2", "beds":2, "relations":{"adjacent":["a7", "a9"], "above":["a12"], "below":["a4"]}},
+					{"id":"a9", "name":"b.3.3", "beds":2, "study":1,"relations":{"adjacent":["a8", "a10"], "above":["a13"], "below":["a5"]}},
+					{"id":"a10", "name":"b.3.4", "beds":1, "relations":{"adjacent":["a9"], "above":["a14"], "below":["a6"]}}
+				  ]
+		},
+		{	
+			"id":"f4", 
+			"level":3, 
+			"apartments": [
+					{"id":"a11", "name":"b.4.1", "beds":1, "relations":{"adjacent":["a12"], "above":["a15"], "below":["a7"]}},
+					{"id":"a12", "name":"b.4.2", "beds":2, "relations":{"adjacent":["a11", "a13"], "above":["a16"], "below":["a8"]}},
+					{"id":"a13", "name":"b.4.3", "beds":2, "study":1,"relations":{"adjacent":["a12", "a14"], "above":["a17"], "below":["a9"]}},
+					{"id":"a14", "name":"b.4.4", "beds":1, "relations":{"adjacent":["a13"], "above":["a18"], "below":["a10"]}}
+			]
+		},
+		{	
+			"id":"f5", 
+			"level":4, 
+			"apartments": [
+					{"id":"a15", "name":"b.5.1", "beds":1, "relations":{"adjacent":["a16"], "above":["a19"], "below":["a11"]}},
+					{"id":"a16", "name":"b.5.2", "beds":2, "relations":{"adjacent":["a15", "a17"], "above":["a20"], "below":["a12"]}},
+					{"id":"a17", "name":"b.5.3", "beds":2, "study":1,"relations":{"adjacent":["a16", "a18"], "above":["a21"], "below":["a13"]}},
+					{"id":"a18", "name":"b.5.4", "beds":1, "relations":{"adjacent":["a17"], "above":["a22"], "below":["a14"]}}
+			]
+		},
+		{	
+			"id":"f6", 
+			"level":5, 
+			"apartments": [
+					{"id":"a19", "name":"b.6.1", "beds":1, "relations":{"adjacent":["a20"], "above":["a23"], "below":["a15"]}},
+					{"id":"a20", "name":"b.6.2", "beds":2, "relations":{"adjacent":["a19", "a21"], "above":["a24"], "below":["a16"]}},
+					{"id":"a21", "name":"b.6.3", "beds":2, "study":1,"relations":{"adjacent":["a20", "a22"], "above":["a25"], "below":["a17"]}},
+					{"id":"a22", "name":"b.6.4", "beds":1, "relations":{"adjacent":["a21"], "above":["a26"], "below":["a18"]}}
+			]
+		},
+		{
+			"id":"f7", 
+			"level":6, 
+			"apartments": [
+					{"id":"a23", "name":"b.7.1", "beds":1, "relations":{"adjacent":["a24"], "above":["a27"], "below":["a19"]}},
+					{"id":"a24", "name":"b.7.2", "beds":2, "relations":{"adjacent":["a23", "a25"], "above":["a28"], "below":["a20"]}},
+					{"id":"a25", "name":"b.7.3", "beds":2, "study":1,"relations":{"adjacent":["a24", "a26"], "above":["a29"], "below":["a21"]}},
+					{"id":"a26", "name":"b.7.4", "beds":1, "relations":{"adjacent":["a25"], "above":["a30"], "below":["a22"]}}
+			]
+		},
+		{
+			"id":"f8", 
+			"level":7, 
+			"apartments": [
+					{"id":"a27", "name":"b.8.1", "beds":1, "relations":{"adjacent":["a28"], "above":["a31"], "below":["a23"]}},
+					{"id":"a28", "name":"b.8.2", "beds":2, "relations":{"adjacent":["a27", "a29"], "above":["a32"], "below":["a24"]}},
+					{"id":"a29", "name":"b.8.3", "beds":2, "study":1,"relations":{"adjacent":["a28", "a30"], "above":["a33"], "below":["a25"]}},
+					{"id":"a30", "name":"b.8.4", "beds":1, "relations":{"adjacent":["a29"], "above":["a34"], "below":["a26"]}}
+			]
+		},
+		{
+			"id":"f9", 
+			"level":8, 
+			"apartments": [
+					{"id":"a31", "name":"b.9.1", "beds":1, "relations":{"adjacent":["a32"], "below":["a27"]}},
+					{"id":"a32", "name":"b.9.2", "beds":2, "relations":{"adjacent":["a31", "a33"], "below":["a28"]}},
+					{"id":"a33", "name":"b.9.3", "beds":2, "study":1,"relations":{"adjacent":["a32", "a34"], "below":["a29"]}},
+					{"id":"a34", "name":"b.9.4", "beds":1, "relations":{"adjacent":["a33"], "below":["a30"]}}
+			]
+		}
+	]
+	
+}
+
