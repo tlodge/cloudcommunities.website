@@ -100,8 +100,8 @@ define(['jquery', 'ramda', 'pubnub'], function($,R, pubnub){
 		  		return;
 			}
 			
-			$("#video").width( $(document).width()/2 );
-			$("#video").height( $(document).height() );
+			$("#video").width( $(document).width());
+			$("#video").height( $(document).height());
 			subscribe();
 			
 			
