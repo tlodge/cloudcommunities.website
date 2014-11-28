@@ -101,8 +101,9 @@ define(['jquery', 'ramda', 'pubnub'], function($,R, pubnub){
 			}
 			
 			$("#video").width( $(document).width()/2 );
+			$("#video").height( $(document).height() );
 			subscribe();
-			//$("#video").height( $(document).height() );
+			
 			
 			//document.getElementById("snap").addEventListener("click", function() {
 			//	console.log("ok seen button press!");
