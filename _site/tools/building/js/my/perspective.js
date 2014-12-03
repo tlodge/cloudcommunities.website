@@ -18,7 +18,7 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3, util, numeric){
 		rc,
 		roomxpadding = 5,
 		xskew = 40,
-    	yskew = 20,
+    	yskew = 0,
     	linepadding = -30,
     	
     	layer1SourcePoints = [[0, 0], [(wh()+20)*3, 0], [(wh()+20)*3, wh()], [0, wh()]],
@@ -129,7 +129,8 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3, util, numeric){
 					a.push([0, 0, 0, s[0], s[1], 1, -s[0] * t[1], -s[1] * t[1]]), b.push(t[1]);
 			}
 			
-			var X = solve(a, b, true), matrix = [
+			var X = solve(a, b, true);
+			var matrix = [
 					X[0], X[3], 0, X[6],
 					X[1], X[4], 0, X[7],
 					0,    0, 1,    0,
@@ -138,13 +139,15 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3, util, numeric){
 					return d3.round(x, 6);
 			});
 			
+			console.log("matrix3d(" + matrix + ")");
+			
 			el.style(transform, "matrix3d(" + matrix + ")");
 		},
 		
 		// Given a 4x4 perspective transformation matrix, and a 2D point (a 2x1 vector),
 		// applies the transformation matrix by converting the point to homogeneous
 		// coordinates at z=0, post-multiplying, and then applying a perspective divide.
-		project = function(matrix, point) {
+		/*project = function(matrix, point) {
 		  point = multiply(matrix, [point[0], point[1], 0, 1]);
 		  return [point[0] / point[3], point[1] / point[3]];
 		},
@@ -161,7 +164,7 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3, util, numeric){
 			matrix[2] * vector[0] + matrix[6] * vector[1] + matrix[10] * vector[2] + matrix[14] * vector[3],
 			matrix[3] * vector[0] + matrix[7] * vector[1] + matrix[11] * vector[2] + matrix[15] * vector[3]
 		  ];
-		},
+		},*/
 
 		render = function(data){
 			
@@ -192,32 +195,137 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3, util, numeric){
 			var rooms = getParameterByName("rooms") || 10;
 			rc = rowscols(rooms);
 			
-			var matrix = [];
+			var mtr = [];
 			 
 			for (var i = 0; i < rooms; i++){
-				if (!matrix[Math.floor(i/rc.cols)]){
-					matrix[Math.floor(i/rc.cols)] = [];
+				if (!mtr[Math.floor(i/rc.cols)]){
+					mtr[Math.floor(i/rc.cols)] = [];
 				}
-				matrix[Math.floor(i/rc.cols)].push({room:i});
+				mtr[Math.floor(i/rc.cols)].push({room:i});
 			} 
 			
-			render(matrix);
+			render(mtr);
 			
 			//get the size of each rect
 			
 			var ma = maxaspect(rc.cols, rc.rows);
-		
+			//xskew=10;
+			//yskew=10;
+			
+			var flat = svg.append("g")
+				.attr("class", "flat");
+				
 			d3.selectAll("g.player")
 				.each(function(d,i){
-					var element = d3.select("g.layer"+i).style(transform + "-origin", margin.left + "px " + margin.top + "px 0");
+					
+					//var element = d3.select("g.layer"+i);//.style(transform + "-origin", roomxpadding + "px " +0 + "px 0");
+					
+					
+					var x1 = roomxpadding,
+						x2 = (rc.cols*ma)-roomxpadding,
+						x3 = roomxpadding,
+						x4 = (rc.cols*ma)-roomxpadding;
+						
+					var y1 = (ma*i) + roomxpadding,
+						y2 = (ma*i) + roomxpadding,
+						y3 = ((ma*i)+ma) - roomxpadding,
+						y4 = ((ma*i)+ma) - roomxpadding;
+					
+					var ox = 0; //x1;
+					var oy = 0;//y1;
+					xskew = 10;
+					yskew = 5;
+					
+					//var element = d3.select("g.layer"+i).style(transform + "-origin", (x4/2) + "px " + ((ma*i) + ma/2) + "px 0");
+						
+					var element = d3.select("g.layer"+i).style(transform + "-origin", ox + "px " + oy + "px 0");
+						
+					flat.append("circle")
+							.attr("cx", ox)
+							.attr("cy", oy)
+							.attr("r", 4)
+							.style("fill","none")
+							.style("stroke", "red");
+							
 					ptransforms.push(element); 
 					//lt,rt,lb,rb
-					sourcepoints[i] = [[0, (ma+roomxpadding)*i],[rc.cols*(ma+roomxpadding), (ma+roomxpadding)*i], [0, ((ma+roomxpadding)*i)+ma],[rc.cols*(ma+roomxpadding), ((ma+roomxpadding)*i)+ma]]; 
-					targetpoints[i] = [[xskew, (ma+roomxpadding)*i],[rc.cols*(ma+roomxpadding)-xskew, (ma+roomxpadding)*i], [0, ((ma+roomxpadding)*i)+ma-yskew],[rc.cols*(ma+roomxpadding), ((ma+roomxpadding)*i)+ma-yskew]];
-			});
+					
+					
+						
+					sourcepoints[i] = [[x1,y1],[x2,y2], [x3,y3],[x4,y4]]; 
+					//targetpoints[i] = [[x1+xskew, y1],[x2-xskew, y2], [x3, y3+yskew],[x4, y4+yskew]];
+					targetpoints[i] = [[x1+xskew, y1],[x2-xskew, y2], [x3, y3-yskew],[x4, y4-yskew]];
+					
 				
-			d3.transition()
-				.duration(750)
+					flat.append("circle")
+							.attr("cx", sourcepoints[i][0][0])
+							.attr("cy", sourcepoints[i][0][1])
+							.attr("r", 5)
+							.style("fill","none")
+							.style("stroke","blue");
+					
+					flat.append("circle")
+							.attr("cx",  sourcepoints[i][1][0])
+							.attr("cy",  sourcepoints[i][1][1])
+							.attr("r", 5)
+							.style("fill","none")
+							.style("stroke","blue");
+					
+					flat.append("circle")
+							.attr("cx",  sourcepoints[i][2][0])
+							.attr("cy",  sourcepoints[i][2][1])
+							.attr("r", 5)
+							.style("fill","none")
+							.style("stroke","blue");
+					
+					flat.append("circle")
+							.attr("cx",  sourcepoints[i][3][0])
+							.attr("cy",  sourcepoints[i][3][1])
+							.attr("r", 5)
+							.style("fill","none")
+							.style("stroke","blue");
+							
+					
+					flat.append("circle")
+							.attr("cx", targetpoints[i][0][0])
+							.attr("cy", targetpoints[i][0][1])
+							.attr("r", 5)
+							.style("fill","none")
+							.style("stroke","green");
+					
+					flat.append("circle")
+							.attr("cx",  targetpoints[i][1][0])
+							.attr("cy",  targetpoints[i][1][1])
+							.attr("r", 5)
+							.style("fill","none")
+							.style("stroke","green");
+					
+					flat.append("circle")
+							.attr("cx",  targetpoints[i][2][0])
+							.attr("cy",  targetpoints[i][2][1])
+							.attr("r", 5)
+							.style("fill","none")
+							.style("stroke","green");
+					
+					flat.append("circle")
+							.attr("cx",  targetpoints[i][3][0])
+							.attr("cy",  targetpoints[i][3][1])
+							.attr("r", 5)
+							.style("fill","none")
+							.style("stroke","green");
+			});
+			
+			ptransforms.forEach(function(element,i){
+					//if (i ==5)
+					//element.style(transform, "matrix3d(" + [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] + ")");
+											
+					transformer(element, sourcepoints[i], targetpoints[i]);
+			});
+			
+			
+			
+			/*d3.transition()
+				.duration(200)
 				.tween("points", function(){
 					//create the iterators
 					var iterators = [];
@@ -227,35 +335,16 @@ define(['jquery','d3', 'util', 'numeric'], function($,d3, util, numeric){
 					});
 					return function(t){
 						ptransforms.forEach(function(element,i){
-					  		transformer(element, sourcepoints[i], iterators[i](t));
-					  	})
+						//if (i ==5)
+					  	transformer(element, sourcepoints[i], iterators[i](t));
+					  	});
 					}
 			});
+			*/
 			
 			//check http://bl.ocks.org/mbostock/10571478 to do it over time!
 			//transformed();
 			
-			
-			/*
-			function clicked(d) { - d is new targetpoints!
-  					d3.transition()
-      					.duration(750)
-      					.tween("points", function() {
-       					 var i = d3.interpolate(targetPoints, d);  //d will be a control points array, target points is current points
-       					 										   //so our interpolation will be from sourcepoints[i] to targetpoints[i]!
-        														   //the interpolator i is initialized when the transition starts, 
-        														   //and then used subsequently over the course of the transition
-        					return function(t) {
-						  		//this will recall handle with i(t) and also set targetpoints to i(t).  Then does translation.
-						  		//so this is called again and again, setting target points to i
-						  		//think that all this does is move handle points, which we're not all that interested in
-						  		//handle.data(targetPoints = i(t)).attr("transform", function(d) { return "translate(" + d + ")"; });
-						  		//but this calls transformed over and over again!!! yes!!
-						  		transformed(); //this currently calls across all matrix - but will d be modified by interpolate?
-							};
-					  });
-			}
-			*/
 		}
 		
 	return {

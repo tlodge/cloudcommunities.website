@@ -304,7 +304,7 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
   		
   		
   		perspective = function(){
-  		
+  			console.log("IN PERSPECTIVE!!!");
   			var rc = rowscols(selectedrooms.length);
 			var ma = maxaspect(rc.cols, rc.rows);
   			var ptransforms = [];
@@ -313,14 +313,42 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
   			
   			d3.selectAll("g.layer")
 				.each(function(d,i){
-					var element = d3.select("g.layer"+i).style(transform + "-origin", margin.left + "px " + margin.top + "px 0");
+					console.log("selecting g.layer" + i);
+					
+					var element = d3.select("g.layer"+i);
+					
+					var ctrans = d3.transform(element.attr("transform"));
+					console.log(ctrans);
+					
 					ptransforms.push(element); 
 					//lt,rt,lb,rb
 					sourcepoints[i] = [[0, (ma+roompadding)*i],[rc.cols*(ma+roompadding), (ma+roompadding)*i], [0, ((ma+roompadding)*i)+ma],[rc.cols*(ma+roompadding), ((ma+roompadding)*i)+ma]]; 
-					targetpoints[i] = [[xskew, (ma+roompadding)*i],[rc.cols*(ma+roompadding)-xskew, (ma+roompadding)*i], [0, ((ma+roompadding)*i)+ma-yskew],[rc.cols*(ma+roompadding), ((ma+roompadding)*i)+ma-yskew]];
+					
+					var tpx1 = 0,
+					tpx2 	 = rc.cols*(ma+roompadding),
+					tpx3 	 = 0,
+					tpx4     = rc.cols*(ma+roompadding);
+					
+					var tpy1 = (ma+roompadding)*i,
+					tpy2 	 = (ma+roompadding)*i,
+					tpy3 	 = ((ma+roompadding)*i)+ma,
+					tpy4 	 = ((ma+roompadding)*i)+ma;
+					
+					console.log([[tpx1, tpy1],[tpx2,tpy2], [tpx3,tpy3],[tpx4,tpy4]]);
+		//			element.style(transform + "-origin",  ((ma+roompadding)*i)/2 + "px " + (rc.cols*(ma+roompadding))/2 + "px 0");
+					//targetpoints[i] = [[xskew, (ma+roompadding)*i],[rc.cols*(ma+roompadding)-xskew, (ma+roompadding)*i], [0, ((ma+roompadding)*i)+ma-yskew],[rc.cols*(ma+roompadding), ((ma+roompadding)*i)+ma-yskew]];
+					//targetpoints[i] = [[tpx1+xskew, tpy1],[tpx2-xskew,tpy2], [tpx3,tpy3-yskew],[tpx4,tpy4-yskew]];
+					
+					targetpoints[i] = [[tpx1+xskew, tpy1],[tpx2,tpy2], [tpx3,tpy3],[tpx4,tpy4]];
+					
 			});
 		
-			d3.transition()
+			ptransforms.forEach(function(element, i){
+				console.log(element);
+				transformer(element, sourcepoints[i], targetpoints[i]);
+			});
+			
+			/*d3.transition()
 				.duration(750)
 				.tween("points", function(){
 					//create the iterators
@@ -334,14 +362,15 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
 					  		transformer(element, sourcepoints[i], iterators[i](t));
 					  	})
 					}
-			});
+			});*/
   		
   		},
   
   		floorselected = function(d){
-  		
-  			selectedrooms = []
-  			renderrooms();
+  			if (selectedrooms != []){
+  				selectedrooms = []
+  				renderrooms();
+  			}
   			
 			if (d3.event != null){
   				if (d3.event.defaultPrevented)
@@ -363,7 +392,7 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
   		
   		roomselected = function(room){
   			for (var i =0; i < selectedrooms.length; i++){
-  				if (selectedrooms[i].name == room)
+  				if (selectedrooms[i].id == room)
   					return true;
   			}
   			return false;
@@ -371,60 +400,23 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
   		
   		
   		//intersect and union?
-  		overlay = function(item){
+  		overlay = function(cback){
 
-			d3.selectAll("g.room")
-				.selectAll("g.overlay").remove();
+			d3.selectAll("g.room").selectAll("g.overlay").remove();
 			
-			var room = d3.selectAll("g.room");	
-  			  	
-			
-			if (item.type == "circle"){ 
-			  //append g to reset coord system...
-			  room
-			  	.append("g")
-			  	.attr("class", "overlay")
-			  	.attr("transform", function(d){return "translate(" + d.coords.x + "," + d.coords.y + ")"})
-			  	.append("circle")
-			  	.attr("class", function(d){return "overlayitem overlay_"+d.id})
-  			  	.attr("cx", function(d){return  d.coords.width/2})
-  			  	.attr("cy", function(d){return  d.coords.height/2})
-  			  	.attr("r",  function(d){return d.coords.height/2;})
-  			  	.style("fill", "#fff")
-				.style("stroke", "#000")
-				.style("stroke-width", 0.5)
-  			  	.call(item.callback)	
-  			  }
-  			  
-  			  if (item.type =="path"){
-				
-				var sfw = selectedrooms[0].coords.width;
-				var sfh = selectedrooms[0].coords.width;
-				var transforms = {
-	  						scalex: sfw/item.attr.width,
-	  						scaley: sfh/item.attr.height,
-	  						transx: 0,
-	  						transy: 0,
-	  			}
-	  			var pth = util.transformpath(item.attr, transforms);
-	  			
-				room
-					.append("g")
-			  		.attr("class", "overlay")
-			  		.attr("transform", function(d){return "translate(" + d.coords.x + "," + d.coords.y + ")"})
-					.append("path")
-					.attr("class",function(d){return "overlayitem overlay_"+d.id})
-					.attr("d", function(d){
-						
-						return pth;
-					})
-					.style("fill", "#fff")
-					.style("stroke", "#000")
-			}							
+			var room = d3.selectAll("g.room")
+  			  			 //.append("g")
+  			  			 .insert("g", "rect.roomlabelcontainer")
+			  		     .attr("class", function(d){return "overlay overlay_"+ d.id})
+			  		     .attr("transform", function(d){return "translate(" + d.coords.x + "," + d.coords.y + ")"})		    
+					     .call(cback);						
   		},
   		
   		//update the current rooms with additional ones
-  		unionrooms  = function(rooms){
+  		unionrooms  = function(rms){
+  			
+  			console.log("DOING A UNION ROOMS!!");
+  			
   			d3.selectAll("rect.window").style("fill-opacity", 0.0);
   			selectedfloors = [];
   			renderfloors();
@@ -432,14 +424,19 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
   			//determine what level of zoom we're at?
 			if (!rooms)
 				return;
-				
-  			rooms.forEach(function(room){
+			
+  			rms.forEach(function(room){
+  				
   				if (rooms[room]){
 					if (!roomselected(room)){
+						console.log("ADDING ROOM ");
+						console.log(room);
 						selectedrooms.push(square(rooms[room]));
 					}
   				}
   			});
+  			console.log("ok selected rooms is now");
+  			console.log(selectedrooms);
   			renderrooms();
   		},
   		
@@ -510,11 +507,17 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
 			});	
   		},
   		
+  		comp	 = function(label){
+			//pull out all numbers in the string and return as Integer
+			return Math.floor(label.match(/\d+$/)[0]);
+		},
+		
   		renderrooms = function(){
-  		
-  			selectedrooms.sort(function(a,b){return (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0})
-  		
+  			var layerlookup = {};
+  			selectedrooms.sort(function(a,b){return (comp(a.id) > comp(b.id)) ? 1 : (comp(a.id) < comp(b.id)) ? -1 : 0})
+  			
   			var rc 	=  rowscols(selectedrooms.length);
+  			
   			var roomhw  =  maxaspect(rc.cols,rc.rows) - (2*roompadding);
   			var transx  =  function(d,i,j){return -(d.coords.x*(roomhw/d.coords.width)) +  ax(i,rc.rows,rc.cols)};
 			var transy  =  function(d,i,j){return -(d.coords.y*(roomhw/d.coords.height)) + j *  maxaspect(rc.cols,rc.rows) + roompadding};
@@ -531,28 +534,24 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
 					matrix[Math.floor(i/rc.cols)] = [];
 				}
 				matrix[Math.floor(i/rc.cols)].push(selectedrooms[i]);
+				layerlookup[selectedrooms[i].id] = Math.floor(i/rc.cols);
 			} 
-			
 		
-		
+				
 			var layers = svg.select("g.apartmentdetail")
   						    .selectAll("g.layer")
-						    .data(matrix);//, function(d,i){return d})//object constancy
-						  
-						  
-			//update all old rooms!
-			//rooms.selectAll("g.layer")
-			//	 .each(function(d){console.log("layer"); console.log(d) });
-			
-			/*svg.selectAll("g.room")
+						    .data(matrix, function(d){return (d.map(function (item){return item.id})).join("")});
+										
+										
+			layers.selectAll("g.room")
   				.transition()
   				.duration(800)
   				.attr("transform", function(d,i,j){
-  					//var idx = selectedrooms.indexOf(d);
+  					var idx = selectedrooms.indexOf(d);
   					var t = d3.transform(d3.select(this).attr("transform"));
   					return "translate(" + transx(d,i,j) + "," + transy(d,i,j) +"),scale(" + sfx(d)  + "," + sfy(d) +")"
   				
-  			});*/
+  			});
   						
 			
 			var layer = layers
@@ -615,12 +614,12 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
 	  			  .text(function(d){
 	  			  		return delegate.roomtext(d.id);
 	  			  })
-	  			  
-	  			  
+	  			  	  
 			room.transition()
-				   .duration(1000)
-					.attr("transform", function(d,i,j){
-							return "translate(" + transx(d,i,j) + "," + transy(d,i,j) +"),scale(" + sfx(d)  + "," + sfy(d) +")"
+				   .duration(800)
+					.attr("transform", function(d,i){
+						var j = layerlookup[d.id];	
+						return "translate(" + transx(d,i,j) + "," + transy(d,i,j) +"),scale(" + sfx(d)  + "," + sfy(d) +")"
 					});
 			
 			
@@ -630,6 +629,7 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
 			roomline.exit()
 					.remove();
 			
+			//perspective();
 			//window.setTimeout(perspective, 1000);
   		},
     			
@@ -951,6 +951,7 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
 					return d3.round(x, 6);
 			});
 			
+			console.log(matrix);
 			el.style(transform, "matrix3d(" + matrix + ")");
 		},
 		
@@ -977,11 +978,12 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
 		},
 	  	
 	  	
-	  	subscribe = function(chnl){			
+	  	subscribe = function(chnl){	
+	  	
+	  		
 			channel.subscribe({
 				channel: 'photo',
 				message: function(m){
-					var image = document.createElement("img");
 					
 					var el = d3.select("g.room").select("rect.apartment");
 					var x = el.attr("x");
@@ -989,29 +991,13 @@ define(['jquery','d3', 'util', 'numeric', 'pubnub'], function($,d3,util,numeric,
 					var width = el.attr("width");
 					var height = el.attr("height");
 					
-					image.src = m;
-					image.width = width;
-					image.height = height;
-					
-					console.log(image.src);
-					
 					d3.select("g.room")
-						.insert("foreignObject", ":first-child")
-						//.append("foreignObject")
+						.append("svg:image")
 						.attr("x", x)
 						.attr("y", y)
 						.attr("width", width)
 						.attr("height", height)
-						.html(image.outerHTML);
-						
-					/*d3.select("g.room")
-						.insert("svg:image", ":first-child")
-						//.append("foreignObject")
-						.attr("x", x)
-						.attr("y", y)
-						.attr("width", width)
-						.attr("height", height)
-						.attr("xlink:href",image.src);	*/
+						.attr("xlink:href",m);
 						
 				}
 			});	

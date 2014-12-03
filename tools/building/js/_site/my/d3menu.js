@@ -152,7 +152,6 @@ define(['jquery','d3', 'util'], function($,d3, util){
   		
   		
   		filterclicked = function(d){
-  			console.log("DISPATCHING NEIGHBOUR FILTER!!");
   			emitter.dispatch({source:"filter", type:'neighbour', data:{}})
   		
   		},

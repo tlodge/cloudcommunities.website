@@ -16,7 +16,7 @@ require.config({
     }
 });
 
-require(['jquery','d3building', 'controller', 'model', 'uidelegate', 'd3menu', 'signal' /*, 'perspective'*/], function($,d3building,controller, model, ui, menu, Signal /*, perspective*/) {
+require(['jquery','d3building', 'controller', 'model', 'uidelegate', 'd3menu', 'signal'/*,'perspective'*/], function($,d3building,controller, model, ui, menu, Signal /*, perspective*/) {
 	
 	$(document).bind(
 		'touchmove',

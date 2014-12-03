@@ -1,4 +1,4 @@
-define(['jquery','d3','util','pubnub'], function($,d3,util,pubnub){
+define(['jquery','d3','util','pubnub','ramda'], function($,d3,util,pubnub,R){
 	"use strict"
 	
 	var
@@ -13,8 +13,9 @@ define(['jquery','d3','util','pubnub'], function($,d3,util,pubnub){
 		
 		//roomstoadd = [ ["b.1.1"], ["b.2.2", "b.4.1"], ["b.8.1"], ["b.8.2"], ["b.8.3"],["b.2.1"], ["b.1.2"]],
 		
-		roomstoadd = [ "b.1.1", "b.2.2", "b.4.1", "b.8.1", "b.8.2", "b.8.3","b.2.1", "b.1.2"],
+		//roomstoadd = [ "b.1.1", "b.2.2", "b.4.1", "b.8.1", "b.8.2", "b.8.3","b.2.1", "b.1.2"],
 		
+		roomstoadd = ["a1", "a3", "a7", "a9", "a11", "a15"],
 		datatimer,
 		
 		subscribe = function(chnl){			
@@ -97,6 +98,187 @@ define(['jquery','d3','util','pubnub'], function($,d3,util,pubnub){
 		
 		},
 		
+		circlescback = function(rooms){
+		
+			rooms.append("circle")
+				.attr("class", function(d){return "overlayitem overlay_"+d.id})
+				.attr("cx", function(d){return  d.coords.width/2})
+  			  	.attr("cy", function(d){return  d.coords.height/2})
+  			  	.attr("r",  function(d){return d.coords.height/2;})
+				.style("fill", "white")
+				.style("stroke", "black");
+				
+			updatedata();
+		},
+		
+		heartscback = function(heart, rooms){
+			rooms.append("path")
+					.attr("class",function(d){return "overlayitem overlay_"+d.id})
+					.attr("d", function(d){
+						var transforms = {
+	  						scalex: d.coords.width/heart.width,
+	  						scaley: d.coords.height/heart.height,
+	  						transx: 0,
+	  						transy: 0,
+	  					}
+						return  util.transformpath(heart, transforms);
+					})
+					.style("fill", "#fff")
+					.style("stroke", "#000")
+			updatedata();
+		},
+		
+		updategraphdata = function(){
+			
+			d3.selectAll("g.overlay")
+				.each(function(room){
+				
+					var w = room.coords.width;
+					var h = room.coords.height;
+					var data = [];
+					
+					for (var j = 0; j < 25; j++) {			 
+						data.push(Math.random() * 30);
+					}
+					
+					var max = d3.max(data);
+					
+					var bars = d3.select(this)
+						.selectAll("rect.bar")
+						.data(data)
+					
+					bars.transition()
+						.duration(500)
+						.attr("y",function(d,i){return d/max * h})
+						.attr("height",function(d,i){return h - (d/max * h)})
+						
+						
+				});
+				
+				datatimer= window.setTimeout(updategraphdata, 2000);
+		},
+		
+		updatelistdata = function(){
+			var colours = {"greggs":"#9c27b0", "co-op":"#00bcd4", "tesco":"#e91e63",  "asda":"#cddc39",  "birds":"#ff5722"};
+			
+			d3.selectAll("g.overlay")
+				.filter(function(item){return Math.random() > 0.75})
+				.each(function(room){
+					var data = util.shuffle(["greggs", "co-op","tesco", "asda", "birds"]);
+					var h = room.coords.height;
+					
+					var listitems = d3.select(this)
+						.selectAll("g.listitem")
+						.data(data, function(d,i){return d})
+					
+					listitems
+						.transition()
+						.duration(500)
+						.attr("transform", function(d,i){return "translate(0," +  (i * (h/data.length)) + ")";});
+					
+					listitems.select("text.position")
+					  	.text(function(d,i){
+							return i+1;
+					  	});
+				});
+				datatimer= window.setTimeout(updatelistdata, 2000);
+		},
+		
+		listcback = function(rooms){
+		
+			var colours = {"greggs":"#9c27b0", "co-op":"#00bcd4", "tesco":"#e91e63",  "asda":"#cddc39",  "birds":"#ff5722"};
+			
+			rooms.each(function(room,i){
+				var w = room.coords.width;
+				var h = room.coords.height;
+				var data = util.shuffle(["greggs", "co-op","tesco", "asda", "birds"]);
+				
+				var listitem =	d3.select(this)
+									.selectAll("bar")
+									.data(data, function(d,i){return d})
+									.enter()
+									.append("g")
+									.attr("class", "listitem")
+									.attr("transform", function(d,i){return "translate(0," +  (i * (h/data.length)) + ")"})
+						
+				listitem.append("rect")
+						.attr("x", 0)
+						.attr("y", 0)
+						.attr("width", function(d, i){return w})
+						.attr("height", function(d,i){return (h/data.length)})
+						.style("fill", function(d,i){return colours[d]})
+				
+				listitem.append("circle")
+						.attr("cx", h/data.length/2)
+						.attr("cy", h/data.length/2)
+						.attr("r",  h/data.length/3)
+						.style("fill", "black")
+						.style("stroke", "white")
+						.style("stroke-width", 0.5)
+				
+				
+				listitem.append("text")
+					   .attr("class","position")
+					  .attr("dy", ".35em")
+					  .attr("x",h/data.length/2)
+					  .attr("y",h/data.length/2)	
+					  .attr("fill", "#000")
+					   .attr("text-anchor", "middle")
+					  .style("font-size", (h/data.length/2) + "px")
+					  .style("fill", "white")
+					  .text(function(d,i){
+							return i+1;
+					  })
+					  
+				listitem.append("text")
+					  .attr("dy", ".35em")
+					  .attr("x",h/data.length)
+					  .attr("y",h/data.length/2)	
+					  .attr("fill", "#000")
+					  .style("font-size", (h/data.length/2) + "px")
+					  .style("fill", "white")
+					  .text(function(d){
+							return d;
+					  })
+			
+			});
+			
+			datatimer= window.setTimeout(updatelistdata, 2000);
+		},
+		
+		graphcback = function(rooms){
+			
+			rooms.each(function(room,i){
+				var w = room.coords.width;
+				var h = room.coords.height;
+				var data = [];
+				
+				for (var j = 0; j < 25; j++) {			 
+					data.push(Math.random() * 30);
+				}
+				
+				var max = d3.max(data);
+				
+				d3.select(this)
+						.selectAll("bar")
+						.data(data)
+						.enter()
+						.append("rect")
+						.attr("class", "bar")
+				 		.attr("x",function(d,i){return  (w / data.length) * i})
+				 		.attr("y",function(d,i){return d/max * h})
+				 		.attr("width",  function(d,i){return (w / data.length)})
+				 		.attr("height",function(d,i){return h - (d/max * h)})
+				 		.style("fill","#00aad4")
+				 		.style("stroke","#00aad4")
+				 		.style("fill-opacity",0.6)
+				 		.style("stroke-opacity",1)
+				 		.style("stroke-width", 0.5);
+				
+			});
+			updategraphdata();		
+		},
+		
 		init = function(datasource, b){
 			
 			building = b;
@@ -112,7 +294,7 @@ define(['jquery','d3','util','pubnub'], function($,d3,util,pubnub){
 					window.clearTimeout(datatimer);
 					
 					if (item.source == "filter"){
-						building.perspective();
+						building.unionrooms(roomstoadd);
 					}
 					else if (item.source == "data"){	
 						
@@ -126,16 +308,19 @@ define(['jquery','d3','util','pubnub'], function($,d3,util,pubnub){
 							.duration(500)
 							.style("opacity",0);*/	
 						
-						//building.unionrooms(roomstoadd);	
+							
 						if (item.type=="select"){
-							if (item.data.id == 3){
-								building.overlay({"type":"path", "attr":heart, callback:setdimensions});
+							if (item.data.id == 1){
+								building.overlay(circlescback);	
 							}
-							else{
-								building.overlay({"type":"circle", "attr":{}, callback:setdimensions});
+							else if (item.data.id == 2){
+								building.overlay(listcback);		
 							}
-							updatedata();
-						
+							else if (item.data.id == 3){
+								building.overlay(R.curry(heartscback)(heart));	
+							}else if (item.data.id > 3){
+								building.overlay(graphcback);	
+							}	
 						}else{
 							/*d3.selectAll("rect.apartment")
 								.transition()

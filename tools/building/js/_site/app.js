@@ -16,7 +16,7 @@ require.config({
     }
 });
 
-require(['jquery','d3building', 'controller', 'model', 'uidelegate', 'd3menu', 'signal'/*,'perspective'*/], function($,d3building,controller, model, ui, menu, Signal /*, perspective*/) {
+require(['jquery',/*'d3building',*/ 'controller', 'model', 'uidelegate', 'd3menu', 'signal','perspective'], function($,/*d3building,*/controller, model, ui, menu, Signal , perspective) {
 	
 	$(document).bind(
 		'touchmove',
@@ -25,9 +25,9 @@ require(['jquery','d3building', 'controller', 'model', 'uidelegate', 'd3menu', '
 			}
 	);
 	
-	//perspective.init();
+	perspective.init();
 	
-	//model stuff
+	/*//model stuff
 	model.init();
 	
 	//view stuff
@@ -41,6 +41,6 @@ require(['jquery','d3building', 'controller', 'model', 'uidelegate', 'd3menu', '
 	controller.subscribe('list');
 	
 	
-  	menu.init("#building", datasource);
+  	menu.init("#building", datasource);*/
   	
 });
