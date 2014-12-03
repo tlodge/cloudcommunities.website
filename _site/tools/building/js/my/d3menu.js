@@ -300,10 +300,10 @@ define(['jquery','d3', 'util'], function($,d3, util){
 	  		var rtexty =  (height/4) - (rheight/2) + rheight - (rheight/5);
 	  		
 	  		var datasources = [
-	  							{id:1, name:"some live data", running:false}, 
-	  							{id:2, name:"energy", running:false},
+	  							{id:1, name:"noise levels", running:false}, 
+	  							{id:2, name:"list", running:false},
 	  							{id:3, name:"things I love", running: false},
-	  							{id:4, name:"favourite picture", running: false}];
+	  							{id:4, name:"live graph", running: false}];
 	  		
 	  		var sources = d3.select("g.datamenu")
 	  						.append("g")
