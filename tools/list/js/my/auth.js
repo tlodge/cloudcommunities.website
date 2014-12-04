@@ -13,13 +13,21 @@ define(['jquery', 'pubnub'], function($,pubnub){
 	   		
 	   		channel.publish({
 					channel: 'list',
-					message: {"floor":keys[0]}
+					message: {type:"list", command:"init"}
 			});	
 	   				
 	   		return true;
-	   	}
+	   	},
+		
+		update = function(room, list){
+			channel.publish({
+					channel: 'list',
+					message: {type:"list", command:"update", attr:{room:room, list:list}}
+			});	
+		}
 		
 	return{
-	 	authenticate:authenticate
+	 	authenticate:authenticate,
+	 	update:update
 	}
 });

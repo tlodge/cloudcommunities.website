@@ -292,7 +292,11 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	  		dragging = null;
 	  		window.clearTimeout(usagetimer);
 	  		usagetimer = window.setTimeout(renderauth, usagetimeout);
-	  				
+	  		var list = mydata.map(function(item){
+	  			return item.value;
+	  		});		
+	  		auth.update("a1", list);
+	  		console.log(list);
 	   	},
 	   	
 	   

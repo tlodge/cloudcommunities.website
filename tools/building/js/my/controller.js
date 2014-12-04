@@ -16,20 +16,26 @@ define(['jquery','d3','util','pubnub','ramda'], function($,d3,util,pubnub,R){
 		//roomstoadd = [ "b.1.1", "b.2.2", "b.4.1", "b.8.1", "b.8.2", "b.8.3","b.2.1", "b.1.2"],
 		
 		roomstoadd = ["a1", "a3", "a7", "a9", "a11", "a15"],
+		
 		datatimer,
 		
 		subscribe = function(chnl){			
-			/*channel.subscribe({
+			channel.subscribe({
 				channel: chnl,
 				message: function(m){
-					var floor = building.floorforid(m.floor);
-					if (floor != null){
-						//building.refreshrooms();
-						//building.floorselected(floor);
-						window.setTimeout(addanotherroom, 1000);
+					if (m.type == "list"){
+						if (m.command == "init"){
+							building.unionrooms(roomstoadd);
+							building.overlay(listcback);	
+						}
+						if (m.command == "update"){
+							var list = m.attr.list;
+							var room = m.attr.room; 
+							updatelistforroom(room,list);
+						}
 					}
 				}
-			});*/	
+			});	
 		},
 		
 		setdimensions = function(elements){
@@ -158,13 +164,37 @@ define(['jquery','d3','util','pubnub','ramda'], function($,d3,util,pubnub,R){
 				datatimer= window.setTimeout(updategraphdata, 2000);
 		},
 		
+		
+		
+		updatelistforroom = function(room, data){
+			d3.selectAll("g.overlay_" + room)
+				.each(function(room){
+					var h = room.coords.height;
+					
+					var listitems = d3.select(this)
+						.selectAll("g.listitem")
+						.data(data, function(d,i){return d})
+					
+					listitems
+						.transition()
+						.duration(500)
+						.attr("transform", function(d,i){return "translate(0," +  (i * (h/data.length)) + ")";});
+					
+					listitems.select("text.position")
+					  	.text(function(d,i){
+							return i+1;
+					});
+				});
+		},
+		
 		updatelistdata = function(){
-			var colours = {"greggs":"#9c27b0", "co-op":"#00bcd4", "tesco":"#e91e63",  "asda":"#cddc39",  "birds":"#ff5722"};
+			//var colours = {"greggs":"#9c27b0", "coop":"#00bcd4", "tesco":"#e91e63",  "asda":"#cddc39",  "birds":"#ff5722"};
+			var colours = {"greggs":"#9c27b0", "coop":"#cddc39", "tesco":"#ff5722",  "asda":"#00bcd4",  "birds":"#00bcd4"};
 			
 			d3.selectAll("g.overlay")
 				.filter(function(item){return Math.random() > 0.75})
 				.each(function(room){
-					var data = util.shuffle(["greggs", "co-op","tesco", "asda", "birds"]);
+					var data = util.shuffle(["greggs", "coop","tesco", "asda", "birds"]);
 					var h = room.coords.height;
 					
 					var listitems = d3.select(this)
@@ -186,12 +216,13 @@ define(['jquery','d3','util','pubnub','ramda'], function($,d3,util,pubnub,R){
 		
 		listcback = function(rooms){
 		
-			var colours = {"greggs":"#9c27b0", "co-op":"#00bcd4", "tesco":"#e91e63",  "asda":"#cddc39",  "birds":"#ff5722"};
+			//var colours = {"greggs":"#9c27b0", "coop":"#00bcd4", "tesco":"#e91e63",  "asda":"#cddc39",  "birds":"#ff5722"};
+			var colours = {"greggs":"#9c27b0", "coop":"#cddc39", "tesco":"#ff5722",  "asda":"#e91e63",  "birds":"#00bcd4"};
 			
 			rooms.each(function(room,i){
 				var w = room.coords.width;
 				var h = room.coords.height;
-				var data = util.shuffle(["greggs", "co-op","tesco", "asda", "birds"]);
+				var data = util.shuffle(["greggs", "coop","tesco", "asda", "birds"]);
 				
 				var listitem =	d3.select(this)
 									.selectAll("bar")
@@ -243,7 +274,7 @@ define(['jquery','d3','util','pubnub','ramda'], function($,d3,util,pubnub,R){
 			
 			});
 			
-			datatimer= window.setTimeout(updatelistdata, 2000);
+			//datatimer= window.setTimeout(updatelistdata, 2000);
 		},
 		
 		graphcback = function(rooms){
@@ -314,7 +345,7 @@ define(['jquery','d3','util','pubnub','ramda'], function($,d3,util,pubnub,R){
 								building.overlay(circlescback);	
 							}
 							else if (item.data.id == 2){
-								building.overlay(listcback);		
+								building.overlay(listcback);	
 							}
 							else if (item.data.id == 3){
 								building.overlay(R.curry(heartscback)(heart));	
