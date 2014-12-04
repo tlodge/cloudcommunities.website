@@ -692,7 +692,7 @@ smallbubble = {'path': [{'xcomp': [269.783336], 'type': 'M', 'ycomp': [252.73800
 	  			*/					  			  	
     			comments
 					.append("svg:image")
-					.attr("xlink:href", "img/buildings.png")
+					.attr("xlink:href", "assets/img/buildings.png")
 					.attr("x", cfooterpath.minx + 28)
 					.attr("y", cfooterpath.miny + 30)
 					.attr("width", 560)
